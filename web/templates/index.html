@@ -8,5 +8,14 @@
 </head>
 
 <body>
-    <h1>Test frontend stuff here</h1>
+    <h1>FindMyPackage</h1>
+    <hr>
+    <form action="{% url 'track' %}" method="post">
+        {% csrf_token %}
+        <label for="tracking_id">Tracking ID</label><br>
+        <input type="text" name="tracking_id" id="tracking_id">
+        <br> <br>
+        <input type="submit" value="submit">
+    </form>
+</body>
 </html>
