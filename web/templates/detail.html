@@ -14,27 +14,39 @@
         {% if errorMessage %}
         {{ errorMessage }} <br>
         {% else %}
-        <b>ETA:</b> {{ ETA }} <i> {{ currentStatus.delayDetail.status }} </i> <br>
-        <br>
-        <b>Current Status:</b> {{ currentStatus.description }} @ {{ currentStatus.scanLocation.city }} {{ currentStatus.scanLocation.stateOrProvinceCode }}, {{ currentStatus.scanLocation.countryName }}, <b> {{ currentStatus.statusByLocale }} </b> <br>
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Summary</th>
-                <th>Location</th>
-                <th>Status</th>
-            </tr>
-            {% for event in events %}
-            <tr>
-                <td>{{ event.date }}</td>
-                <td>{{ event.eventDescription }}</td>
-                <td>
-                {{ event.scanLocation.city }} {{ event.scanLocation.stateOrProvinceCode }}, {{ event.scanLocation.countryName }}
-                </td>
-                <td>{{ event.derivedStatus }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <ul>
+            <li><u>ETA:</u> {{ estimatedTimeArrival }} <br></li>
+            <li><u>Delay Detail:</u> {{ currentStatus.delayDetail }} <br></li>
+            <li><u>Current Status:</u> 
+                <ul>
+                    <li><i>Status:</i> {{ currentStatus.status }}</li>
+                    <li><i>Location:</i> {{ currentStatus.location.city }} {{ currentStatus.location.state }}, {{ currentStatus.location.postalCode }}, {{ currentStatus.location.country }}</li>
+                    <li><i>Street Lines:</i> {% for line in currentStatus.location.streetLines %}{{ line }} {% endfor %}</li>
+                </ul>
+            </li>
+            <li>
+                <u>Events:</u>
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Summary</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.date }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>
+                            {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode }}, {{ event.location.country }} <br>
+                            Street Lines: {% for line in event.location.streetLines %}{{ line }} {% endfor %}
+                        </td>
+                        <td>{{ event.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </li>
+        </ul>
         <br>
         {% endif %}
         <br>
