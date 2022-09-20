@@ -15,8 +15,6 @@
         {{ errorMessage }} <br>
         {% else %}
         <ul>
-            <li><u>ETA:</u> {{ estimatedTimeArrival }} <br></li>
-            <li><u>Delay Detail:</u> {{ currentStatus.delayDetail }} <br></li>
             <li><u>Current Status:</u> 
                 <ul>
                     <li><i>Status:</i> {{ currentStatus.status }}</li>
@@ -24,6 +22,14 @@
                     <li><i>Street Lines:</i> {% for line in currentStatus.location.streetLines %}{{ line }} {% endfor %}</li>
                 </ul>
             </li>
+            <li><u>Destination:</u>
+                <ul>
+                    <li><i>Location:</i> {{ destination.city }} {{ destination.state }}, {{ destination.postalCode }}, {{ destination.country }}</li>
+                    <li><i>Street Lines:</i> {% for line in destination.streetLines %}{{ line }} {% endfor %}</li>
+                </ul>
+            </li>
+            <li><u>ETA:</u> {{ estimatedTimeArrival }} <br></li>
+            <li><u>Delay Detail:</u> {{ currentStatus.delayDetail }} <br></li>
             <li>
                 <u>Events:</u>
                 <table>

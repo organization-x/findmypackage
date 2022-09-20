@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from dateutil import parser
-import logging
 import requests
+import logging
 import json
 import copy
 
@@ -28,15 +28,18 @@ class TrackView(TemplateView):
             request,
             self.template_name,
             DataMapper(
-                'fedex',
-                FedexAPI.get_track_package_data(FedexAPI.get_access_token(),
-                request.POST['tracking_id'])
+                request.POST['carrier'],
+                FedexAPI.get_track_package_data(
+                    FedexAPI.get_access_token(),
+                    request.POST['tracking_id']
+                ),
             ).get_mapped_data()
         )
         
  
 class DataMapper():
     def __init__(self, carrier, data):
+        self.logger = logging.getLogger('fmp')
         self.carrier = carrier
         self.data = data
         try:
@@ -44,16 +47,21 @@ class DataMapper():
             self.base = json.load(file)
             file.close()
         except:
-            print("Something went wrong?")
-    
+            self.logger.warning("Couldn't load tracking_results_base.json")
+
     def get_mapped_data(self):
         if self.carrier == 'fedex':
             return self.get_mapped_fedex_data()
 
     def get_mapped_fedex_data(self):
-        self.data = self.data['output']['completeTrackResults'][0]
+        if self.data.get('errors') is not None:
+            return {
+                'trackingNumber': 'Invalid',
+                'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
+            }
 
-        if not self.data['trackResults'][0].get('error') == None:
+        self.data = self.data['output']['completeTrackResults'][0]
+        if self.data['trackResults'][0].get('error') is not None:
             return {
                 'trackingNumber': self.data['trackingNumber'],
                 'errorMessage': self.data['trackResults'][0]['error']['message']
@@ -71,23 +79,28 @@ class DataMapper():
         self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('scanLocation', {}).get('countryCode'))
         self.map_value(['currentStatus', 'delayDetail'], latestStatus.get('delayDetail', {}).get('status'))
 
+        address = self.data['trackResults'][0].get('lastUpdatedDestinationAddress')
+        if address is not None:
+            self.map_value(['destination', 'streetLines'], address.get('streetLines'))
+            self.map_value(['destination', 'city'], address.get('city'), action=self.capitalize_string)
+            self.map_value(['destination', 'state'], address.get('stateOrProvinceCode', {}))
+            self.map_value(['destination', 'postalCode'], address.get('postalCode', {}))
+            self.map_value(['destination', 'country'], address.get('countryCode', {}))
+
         i = 0
         for event in reversed(self.data['trackResults'][0]['scanEvents']):
             self.base['events'].append(copy.deepcopy(self.base['eventTemplate']))
             self.map_value(['events', i, 'date'], event.get('date'), action=self.format_date)
             self.map_value(['events', i, 'description'], event.get('eventDescription'))
             self.map_value(['events', i, 'location', 'streetLines'], event.get('scanLocation', {}).get('streetLines'))
-            print('Street Lines:', event.get('scanLocation', {}).get('streetLines'))
             self.map_value(['events', i, 'location', 'city'], event.get('scanLocation', {}).get('city'), action=self.capitalize_string)
             self.map_value(['events', i, 'location', 'state'], event.get('scanLocation', {}).get('stateOrProvinceCode'))
             self.map_value(['events', i, 'location', 'postalCode'], event.get('scanLocation', {}).get('postalCode'))
             self.map_value(['events', i, 'location','country'], event.get('scanLocation', {}).get('countryCode'))
             self.map_value(['events', i, 'status'], event.get('derivedStatus'))
-            print(self.base['events'][i]['location']['streetLines'])
             i += 1
         
         self.map_value(['estimatedTimeArrival'], self.data['trackResults'][0].get('estimatedDeliveryTimeWindow', {}).get('window'))
-        print(self.base)
         return self.base
 
     def map_value(self, keys, value, action=None):
