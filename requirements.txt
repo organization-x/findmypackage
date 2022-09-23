@@ -1,3 +1,4 @@
 Django==4.0.3
 Requests==2.28.1
 Python-Dateutil==2.8.2
+Xmltodict==0.13.0

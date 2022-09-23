@@ -18,6 +18,7 @@
             <li><u>Current Status:</u> 
                 <ul>
                     <li><i>Status:</i> {{ currentStatus.status }}</li>
+                    <li><i>Description:</i> {{ currentStatus.description }}
                     <li><i>Location:</i> {{ currentStatus.location.city }} {{ currentStatus.location.state }}, {{ currentStatus.location.postalCode }}, {{ currentStatus.location.country }}</li>
                     <li><i>Street Lines:</i> {% for line in currentStatus.location.streetLines %}{{ line }} {% endfor %}</li>
                 </ul>
