@@ -13,13 +13,7 @@
     <form action="{% url 'track' %}" method="post">
         {% csrf_token %}
         <label for="tracking_id">Tracking ID</label><br>
-        <input type="text" name="tracking_id" id="tracking_id_input">
-        <select name="carrier" id="carrier-selector" required>
-            <option value="">Select a carrier</option>
-            {% for carrier in carriers %}
-                <option value={{ carrier }}>{{ carrier }}</option>
-            {% endfor %}
-        </select>
+        <input style="width: 200px;" type="text" name="tracking_id" id="tracking_id_input">
         <br> <br>
         <input type="submit" value="submit">
     </form>

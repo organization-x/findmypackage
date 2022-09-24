@@ -26,16 +26,20 @@ class TrackView(TemplateView):
         self.template_name = 'detail.html'
     
     def post(self, request, *args, **kwargs):
-        carrier = Carrier[request.POST['carrier']]
-        return render(
-            request,
-            self.template_name,
-            DataMapper(
+        data = None
+        for carrier in Carrier:
+            data = DataMapper(
                 carrier,
                 carrier.value.get_track_package_data(
                     request.POST['tracking_id']
                 ),
             ).get_mapped_data()
+            if data.get('errorMessage') is None:
+                break
+        return render(
+            request,
+            self.template_name,
+            data,
         )
 
 
@@ -73,6 +77,7 @@ class DataMapper():
                 'errorMessage': self.data['trackResults'][0]['error']['message']
             }
 
+        self.map_value(['carrier'], 'FedEx')
         self.map_value(['trackingNumber'], self.data['trackingNumber'])
 
         latestStatus = self.data['trackResults'][0]['latestStatusDetail']
@@ -117,6 +122,7 @@ class DataMapper():
                 'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
             }
         
+        self.map_value(['carrier'], 'USPS')
         self.map_value(['trackingNumber'], self.data.get('@ID'))
 
         self.map_value(['currentStatus', 'status'], self.data.get('StatusCategory'))
