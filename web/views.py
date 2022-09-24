@@ -6,9 +6,10 @@ from enum import Enum
 import xmltodict
 import requests
 
+import logging
 import copy
 import json
-import logging
+import time
 
 
 class MainView(TemplateView):
@@ -178,16 +179,23 @@ class DataMapper():
 
 # FEDEX TESTING NUMBERS: 111111111111, 123456789012, 581190049992, 581190049992, 568838414941 
 class FedexAPI():
-    def get_access_token():
+    access_token = None
+    access_token_expire_date = None
+    def generate_access_token():
         headers = { "Content-Type" : "application/x-www-form-urlencoded" }
         data = {"grant_type": "client_credentials","client_id": "l7851e798fd0614154b2e2c5d701c8b656","client_secret": "a380512b3cd846daa8598845d5885beb"}
         oauth_url = "https://apis.fedex.com/oauth/token"
-        return requests.post(oauth_url, data=data, headers=headers).json()['access_token']
+
+        response = requests.post(oauth_url, data=data, headers=headers).json()
+        FedexAPI.access_token = response.get('access_token')
+        FedexAPI.access_token_expire_date = (time.time() + int(response.get('expires_in', '60')) - 60)
     
     def get_track_package_data(tracking_number):
+        if FedexAPI.access_token is None or time.time() > FedexAPI.access_token_expire_date:
+            FedexAPI.generate_access_token()
         headers = {
             'content-type': 'application/json',
-            'authorization': f"Bearer { FedexAPI.get_access_token() }",
+            'authorization': f"Bearer { FedexAPI.access_token }",
             'x-locale': 'en_US'
         }
         url = 'https://apis.fedex.com/track/v1/trackingnumbers'
