@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FindMyPackage</title>
+    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+</head>
+
+<body>
+    <h1>
+        <a href="{% url 'main' %}" style="color:#ffffff">FindMyPackage</a> 
+        <small> 
+            | <b><a href="{% url 'aboutus' %}">about us</a></b> | 
+            <a href="{% url 'faq' %}">facts and questions</a>
+        </small>
+    </h1>
+    <hr>
+    <p>
+        <ul>
+            <li>
+                <u>Team Members:</u>
+                <ul>
+                    <li>Taimur - Product Manager</li>
+                    <li>Cassidy - Frontend</li>
+                    <li>Stefan - Frontend/Backend</li>
+                    <li>Kaizar - Backend</li>
+                    <li>Jefferson - Backend</li>
+                </ul>
+            </li>
+            <li><u>Our Mission:</u> track packages</li>
+        </ul>
+        <br>
+        <br>
+        <a href="{% url 'main' %}">back</a>
+    </p>
+</body>
+</html>

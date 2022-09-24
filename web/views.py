@@ -44,6 +44,24 @@ class TrackView(TemplateView):
         )
 
 
+class AboutUsView(TemplateView):
+    def __init__(self):
+        self.logger = logging.getLogger('fmp')
+        self.template_name = 'aboutus.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {})
+
+
+class FaqView(TemplateView):
+    def __init__(self):
+        self.logger = logging.getLogger('fmp')
+        self.template_name = 'faq.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {})
+
+
 class DataMapper():
     def __init__(self, carrier, data):
         self.logger = logging.getLogger('fmp')

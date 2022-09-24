@@ -12,16 +12,18 @@
         <a href="{% url 'main' %}" style="color:#ffffff">FindMyPackage</a> 
         <small> 
             | <a href="{% url 'aboutus' %}">about us</a> | 
-            <a href="{% url 'faq' %}">facts and questions</a>
+            <b><a href="{% url 'faq' %}">facts and questions</a></b>
         </small>
     </h1>
     <hr>
-    <form action="{% url 'track' %}" method="post">
-        {% csrf_token %}
-        <label for="tracking_id">Tracking ID</label><br>
-        <input style="width: 200px;" type="text" name="tracking_id" id="tracking_id_input">
-        <br> <br>
-        <input type="submit" value="submit">
-    </form>
+    <p>
+        <ul>
+            <li><u>Hello:</u> hi there!</li>
+            <li><u>What carriers do u guys support</u> As of right now, USPS, UPS, and something something something </li>
+        </ul>
+        <br>
+        <br>
+        <a href="{% url 'main' %}">back</a>
+    </p>
 </body>
 </html>
