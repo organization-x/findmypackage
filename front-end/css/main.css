@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+/*custom properties*/
+
+:root {
+    --leading: 2em;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+}
+
+.hero-bg {
+    background: #FFFFFF url('../images/bg.blue.jpg');
+    background-position: 0% 75%;
+    color: white; 
+    text-align: center;
+    padding-bottom: 4em;
+}
+
+header {
+    padding: 1em 0;
+}
+
+.hero-bg a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+section {
+    margin: 0, 1em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 2em 0 1.2em;
+}
+
+h1 span {
+    display: block;
+    font-size: 1rem;
+}
+
+.hero-bg p {
+    font-weight: bold;
+    margin: 0 1em 3em;
+}
+
+.track-container {
+    background-color: white;
+    margin: 2em -1em 0;
+    padding: 2rem;
+}
+
+label {
+    color: black;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 1em;
+    font-size: 1.2em;
+}
+
+input[type=text] {
+    border: 1.5px solid gray;
+    border-radius: .5em;
+    margin-bottom: 1.2em;
+}
+
+input[type=button] {
+    background-color: #00C185;
+    border: none;
+    width: 50%;
+    font-weight: bold;
+    padding: 1em 0;
+    border-radius: 0.5em;
+    font-size: 1.3em;
+    cursor: pointer;
+    color: white;
+}
+
+input[type=button]:hover {
+    background-color: #0b996c;
+}
+
+.About {
+    margin: 0;
+}
+
+.right-col {
+    text-align: left;
+    margin: 3em 1em;
+
+}
+
+h2 { 
+    text-transform: uppercase;
+    position: relative;
+}
+
+img {
+    width: 100%;
+}
+
+p {
+    line-height: var(--leading);
+
+}
+
+@media (min-width: 730px) {
+ 
+    section {
+        margin: 0 4em;
+    }
+
+    .track-container {
+        margin: 2em 4em 0 4em;
+        border-radius: .5em
+    }
+
+    img {
+        grid-area: pic;
+        margin: 0 0 4em 0;
+    }
+
+}
+
+@media (min-width: 930px) {
+ 
+    .hero-bg {
+        text-align: center;
+    }
+
+    .hero-bg p {
+        margin: 0 0 3em;
+    }
+hero.bg section {
+        width: 65%
+    }
+
+    .track-container {
+        margin: 5em 0;
+        padding: 2em;
+        border-radius: .5em
+    }
+    .track-container {
+        margin:4em 4em 0 4em;
+        border-radius: .5em
+    }
+
+    section.About {
+        display:grid;
+        margin: 0 0 0 0; 
+        padding: 0 0;
+        grid-template-columns: repeat(2, 50%);
+        grid-template-areas:
+        "pic text"
+    }
+    .right-col {grid-area: text;
+        padding: 0 10%;
+        text-align: left;
+        align-self: center;
+
+    }
+
+    img {
+        grid-area: pic;
+        margin: 0 0 4em 0;
+    }
+
+    h2 {
+        margin: 0;
+    }
+
+}
