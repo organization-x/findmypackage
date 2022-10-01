@@ -16,6 +16,8 @@
         {% else %}
         <ul>
             <li><u>Carrier:</u> {{ carrier }}</li>
+            <li><u>ETA:</u> {{ estimatedTimeArrival }} <br></li>
+            <li><u>Delay Detail:</u> {{ currentStatus.delayDetail }} <br></li>
             <li><u>Current Status:</u> 
                 <ul>
                     <li><i>Status:</i> {{ currentStatus.status }}</li>
@@ -30,8 +32,6 @@
                     <li><i>Street Lines:</i> {% for line in destination.streetLines %}{{ line }} {% endfor %}</li>
                 </ul>
             </li>
-            <li><u>ETA:</u> {{ estimatedTimeArrival }} <br></li>
-            <li><u>Delay Detail:</u> {{ currentStatus.delayDetail }} <br></li>
             <li>
                 <u>Events:</u>
                 <table>
