@@ -10,6 +10,7 @@ import logging
 import copy
 import json
 import time
+import re
 
 
 class MainView(TemplateView):
@@ -144,13 +145,16 @@ class DataMapper():
         self.map_value(['carrier'], 'USPS')
         self.map_value(['trackingNumber'], self.data.get('@ID'))
 
+        statusSummary = self.data.get('StatusSummary')
+        location =  [re.sub(r'[^\w\s]', '', item) for item in statusSummary.split()[-3:]]
+
         self.map_value(['currentStatus', 'status'], self.data.get('StatusCategory'))
-        self.map_value(['currentStatus', 'description'], self.data.get('StatusSummary'))
+        self.map_value(['currentStatus', 'description'], " ".join(self.data.get('StatusSummary').split()[:-4]))
         self.map_value(['currentStatus', 'location', 'streetLines'], None)
-        self.map_value(['currentStatus', 'location', 'city'], None)
-        self.map_value(['currentStatus', 'location', 'state'], None)
-        self.map_value(['currentStatus', 'location', 'postalCode'], None)
-        self.map_value(['currentStatus', 'location', 'country'], None)
+        self.map_value(['currentStatus', 'location', 'city'], location[0], action=self.capitalize_string)
+        self.map_value(['currentStatus', 'location', 'state'], location[1])
+        self.map_value(['currentStatus', 'location', 'postalCode'], location[2])
+        self.map_value(['currentStatus', 'location', 'country'], 'US')
         self.map_value(['currentStatus', 'delayDetail'], None)
 
         self.map_value(['destination', 'streetLines'], None)
