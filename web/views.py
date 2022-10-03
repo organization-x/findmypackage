@@ -20,16 +20,20 @@ class TrackView(TemplateView):
         self.template_name = 'detail.html'
     
     def post(self, request, *args, **kwargs):
-        data = None
-        for carrier in Carrier:
-            data = DataMapper(
-                carrier,
-                carrier.value.get_track_package_data(
-                    request.POST['tracking_id']
-                ),
-            ).get_mapped_data()
-            if data.get('errorMessage') is None:
-                break
+        data = {
+            'trackingNumber': 'Invalid',
+            'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
+        }
+        if request.POST['tracking_id']:
+            for carrier in Carrier:
+                data = DataMapper(
+                    carrier,
+                    carrier.value.get_track_package_data(
+                        request.POST['tracking_id']
+                    ),
+                ).get_mapped_data()
+                if data.get('errorMessage') is None:
+                    break
         return render(
             request,
             self.template_name,

@@ -139,7 +139,7 @@ class DataMapper():
         i = 0
         for event in reversed(self.data.get('events')):
             self.mapped_data['events'].append(copy.deepcopy(self.mapped_data['eventTemplate']))
-            self.map_value(['events', i, 'date'], event.get('timestamp'))
+            self.map_value(['events', i, 'date'], event.get('timestamp'), action=self.format_date)
             self.map_value(['events', i, 'description'], event.get('description'))
             remark = event.get('remark')
             nextSteps = event.get('nextSteps')
@@ -261,7 +261,7 @@ class FedexAPI():
         return requests.post(url, data=json.dumps(request_body), headers=headers).json()
 
 
-# USPS TESTING NUMBERS: 4209070387179200190314774201833062
+# USPS TESTING NUMBERS: NONE
 class USPSApi():
     def get_track_package_data(tracking_number):
         url = 'https://secure.shippingapis.com/ShippingAPI.dll'
