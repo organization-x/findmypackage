@@ -174,7 +174,7 @@ class DataMapper():
             postal = address.get('postalCode')
             self.map_value(['currentStatus', 'location','country'], countryCode)
             self.map_value(['currentStatus', 'location', 'postalCode'], postal)
-            self.map_value(['currentStatus','location', 'city'], address.get('addressLocality'))
+            self.map_value(['currentStatus','location', 'city'], address.get('addressLocality'), action=self.capitalize_string)
             self.map_value(['currentStatus', 'location', 'streetLines'], None)
             self.map_value(['events', 'location', 'state'], None)
             self.map_value(['currentStatus', 'delayDetail'], None)
@@ -184,7 +184,7 @@ class DataMapper():
         if destination is not None:
             address = destination.get('address')
             self.map_value(['destination', 'streetLines'], None)
-            self.map_value(['destination', 'city'], address.get('addressLocality'))
+            self.map_value(['destination', 'city'], address.get('addressLocality'), action=self.capitalize_string)
             self.map_value(['destination', 'state'], None)
             self.map_value(['destination', 'postalCode'], address.get("postalCode"))
             self.map_value(['destination', 'country'], address.get('countryCode'))
@@ -205,11 +205,9 @@ class DataMapper():
             self.map_value(['events',i, 'description'], fullDesc)
             self.map_value(['events', i, 'location', 'streetLines'], None)
             self.map_value(['events', i, 'location', 'state'], None)
-            eventLoc = event.get('location')
-            if eventLoc is not None:
-                self.map_value(['events', i, 'location', 'city'], event.get('location').get('address').get('addressLocality'))
-                self.map_value(['events', i, 'location', 'postalCode'], event.get('location').get('address').get('postalCode'))
-                self.map_value(['events', i, 'location','country'], event.get('location').get('address').get('countryCode'))
+            self.map_value(['events', i, 'location', 'city'], event.get('location',{}).get('address',{}).get('addressLocality',{}), action=self.capitalize_string)
+            self.map_value(['events', i, 'location', 'postalCode'], event.get('location',{}).get('address',{}).get('postalCode',{}))
+            self.map_value(['events', i, 'location','country'], event.get('location',{}).get('address',{}).get('countryCode',{}))
             fullStat1 = ""
             stat = event.get('status')
             stat2 = event.get('statusCode')
