@@ -1,3 +1,4 @@
+from unittest.mock import NonCallableMagicMock
 from webbrowser import get
 from django.views.generic import TemplateView
 from django.shortcuts import render
@@ -82,6 +83,8 @@ class DataMapper():
             return self.get_mapped_fedex_data()
         elif self.carrier is Carrier.usps:
             return self.get_mapped_usps_data()
+        elif self.carrier is Carrier.dhl:
+            return self.get_mapped_dhl_data()
 
     def get_mapped_fedex_data(self):
         if self.data.get('errors') is not None:
@@ -133,6 +136,95 @@ class DataMapper():
         
         self.map_value(['estimatedTimeArrival'], self.data['trackResults'][0].get('estimatedDeliveryTimeWindow', {}).get('window'))
         return self.mapped_data
+
+    def get_mapped_dhl_data(self):
+        if self.data.get('title') is not None:
+            return {
+                'trackingNumber': 'Invalid',
+                'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
+            }
+        self.data = self.data.get('shipments')[0]
+        self.map_value(['carrier'], 'DHL')
+        self.map_value(['trackingNumber'], self.data.get('id'))
+        #current status vvv
+        latestStatus = self.data.get('status')
+        
+        fullStat = ""
+        stat = latestStatus.get('status')
+        stat2 = latestStatus.get('statusCode')
+        if stat is not None:
+            fullStat = fullStat +  stat
+        if stat2 is not None:
+            fullStat = stat2 +" / "+ fullStat 
+        self.map_value(['currentStatus', 'status'], fullStat)
+        remark = latestStatus.get('remark')
+        nextSteps = latestStatus.get('nextSteps')
+        fullDesc = latestStatus.get("description")
+        if remark is not None:
+                fullDesc = fullDesc + remark
+        if nextSteps is not None:
+            fullDesc = fullDesc + nextSteps
+        self.map_value(['currentStatus', 'description'], fullDesc)
+        loc = latestStatus.get('location')
+        if loc is not None:
+            #city = address[0:address.index('- ')]
+            #country = address[address.index('-')+2:len(address)]
+            address = loc.get('address')
+            countryCode = address.get('countryCode')
+            postal = address.get('postalCode')
+            self.map_value(['currentStatus', 'location','country'], countryCode)
+            self.map_value(['currentStatus', 'location', 'postalCode'], postal)
+            self.map_value(['currentStatus','location', 'city'], address.get('addressLocality'))
+            self.map_value(['currentStatus', 'location', 'streetLines'], None)
+            self.map_value(['events', 'location', 'state'], None)
+            self.map_value(['currentStatus', 'delayDetail'], None)
+        #destination info vvvv
+
+        destination = self.data.get('destination')
+        if destination is not None:
+            address = destination.get('address')
+            self.map_value(['destination', 'streetLines'], None)
+            self.map_value(['destination', 'city'], address.get('addressLocality'))
+            self.map_value(['destination', 'state'], None)
+            self.map_value(['destination', 'postalCode'], address.get("postalCode"))
+            self.map_value(['destination', 'country'], address.get('countryCode'))
+        
+        #events vvvv
+        i = 0
+        for event in reversed(self.data.get('events')):
+            self.mapped_data['events'].append(copy.deepcopy(self.mapped_data['eventTemplate']))
+            self.map_value(['events', i, 'date'], event.get('timestamp'))
+            self.map_value(['events', i, 'description'], event.get('description'))
+            remark = event.get('remark')
+            nextSteps = event.get('nextSteps')
+            fullDesc = event.get("description")
+            if remark is not None:
+                fullDesc = fullDesc + remark
+            if nextSteps is not None:
+                fullDesc = fullDesc + nextSteps
+            self.map_value(['events',i, 'description'], fullDesc)
+            self.map_value(['events', i, 'location', 'streetLines'], None)
+            self.map_value(['events', i, 'location', 'state'], None)
+            eventLoc = event.get('location')
+            if eventLoc is not None:
+                self.map_value(['events', i, 'location', 'city'], event.get('location').get('address').get('addressLocality'))
+                self.map_value(['events', i, 'location', 'postalCode'], event.get('location').get('address').get('postalCode'))
+                self.map_value(['events', i, 'location','country'], event.get('location').get('address').get('countryCode'))
+            fullStat1 = ""
+            stat = event.get('status')
+            stat2 = event.get('statusCode')
+            if stat is not None:
+                fullStat1 = fullStat + stat
+            elif stat2 is not None:
+                fullStat1 = fullStat + stat2
+            self.map_value(['events', i, 'status'], fullStat1)
+            i += 1
+            
+
+        self.map_value(['estimatedTimeArrival'], f"{self.data.get('estimatedTimeOfDelivery')}, {self.data.get('estimatedTimeOfDeliveryRemark')}")
+        return self.mapped_data
+
+        
 
     def get_mapped_usps_data(self):
         self.data = self.data.get('TrackResponse', {}).get('TrackInfo')
@@ -235,7 +327,20 @@ class USPSApi():
         }
         return xmltodict.parse(requests.post(url, params=params).content)
 
+# DHL TESING NUMBERS 00340434292135100186 7777777770 
+class DHLApi():
+    def get_track_package_data(tracking_number):
+        url = 'https://api-eu.dhl.com/track/shipments'
+        querystring = ({"trackingNumber":tracking_number})
+        headers = { 'DHL-API-Key': 'EItEywUVdeufVSJtQ8CMGl9bwf67y08w'}
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        return response.json()
+
+
+
 
 class Carrier(Enum):
     fedex = FedexAPI
     usps = USPSApi
+    dhl = DHLApi
+
