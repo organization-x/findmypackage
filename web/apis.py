@@ -9,6 +9,8 @@ import requests
 import xmltodict
 from dateutil import parser
 
+from package.settings import SECRETS
+
 
 class DataMapper():
     def __init__(self, carrier, data):
@@ -291,8 +293,8 @@ class FedexAPI():
     @staticmethod
     def generate_access_token():
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
-        data = {"grant_type": "client_credentials", "client_id": "l7851e798fd0614154b2e2c5d701c8b656",
-                "client_secret": "a380512b3cd846daa8598845d5885beb"}
+        data = {"grant_type": "client_credentials", "client_id": SECRETS['FEDEX_ID'],
+                "client_secret": SECRETS['FEDEX_SECRET']}
         oauth_url = "https://apis.fedex.com/oauth/token"
 
         response = requests.post(oauth_url, data=data, headers=headers).json()
@@ -322,7 +324,7 @@ class USPSApi():
         url = 'https://secure.shippingapis.com/ShippingAPI.dll'
         params = {
             'API': 'TrackV2',
-            'XML': f"""<TrackFieldRequest USERID="829JEFF01013"><Revision>1</Revision><ClientIp>122.3.3</ClientIp><SourceId>AI Camp</SourceId><TrackID ID="{tracking_number}"/></TrackFieldRequest>"""
+            'XML': f"""<TrackFieldRequest USERID="{SECRETS['USPS_ID']}"><Revision>1</Revision><ClientIp>122.3.3</ClientIp><SourceId>AI Camp</SourceId><TrackID ID="{tracking_number}"/></TrackFieldRequest>"""
         }
         return xmltodict.parse(requests.post(url, params=params).content)
 
@@ -334,7 +336,7 @@ class DHLApi():
     def get_track_package_data(tracking_number):
         url = 'https://api-eu.dhl.com/track/shipments'
         querystring = ({"trackingNumber": tracking_number})
-        headers = {'DHL-API-Key': 'EItEywUVdeufVSJtQ8CMGl9bwf67y08w'}
+        headers = {'DHL-API-Key': SECRETS['DHL_SECRET']}
         response = requests.request(
             "GET", url, headers=headers, params=querystring)
         return response.json()

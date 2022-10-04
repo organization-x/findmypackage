@@ -4,10 +4,17 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*fq3r2mu2k2e$y^18%_%tbay&)dqd0h)dopfc(h31a+*43(n-e'
+SECRET_KEY = os.environ.get('FMP_DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('FMP_DJANGO_DEBUG').lower == 'true'
+
+SECRETS = {
+    'FEDEX_ID': os.environ.get('FMP_FEDEX_ID'),
+    'FEDEX_SECRET': os.environ.get('FMP_FEDEX_SECRET'),
+    'USPS_ID': os.environ.get('FMP_USPS_ID'),
+    'DHL_SECRET': os.environ.get('FMP_DHL_SECRET'),
+}
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
