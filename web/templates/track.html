@@ -1,12 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang=en>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track</title>
-    <link rel="stylesheet" href="/static/admin/css/main.css">
+    <link rel="stylesheet" href="{% static 'admin/css/track.css' %}">
 </head>
+
 <body>
     <aside class="sidebar">
 
@@ -25,59 +28,70 @@
                 </nav>
             </aside>
 
-            <div class="hero-bg">
-            <header>
-                <a href="#">FindMyPackage</a> 
-            </header>
-            <section class="Information">
+        <h3></h3>
+        <nav class="menu">
+            <a href="#About" class="menu-item">About</a>
+            <a href="track.html" class="menu-item is-active">Track</a>
+            <a href="FAQ.html" class="menu-item">FAQs</a>
+            <a href="review.html" class="menu-item">Reviews</a>
+            <a href="developers.html" class="menu-item">Developers</a>
+        </nav>
+    </aside>
+
+    <div class="hero-bg">
+        <header>
+            <a href="#">FindMyPackage</a>
+        </header>
+        <section class="Information">
             <div>
-        <div class="map-container">
- <p>This is a placeholder for the map</p>
-        </div>
+                <div class="map-container">
+                    <p>This is a placeholder for the map</p>
+                </div>
 
-        <div class="Date-container">
-            <form action="">
-                <label for="ETA">ETA:</label>
-                <input type="" name="ETA" id="ETA">
-        </div>
+                <div class="Date-container">
+                    <form action="">
+                        <label for="ETA">ETA:</label>
+                        <input type="" name="ETA" id="ETA">
+                </div>
 
-        <div class="location-container">
-            <label for="Location">Current Location:</label>
-            <input type="" name="Location" id="Location">
-         </div>
+                <div class="location-container">
+                    <label for="Location">Current Location:</label>
+                    <input type="" name="Location" id="Location">
+                </div>
 
-         <div class="ToBeDetermined-container">
-            <label for="TBD">TBD:</label>
-            <input type="" name="TBD" id="TBD">
-                 </div>
-</div>
-</section>
-</div>
-<section>
-    <div class="accordion-body">
-        <div class="accordion">
-          <h1>Additional Information</h1>
-          <hr>
-          <div class="container">
-            <div class="label">Click to toggle</div>
-            <div class="content">
-                <div class="info-container">
-                    <label for="info">Info here: </label>
-                    <input type="" name="info" id="info">
-                         </div>
-                <div class="info-container">
-                    <label for="info">Info here: </label>
-                    <input type="" name="info" id="info">
-                         </div>
+                <div class="ToBeDetermined-container">
+                    <label for="TBD">TBD:</label>
+                    <input type="" name="TBD" id="TBD">
+                </div>
             </div>
-          </div>
-          <hr>
+        </section>
+    </div>
+    <section>
+        <div class="accordion-body">
+            <div class="accordion">
+                <h1>Additional Information</h1>
+                <hr>
+                <div class="container">
+                    <div class="label">Click to toggle</div>
+                    <div class="content">
+                        <div class="info-container">
+                            <label for="info">Info here: </label>
+                            <input type="" name="info" id="info">
+                        </div>
+                        <div class="info-container">
+                            <label for="info">Info here: </label>
+                            <input type="" name="info" id="info">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
         </div>
-        </div>
-    <script src="/static/admin/js/track.js" type="text/javascript"></script>
+        <script src="{% static 'admin/js/track.js' %}" type="text/javascript"></script>
 
 
-</section>
+    </section>
 
 </body>
+
 </html>
