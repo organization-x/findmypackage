@@ -31,7 +31,7 @@
             <nav class="menu">
                 <a href="index.html" class="menu-item is-active">About</a>
                 <a href="track.html" class="menu-item">Track</a>
-                <a href="FAQ.html" class="menu-item">FAQs</a>
+                <a href="faq.html" class="menu-item">FAQs</a>
                 <a href="review.html" class="menu-item">Reviews</a>
                 <a href="developers.html" class="menu-item">Developers</a>
             </nav>
@@ -49,12 +49,13 @@
                 <h1><span> The Best Way to</span> Track Your Package</h1>
 
                 <div class="track-container">
-                    <form action="track.html">
+                    <form action="track.html" method="post">
+                        {% csrf_token %}
                         <div class="form-left">
                             <label for="Enter package ID">Enter your package ID:</label>
                             <input type="text" name="package" id="Enter package ID">
                         </div>
-                        <input type="button" value="TRACK">
+                        <input type="submit" value="TRACK">
                     </form>
                 </div>
             </section>
