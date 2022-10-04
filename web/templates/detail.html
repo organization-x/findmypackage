@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FindMyPackage</title>
+    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+</head>
+
+<body>
+    <h1>Tracking Number: {{ trackingNumber }}</h1>
+    <hr>
+    <p>
+        {% if errorMessage %}
+        {{ errorMessage }} <br>
+        {% else %}
+        <ul>
+            <li><u>Carrier:</u> {{ carrier }}</li>
+            <li><u>ETA:</u> {{ estimatedTimeArrival }} <br></li>
+            <li><u>Delay Detail:</u> {{ currentStatus.delayDetail }} <br></li>
+            <li><u>Current Status:</u> 
+                <ul>
+                    <li><i>Status:</i> {{ currentStatus.status }}</li>
+                    <li><i>Description:</i> {{ currentStatus.description }}
+                    <li><i>Location:</i> {{ currentStatus.location.city }} {{ currentStatus.location.state }}, {{ currentStatus.location.postalCode }}, {{ currentStatus.location.country }}</li>
+                    <li><i>Street Lines:</i> {% for line in currentStatus.location.streetLines %}{{ line }} {% endfor %}</li>
+                </ul>
+            </li>
+            <li><u>Destination:</u>
+                <ul>
+                    <li><i>Location:</i> {{ destination.city }} {{ destination.state }}, {{ destination.postalCode }}, {{ destination.country }}</li>
+                    <li><i>Street Lines:</i> {% for line in destination.streetLines %}{{ line }} {% endfor %}</li>
+                </ul>
+            </li>
+            <li>
+                <u>Events:</u>
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Summary</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.date }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>
+                            {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode }}, {{ event.location.country }} <br>
+                            Street Lines: {% for line in event.location.streetLines %}{{ line }} {% endfor %}
+                        </td>
+                        <td>{{ event.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </li>
+        </ul>
+        <br>
+        {% endif %}
+        <br>
+        <a href="{% url 'main' %}">back</a>
+    </p>
+</body>
+</html>
