@@ -19,7 +19,7 @@ class DataMapper():
             file = open('web/static/web/tracking_results_base.json')
             self.base = json.load(file)
             file.close()
-        except:
+        except FileNotFoundError:
             self.logger.warning("Couldn't load tracking_results_base.json")
         self.mapped_data = None
 
@@ -136,8 +136,8 @@ class DataMapper():
         self.map_value(['currentStatus', 'description'], fullDesc)
         loc = latestStatus.get('location')
         if loc is not None:
-            #city = address[0:address.index('- ')]
-            #country = address[address.index('-')+2:len(address)]
+            # city = address[0:address.index('- ')]
+            # country = address[address.index('-')+2:len(address)]
             address = loc.get('address')
             countryCode = address.get('countryCode')
             postal = address.get('postalCode')
@@ -268,7 +268,7 @@ class DataMapper():
             return
         dict = self.mapped_data
         for i, key in enumerate(keys):
-            if i is len(keys)-1:
+            if i is len(keys) - 1:
                 if action is not None:
                     dict[key] = action(value)
                 else:
@@ -288,6 +288,7 @@ class FedexAPI():
     access_token = None
     access_token_expire_date = None
 
+    @staticmethod
     def generate_access_token():
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
         data = {"grant_type": "client_credentials", "client_id": "l7851e798fd0614154b2e2c5d701c8b656",
@@ -299,6 +300,7 @@ class FedexAPI():
         FedexAPI.access_token_expire_date = (
             time.time() + int(response.get('expires_in', '60')) - 60)
 
+    @staticmethod
     def get_track_package_data(tracking_number):
         if FedexAPI.access_token is None or time.time() > FedexAPI.access_token_expire_date:
             FedexAPI.generate_access_token()
@@ -315,6 +317,7 @@ class FedexAPI():
 
 # USPS TESTING NUMBERS: NONE
 class USPSApi():
+    @staticmethod
     def get_track_package_data(tracking_number):
         url = 'https://secure.shippingapis.com/ShippingAPI.dll'
         params = {
@@ -327,6 +330,7 @@ class USPSApi():
 
 
 class DHLApi():
+    @staticmethod
     def get_track_package_data(tracking_number):
         url = 'https://api-eu.dhl.com/track/shipments'
         querystring = ({"trackingNumber": tracking_number})
