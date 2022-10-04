@@ -1,0 +1,45 @@
+{
+    "carrier": "N/A",
+    "trackingNumber": "N/A",
+    "currentStatus": {
+        "status": "Not available",
+        "description": "Not available",
+        "location": {
+            "streetLines": [
+                "Not available"
+            ],
+            "city": "N/A",
+            "state": "N/A",
+            "postalCode": "N/A",
+            "country": "N/A"
+        },
+        "delayDetail": "Not available"
+    },
+    "destination": {
+        "streetLines": [
+            "Not available"
+        ],
+        "city": "N/A",
+        "state": "N/A",
+        "postalCode": "N/A",
+        "country": "N/A"
+    },
+    "events": [
+        
+    ],
+    "estimatedTimeArrival": "Not available",
+    "eventTemplate": {
+        "date": "Not available",
+        "description": "Not available",
+        "location": {
+            "streetLines": [
+                "Not available"
+            ],
+            "city": "N/A",
+            "state": "N/A",
+            "postalCode": "N/A",
+            "country": "N/A"
+        },
+        "status":"Not available"
+    }
+}
