@@ -17,7 +17,7 @@ class MainView(TemplateView):
 class TrackView(TemplateView):
     def __init__(self):
         self.logger = logging.getLogger('fmp')
-        self.template_name = 'detail.html'
+        self.template_name = 'track.html'
     
     def post(self, request, *args, **kwargs):
         data = {
