@@ -51,10 +51,10 @@
                     <form action="{% url 'track' %}" method="post">
                         {% csrf_token %}
                         <div class="form-left">
-                            <label for="Enter package ID">Enter your package ID:</label>
-                            <input type="text" name="package" id="Enter package ID">
+                            <label for="tracking_id_input">Enter your package ID:</label>
+                            <input type="text" name="tracking_id" id="tracking_id_input">
                         </div>
-                        <input type="submit" value="TRACK">
+                        <input type="submit" value="submit">
                     </form>
                 </div>
             </section>
