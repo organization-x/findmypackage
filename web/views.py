@@ -57,3 +57,12 @@ class FaqView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {})
+
+
+class ReviewsView(TemplateView):
+    def __init__(self):
+        self.logger = logging.getLogger('fmp')
+        self.template_name = 'review.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {})

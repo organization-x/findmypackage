@@ -1,6 +1,21 @@
-<head>testing</head>
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FAQ</title>
+    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+</head>
+
 <body>
-
-    <h2>faqs page</h2>
-
+    <h1>
+        <a href="{% url 'main' %}" style="color:#ffffff">FindMyPackage</a> 
+        <small> 
+            | <b><a href="{% url 'about' %}">about us</a></b> |
+            <a href="{% url 'faq' %}">facts and questions</a>
+        </small>
+    </h1>
+    <hr>
+    <h2>FAQ</h2>
 </body>
+</html>
