@@ -12,35 +12,19 @@
 
 <body>
     <aside class="sidebar">
-
         <div class="holder">
             <label for="" class="toggle-btn">
                 <span></span>
         </div>
-        
-                <h3></h3>
-                <nav class="menu">
-                    <a href="index.html" class="menu-item">About</a>
-                    <a href="track.html" class="menu-item is-active">Track</a>
-                    <a href="FAQ.html" class="menu-item">FAQs</a>
-                    <a href="review.html" class="menu-item">Reviews</a>
-                    <a href="developers.html" class="menu-item">Developers</a>
-                </nav>
-            </aside>
-
-        <h3></h3>
         <nav class="menu">
-            <a href="#About" class="menu-item">About</a>
-            <a href="track.html" class="menu-item is-active">Track</a>
-            <a href="FAQ.html" class="menu-item">FAQs</a>
-            <a href="review.html" class="menu-item">Reviews</a>
-            <a href="developers.html" class="menu-item">Developers</a>
+            <a href="{% url 'about' %}" class="menu-item">About</a>
+            <a href="{% url 'faq' %}" class="menu-item">FAQs</a>
+            <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
         </nav>
     </aside>
-
     <div class="hero-bg">
         <header>
-            <a href="#">FindMyPackage</a>
+            <a href="/">FindMyPackage</a>
         </header>
         <section class="Information">
             <div>
@@ -49,19 +33,15 @@
                 </div>
 
                 <div class="Date-container">
-                    <form action="">
-                        <label for="ETA">ETA:</label>
-                        <input type="" name="ETA" id="ETA">
+                    <u>ETA:</u> {{ estimatedTimeArrival }}
                 </div>
 
                 <div class="location-container">
-                    <label for="Location">Current Location:</label>
-                    <input type="" name="Location" id="Location">
+                    <i>Location:</i> {{ currentStatus.location.city }} {{ currentStatus.location.state }}, {{currentStatus.location.country }}
                 </div>
 
                 <div class="ToBeDetermined-container">
-                    <label for="TBD">TBD:</label>
-                    <input type="" name="TBD" id="TBD">
+                    <i>Status:</i> {{ currentStatus.status }}
                 </div>
             </div>
         </section>
@@ -74,24 +54,34 @@
                 <div class="container">
                     <div class="label">Click to toggle</div>
                     <div class="content">
-                        <div class="info-container">
-                            <label for="info">Info here: </label>
-                            <input type="" name="info" id="info">
-                        </div>
-                        <div class="info-container">
-                            <label for="info">Info here: </label>
-                            <input type="" name="info" id="info">
-                        </div>
+                        <u>Events:</u>
+                        <table>
+                            <tr>
+                                <th>Date</th>
+                                <th>Summary</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                            </tr>
+                            {% for event in events %}
+                            <tr>
+                                <td>{{ event.date }}</td>
+                                <td>{{ event.description }}</td>
+                                <td>
+                                    {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode }}, {{ event.location.country }}
+                                    <br>
+                                    Street Lines: {% for line in event.location.streetLines %}{{ line }} {% endfor %}
+                                </td>
+                                <td>{{ event.status }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
                     </div>
                 </div>
                 <hr>
             </div>
         </div>
         <script src="{% static 'admin/js/track.js' %}" type="text/javascript"></script>
-
-
     </section>
-
 </body>
 
 </html>
