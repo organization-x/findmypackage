@@ -37,7 +37,7 @@ class DataMapper():
 
     def get_mapped_fedex_data(self):
         if self.data.get('errors') is not None:
-            return errorMessage
+            return ERROR_MESSAGE
 
         self.data = self.data['output']['completeTrackResults'][0]
         if self.data['trackResults'][0].get('error') is not None:
@@ -106,7 +106,7 @@ class DataMapper():
 
     def get_mapped_dhl_data(self):
         if self.data.get('title') is not None:
-            return errorMessage
+            return ERROR_MESSAGE
 
         self.data = self.data.get('shipments')[0]
         self.map_value(['carrier'], 'DHL')
@@ -267,10 +267,10 @@ class FedexAPI():
             request_body = {'trackingInfo': [{'trackingNumberInfo': {
                 'trackingNumber': f"{tracking_number}"}}], 'includeDetailedScans': True}
             response = requests.post(url, data=json.dumps(request_body), headers=headers).json()
-            return response if response is not None else errorMessage
+            return response if response is not None else ERROR_MESSAGE
         except requests.exceptions.RequestException as e:
             logger.warning(e)
-            return errorMessage
+            return ERROR_MESSAGE
 
 
 # USPS TESTING NUMBERS: 4209070387179200190314774201833062
@@ -286,7 +286,7 @@ class USPSApi():
             return xmltodict.parse(requests.post(url, params=params).content)
         except requests.exceptions.RequestException as e:
             logger.warning(e)
-            return errorMessage
+            return ERROR_MESSAGE
 
 
 # DHL TESING NUMBERS 00340434292135100186 7777777770
@@ -302,7 +302,7 @@ class DHLApi():
             return response.json()
         except requests.exceptions.RequestException as e:
             logger.warning(e)
-            return errorMessage
+            return ERROR_MESSAGE
 
 
 class Carrier(Enum):
@@ -311,7 +311,7 @@ class Carrier(Enum):
     dhl = DHLApi
 
 
-errorMessage = {
+ERROR_MESSAGE = {
     'trackingNumber': 'Invalid',
     'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
 }
