@@ -12,9 +12,10 @@ from dateutil import parser
 from package.settings import SECRETS
 
 
+logger = logging.getLogger('fmp')
+
 class DataMapper():
     def __init__(self, carrier, data):
-        self.logger = logging.getLogger('fmp')
         self.carrier = carrier
         self.data = data
         try:
@@ -22,7 +23,7 @@ class DataMapper():
             self.base = json.load(file)
             file.close()
         except FileNotFoundError:
-            self.logger.warning("Couldn't load tracking_results_base.json")
+            logger.warning("Couldn't load tracking_results_base.json")
         self.mapped_data = None
 
     def get_mapped_data(self):
@@ -36,10 +37,7 @@ class DataMapper():
 
     def get_mapped_fedex_data(self):
         if self.data.get('errors') is not None:
-            return {
-                'trackingNumber': 'Invalid',
-                'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
-            }
+            return errorMessage
 
         self.data = self.data['output']['completeTrackResults'][0]
         if self.data['trackResults'][0].get('error') is not None:
@@ -83,8 +81,7 @@ class DataMapper():
             self.map_value(['destination', 'country'],
                            address.get('countryCode', {}))
 
-        i = 0
-        for event in reversed(self.data['trackResults'][0]['scanEvents']):
+        for i, event in enumerate(reversed(self.data['trackResults'][0]['scanEvents'])):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
             self.map_value(['events', i, 'date'], event.get(
@@ -102,7 +99,6 @@ class DataMapper():
             self.map_value(['events', i, 'location', 'country'],
                            event.get('scanLocation', {}).get('countryCode'))
             self.map_value(['events', i, 'status'], event.get('derivedStatus'))
-            i += 1
 
         self.map_value(['estimatedTimeArrival'], self.data['trackResults'][0].get(
             'estimatedDeliveryTimeWindow', {}).get('window'))
@@ -110,48 +106,21 @@ class DataMapper():
 
     def get_mapped_dhl_data(self):
         if self.data.get('title') is not None:
-            return {
-                'trackingNumber': 'Invalid',
-                'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
-            }
+            return errorMessage
+
         self.data = self.data.get('shipments')[0]
         self.map_value(['carrier'], 'DHL')
         self.map_value(['trackingNumber'], self.data.get('id'))
-        # current status vvv
-        latestStatus = self.data.get('status')
 
-        fullStat = ""
-        stat = latestStatus.get('status')
-        stat2 = latestStatus.get('statusCode')
-        if stat is not None:
-            fullStat = fullStat + stat
-        if stat2 is not None:
-            fullStat = stat2 + " / " + fullStat
-        self.map_value(['currentStatus', 'status'], fullStat)
-        remark = latestStatus.get('remark')
-        nextSteps = latestStatus.get('nextSteps')
-        fullDesc = latestStatus.get("description")
-        if remark is not None:
-            fullDesc = fullDesc + remark
-        if nextSteps is not None:
-            fullDesc = fullDesc + nextSteps
-        self.map_value(['currentStatus', 'description'], fullDesc)
-        loc = latestStatus.get('location')
-        if loc is not None:
-            # city = address[0:address.index('- ')]
-            # country = address[address.index('-')+2:len(address)]
-            address = loc.get('address')
-            countryCode = address.get('countryCode')
-            postal = address.get('postalCode')
-            self.map_value(
-                ['currentStatus', 'location', 'country'], countryCode)
-            self.map_value(['currentStatus', 'location', 'postalCode'], postal)
-            self.map_value(['currentStatus', 'location', 'city'], address.get(
-                'addressLocality'), action=self.capitalize_string)
-            self.map_value(['currentStatus', 'location', 'streetLines'], None)
-            self.map_value(['events', 'location', 'state'], None)
-            self.map_value(['currentStatus', 'delayDetail'], None)
-        # destination info vvvv
+        latestStatus = self.data.get('status')
+        self.map_value(['currentStatus', 'status'], latestStatus.get('statusCode'))
+        self.map_value(['currentStatus', 'description'], latestStatus.get('description'))
+        self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('location', {}).get('countryCode'))
+        self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
+        self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
+        self.map_value(['currentStatus', 'location', 'streetLines'], None)
+        self.map_value(['events', 'location', 'state'], None)
+        self.map_value(['currentStatus', 'delayDetail'], None)
 
         destination = self.data.get('destination')
         if destination is not None:
@@ -165,39 +134,22 @@ class DataMapper():
             self.map_value(['destination', 'country'],
                            address.get('countryCode'))
 
-        # events vvvv
-        i = 0
-        for event in reversed(self.data.get('events')):
+        for i, event in enumerate(reversed(self.data.get('events'))):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
             self.map_value(['events', i, 'date'], event.get(
                 'timestamp'), action=self.format_date)
             self.map_value(['events', i, 'description'],
                            event.get('description'))
-            remark = event.get('remark')
-            nextSteps = event.get('nextSteps')
-            fullDesc = event.get("description")
-            if remark is not None:
-                fullDesc = fullDesc + remark
-            if nextSteps is not None:
-                fullDesc = fullDesc + nextSteps
-            self.map_value(['events', i, 'description'], fullDesc)
             self.map_value(['events', i, 'location', 'streetLines'], None)
             self.map_value(['events', i, 'location', 'state'], None)
             self.map_value(['events', i, 'location', 'city'], event.get('location', {}).get(
-                'address', {}).get('addressLocality', {}), action=self.capitalize_string)
+                'address', {}).get('addressLocality'), action=self.capitalize_string)
             self.map_value(['events', i, 'location', 'postalCode'], event.get(
-                'location', {}).get('address', {}).get('postalCode', {}))
+                'location', {}).get('address', {}).get('postalCode'))
             self.map_value(['events', i, 'location', 'country'], event.get(
-                'location', {}).get('address', {}).get('countryCode', {}))
-            fullStat1 = ""
-            stat = event.get('status')
-            stat2 = event.get('statusCode')
-            if stat is not None:
-                fullStat1 = fullStat + stat
-            elif stat2 is not None:
-                fullStat1 = fullStat + stat2
-            self.map_value(['events', i, 'status'], fullStat1)
+                'location', {}).get('address', {}).get('countryCode'))
+            self.map_value(['events', i, 'status'], event.get('statusCode'))
             i += 1
 
         self.map_value(['estimatedTimeArrival'],
@@ -241,8 +193,7 @@ class DataMapper():
                        self.data.get('DestinationZip'))
         self.map_value(['destination', 'country'], 'US')
 
-        i = 0
-        for event in reversed(self.data.get('TrackDetail')):
+        for i, event in enumerate(reversed(self.data.get('TrackDetail'))):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
             self.map_value(['events', i, 'date'],
@@ -266,11 +217,11 @@ class DataMapper():
         return self.mapped_data
 
     def map_value(self, keys, value, action=None):
-        if (not value or (type(value) == list and not value[0]) or value is None):
+        if (not value or (type(value) == list and not value[0])):
             return
         dict = self.mapped_data
         for i, key in enumerate(keys):
-            if i is len(keys) - 1:
+            if i == len(keys) - 1:
                 if action is not None:
                     dict[key] = action(value)
                 else:
@@ -292,10 +243,10 @@ class FedexAPI():
 
     @staticmethod
     def generate_access_token():
-        headers = {"Content-Type": "application/x-www-form-urlencoded"}
-        data = {"grant_type": "client_credentials", "client_id": SECRETS['FEDEX_ID'],
-                "client_secret": SECRETS['FEDEX_SECRET']}
-        oauth_url = "https://apis.fedex.com/oauth/token"
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        data = {'grant_type': 'client_credentials', 'client_id': SECRETS['FEDEX_ID'],
+                'client_secret': SECRETS['FEDEX_SECRET']}
+        oauth_url = 'https://apis.fedex.com/oauth/token'
 
         response = requests.post(oauth_url, data=data, headers=headers).json()
         FedexAPI.access_token = response.get('access_token')
@@ -306,43 +257,61 @@ class FedexAPI():
     def get_track_package_data(tracking_number):
         if FedexAPI.access_token is None or time.time() > FedexAPI.access_token_expire_date:
             FedexAPI.generate_access_token()
-        headers = {
-            'content-type': 'application/json',
-            'authorization': f"Bearer { FedexAPI.access_token }",
-            'x-locale': 'en_US'
-        }
-        url = 'https://apis.fedex.com/track/v1/trackingnumbers'
-        request_body = {"trackingInfo": [{"trackingNumberInfo": {
-            "trackingNumber": f"{tracking_number}"}}], "includeDetailedScans": True}
-        return requests.post(url, data=json.dumps(request_body), headers=headers).json()
+        try:
+            headers = {
+                'content-type': 'application/json',
+                'authorization': f"Bearer { FedexAPI.access_token }",
+                'x-locale': 'en_US'
+            }
+            url = 'https://apis.fedex.com/track/v1/trackingnumbers'
+            request_body = {'trackingInfo': [{'trackingNumberInfo': {
+                'trackingNumber': f"{tracking_number}"}}], 'includeDetailedScans': True}
+            response = requests.post(url, data=json.dumps(request_body), headers=headers).json()
+            return response if response is not None else errorMessage
+        except requests.exceptions.RequestException as e:
+            logger.warning(e)
+            return errorMessage
 
 
-# USPS TESTING NUMBERS: NONE
+# USPS TESTING NUMBERS: 4209070387179200190314774201833062
 class USPSApi():
     @staticmethod
     def get_track_package_data(tracking_number):
-        url = 'https://secure.shippingapis.com/ShippingAPI.dll'
-        params = {
-            'API': 'TrackV2',
-            'XML': f"""<TrackFieldRequest USERID="{SECRETS['USPS_ID']}"><Revision>1</Revision><ClientIp>122.3.3</ClientIp><SourceId>AI Camp</SourceId><TrackID ID="{tracking_number}"/></TrackFieldRequest>"""
-        }
-        return xmltodict.parse(requests.post(url, params=params).content)
+        try:
+            url = 'https://secure.shippingapis.com/ShippingAPI.dll'
+            params = {
+                'API': 'TrackV2',
+                'XML': f"""<TrackFieldRequest USERID="{SECRETS['USPS_ID']}"><Revision>1</Revision><ClientIp>122.3.3</ClientIp><SourceId>AI Camp</SourceId><TrackID ID="{tracking_number}"/></TrackFieldRequest>"""
+            }
+            return xmltodict.parse(requests.post(url, params=params).content)
+        except requests.exceptions.RequestException as e:
+            logger.warning(e)
+            return errorMessage
+
 
 # DHL TESING NUMBERS 00340434292135100186 7777777770
-
-
 class DHLApi():
     @staticmethod
     def get_track_package_data(tracking_number):
-        url = 'https://api-eu.dhl.com/track/shipments'
-        querystring = ({"trackingNumber": tracking_number})
-        headers = {'DHL-API-Key': SECRETS['DHL_SECRET']}
-        response = requests.request(
-            "GET", url, headers=headers, params=querystring)
-        return response.json()
+        try:
+            url = 'https://api-eu.dhl.com/track/shipments'
+            querystring = ({"trackingNumber": tracking_number})
+            headers = {'DHL-API-Key': SECRETS['DHL_SECRET']}
+            response = requests.request(
+                "GET", url, headers=headers, params=querystring)
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            logger.warning(e)
+            return errorMessage
 
 
 class Carrier(Enum):
     fedex = FedexAPI
     usps = USPSApi
     dhl = DHLApi
+
+
+errorMessage = {
+    'trackingNumber': 'Invalid',
+    'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
+}
