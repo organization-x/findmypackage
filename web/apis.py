@@ -122,7 +122,6 @@ class DataMapper():
         self.map_value(['currentStatus', 'location', 'streetLines'], None)
         self.map_value(['events', 'location', 'state'], None)
         self.map_value(['currentStatus', 'delayDetail'], None)
-        print('Description: ', description)
 
         destination = self.data.get('destination')
         if destination is not None:
