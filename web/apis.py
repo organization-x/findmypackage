@@ -113,7 +113,7 @@ class DataMapper():
         self.map_value(['trackingNumber'], self.data.get('id'))
 
         latestStatus = self.data.get('status')
-        description = f"{str(latestStatus.get('remark') or '')} {str(latestStatus.get('nextSteps') or '')} {str(latestStatus.get('nextSteps') or '')}"
+        description = f"{latestStatus.get('remark') or ''} {latestStatus.get('nextSteps') or ''} {latestStatus.get('nextSteps') or ''}"
         self.map_value(['currentStatus', 'status'], latestStatus.get('statusCode'))
         self.map_value(['currentStatus', 'description'], description)
         self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('location', {}).get('countryCode'))
@@ -158,6 +158,9 @@ class DataMapper():
         return self.mapped_data
 
     def get_mapped_usps_data(self):
+        if self.data.get('Error') is not None:
+            return ERROR_MESSAGE
+
         self.data = self.data.get('TrackResponse', {}).get('TrackInfo')
         if self.data.get('Error') is not None:
             return {
