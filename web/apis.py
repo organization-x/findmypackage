@@ -113,14 +113,16 @@ class DataMapper():
         self.map_value(['trackingNumber'], self.data.get('id'))
 
         latestStatus = self.data.get('status')
+        description = f"{str(latestStatus.get('remark') or '')} {str(latestStatus.get('nextSteps') or '')} {str(latestStatus.get('nextSteps') or '')}"
         self.map_value(['currentStatus', 'status'], latestStatus.get('statusCode'))
-        self.map_value(['currentStatus', 'description'], latestStatus.get('description'))
+        self.map_value(['currentStatus', 'description'], description)
         self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('location', {}).get('countryCode'))
         self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
         self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
         self.map_value(['currentStatus', 'location', 'streetLines'], None)
         self.map_value(['events', 'location', 'state'], None)
         self.map_value(['currentStatus', 'delayDetail'], None)
+        print('Description: ', description)
 
         destination = self.data.get('destination')
         if destination is not None:
