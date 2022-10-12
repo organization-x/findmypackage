@@ -50,22 +50,23 @@ class DataMapper():
         self.map_value(['trackingNumber'], self.data['trackingNumber'])
 
         latestStatus = self.data['trackResults'][0]['latestStatusDetail']
-        self.map_value(['currentStatus', 'status'],
-                       latestStatus.get('statusByLocale'))
-        self.map_value(['currentStatus', 'description'],
-                       latestStatus.get('description'))
-        self.map_value(['currentStatus', 'location', 'streetLines'],
-                       latestStatus.get('scanLocation', {}).get('streetLines'))
-        self.map_value(['currentStatus', 'location', 'city'], latestStatus.get(
-            'scanLocation', {}).get('city'), action=self.capitalize_string)
-        self.map_value(['currentStatus', 'location', 'state'], latestStatus.get(
-            'scanLocation', {}).get('stateOrProvinceCode'))
-        self.map_value(['currentStatus', 'location', 'postalCode'],
-                       latestStatus.get('scanLocation', {}).get('postalCode'))
-        self.map_value(['currentStatus', 'location', 'country'],
-                       latestStatus.get('scanLocation', {}).get('countryCode'))
-        self.map_value(['currentStatus', 'delayDetail'],
-                       latestStatus.get('delayDetail', {}).get('status'))
+        if latestStatus is not None:
+            self.map_value(['currentStatus', 'status'],
+                        latestStatus.get('statusByLocale'))
+            self.map_value(['currentStatus', 'description'],
+                        latestStatus.get('description'))
+            self.map_value(['currentStatus', 'location', 'streetLines'],
+                        latestStatus.get('scanLocation', {}).get('streetLines'))
+            self.map_value(['currentStatus', 'location', 'city'], latestStatus.get(
+                'scanLocation', {}).get('city'), action=self.capitalize_string)
+            self.map_value(['currentStatus', 'location', 'state'], latestStatus.get(
+                'scanLocation', {}).get('stateOrProvinceCode'))
+            self.map_value(['currentStatus', 'location', 'postalCode'],
+                        latestStatus.get('scanLocation', {}).get('postalCode'))
+            self.map_value(['currentStatus', 'location', 'country'],
+                        latestStatus.get('scanLocation', {}).get('countryCode'))
+            self.map_value(['currentStatus', 'delayDetail'],
+                        latestStatus.get('delayDetail', {}).get('status'))
 
         address = self.data['trackResults'][0].get(
             'lastUpdatedDestinationAddress')
@@ -81,7 +82,7 @@ class DataMapper():
             self.map_value(['destination', 'country'],
                            address.get('countryCode', {}))
 
-        for i, event in enumerate(reversed(self.data['trackResults'][0]['scanEvents'])):
+        for i, event in enumerate(reversed(self.data['trackResults'][0]['scanEvents'] or [])):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
             self.map_value(['events', i, 'date'], event.get(
@@ -113,15 +114,16 @@ class DataMapper():
         self.map_value(['trackingNumber'], self.data.get('id'))
 
         latestStatus = self.data.get('status')
-        description = f"{latestStatus.get('remark') or ''} {latestStatus.get('nextSteps') or ''} {latestStatus.get('nextSteps') or ''}"
-        self.map_value(['currentStatus', 'status'], latestStatus.get('statusCode'))
-        self.map_value(['currentStatus', 'description'], description)
-        self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('location', {}).get('countryCode'))
-        self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
-        self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
-        self.map_value(['currentStatus', 'location', 'streetLines'], None)
-        self.map_value(['events', 'location', 'state'], None)
-        self.map_value(['currentStatus', 'delayDetail'], None)
+        if latestStatus is not None:
+            description = f"{latestStatus.get('remark') or ''} {latestStatus.get('nextSteps') or ''} {latestStatus.get('nextSteps') or ''}"
+            self.map_value(['currentStatus', 'status'], latestStatus.get('statusCode'))
+            self.map_value(['currentStatus', 'description'], description)
+            self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('location', {}).get('countryCode'))
+            self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
+            self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
+            self.map_value(['currentStatus', 'location', 'streetLines'], None)
+            self.map_value(['events', 'location', 'state'], None)
+            self.map_value(['currentStatus', 'delayDetail'], None)
 
         destination = self.data.get('destination')
         if destination is not None:
@@ -135,7 +137,7 @@ class DataMapper():
             self.map_value(['destination', 'country'],
                            address.get('countryCode'))
 
-        for i, event in enumerate(reversed(self.data.get('events'))):
+        for i, event in enumerate(reversed(self.data.get('events') or [])):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
             self.map_value(['events', i, 'date'], event.get(
@@ -173,7 +175,7 @@ class DataMapper():
 
         statusSummary = self.data.get('StatusSummary')
         location = [re.sub(r'[^\w\s]', '', item)
-                    for item in statusSummary.split()[-3:]]
+                    for item in statusSummary.split()[-3:]] or ['', '', '']
 
         self.map_value(['currentStatus', 'status'],
                        self.data.get('StatusCategory'))
@@ -197,7 +199,7 @@ class DataMapper():
                        self.data.get('DestinationZip'))
         self.map_value(['destination', 'country'], 'US')
 
-        for i, event in enumerate(reversed(self.data.get('TrackDetail'))):
+        for i, event in enumerate(reversed(self.data.get('TrackDetail') or [])):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
             self.map_value(['events', i, 'date'],
