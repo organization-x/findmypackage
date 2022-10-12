@@ -52,21 +52,21 @@ class DataMapper():
         latestStatus = self.data['trackResults'][0]['latestStatusDetail']
         if latestStatus is not None:
             self.map_value(['currentStatus', 'status'],
-                        latestStatus.get('statusByLocale'))
+                           latestStatus.get('statusByLocale'))
             self.map_value(['currentStatus', 'description'],
-                        latestStatus.get('description'))
+                           latestStatus.get('description'))
             self.map_value(['currentStatus', 'location', 'streetLines'],
-                        latestStatus.get('scanLocation', {}).get('streetLines'))
+                           latestStatus.get('scanLocation', {}).get('streetLines'))
             self.map_value(['currentStatus', 'location', 'city'], latestStatus.get(
                 'scanLocation', {}).get('city'), action=self.capitalize_string)
             self.map_value(['currentStatus', 'location', 'state'], latestStatus.get(
                 'scanLocation', {}).get('stateOrProvinceCode'))
             self.map_value(['currentStatus', 'location', 'postalCode'],
-                        latestStatus.get('scanLocation', {}).get('postalCode'))
+                           latestStatus.get('scanLocation', {}).get('postalCode'))
             self.map_value(['currentStatus', 'location', 'country'],
-                        latestStatus.get('scanLocation', {}).get('countryCode'))
+                           latestStatus.get('scanLocation', {}).get('countryCode'))
             self.map_value(['currentStatus', 'delayDetail'],
-                        latestStatus.get('delayDetail', {}).get('status'))
+                           latestStatus.get('delayDetail', {}).get('status'))
 
         address = self.data['trackResults'][0].get(
             'lastUpdatedDestinationAddress')
