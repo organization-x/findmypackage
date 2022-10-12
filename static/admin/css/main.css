@@ -31,10 +31,6 @@ main {
     position: 300px 300px;
 }
  
- 
- 
- 
- 
 .app {
     display:inline;
     min-height: 100vh;
@@ -63,9 +59,10 @@ main {
 .sidebar .menu .menu-item:hover,
 .sidebar .menu .menu-item.is-active {
     margin-top: 3em;
-    color: #fff;
+    color: #ADAEF1;
     border-bottom: 7px solid #ADAEF1;
 }
+ 
  
 .content {
     flex: 1 1 0;
@@ -76,7 +73,6 @@ main {
     margin-bottom: 1rem;
     margin-top: 5rem;
 }
- 
  
 .hero-bg {
     background: url('../img/bg.blue.jpg');
@@ -122,7 +118,7 @@ h1 span {
     margin: 5em 0 5em 0;
     padding: 2rem;
 }
- 
+
 label {
     color: black;
     font-weight: bold;

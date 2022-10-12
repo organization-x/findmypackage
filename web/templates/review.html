@@ -4,18 +4,49 @@
 <head>
     <meta charset="utf-8">
     <title>Reviews</title>
-    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/reviews.css' %}">
 </head>
 
 <body>
-    <h1>
-        <a href="{% url 'main' %}" style="color:#ffffff">FindMyPackage</a> 
-        <small> 
-            | <b><a href="{% url 'about' %}">about us</a></b> |
-            <a href="{% url 'faq' %}">facts and questions</a>
-        </small>
-    </h1>
-    <hr>
-    <h2>Reviews</h2>
+
+        <div class="app">
+
+            <div class="menu-toggle">
+                <div class="hamburger">
+                    <span></span>
+                </div>
+            </div>
+    
+            <aside class="sidebar">
+    
+                <div class="holder">
+                    <label for="" class="toggle-btn">
+                        <span></span>
+                </div>
+    
+                <h3></h3>
+                <nav class="menu">
+                    <a href="{% url 'main' %}" class="menu-item ">Track</a>
+                    <a href="{% url 'faq' %}" class="menu-item">FAQs</a>
+                    <a href="{% url 'about' %}" class="menu-item">About</a>
+                    <a href="{% url 'reviews' %}" class="menu-item is-active">Reviews</a>
+    
+                </nav>
+            </aside>
+        </div>
+        <main class="content"></main>
+    <div class="hero-bg">
+             <h2>Reviews</h2>
+            <p>Read or add a review!</p>
+    </div>
+        </section>
+    </div>
+    <section class="Reviews">
+        <div class="right-col">
+
+    <img src="{% static 'admin/img/getting.package.jpg' %}" alt="getting a package delivered">
+        </div>
+    </section>
+</main>
 </body>
 </html>

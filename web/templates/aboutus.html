@@ -4,17 +4,42 @@
 <head>
     <meta charset="utf-8">
     <title>About Us</title>
-    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/aboutus.css' %}" />
 </head>
 
 <body>
-    <h1>
-        <a href="{% url 'main' %}" style="color:#ffffff">FindMyPackage</a> 
-        <small> 
-            | <b><a href="{% url 'about' %}">about us</a></b> |
-            <a href="{% url 'faq' %}">facts and questions</a>
-        </small>
-    </h1>
+    <div class="app">
+
+        <div class="menu-toggle">
+            <div class="hamburger">
+                <span></span>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+
+            <div class="holder">
+                <label for="" class="toggle-btn">
+                    <span></span>
+            </div>
+
+            <h3></h3>
+            <nav class="menu">
+                <a href="{% url 'main' %}" class="menu-item">Track</a>
+                <a href="{% url 'faq' %}" class="menu-item">FAQs</a>
+                <a href="{% url 'about' %}" class="menu-item is-active">About</a>
+                <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
+
+            </nav>
+        </aside>
+    </div>
+
+        <main class="content">
+            <div class="hero-bg">
+                <section class="top">
+                    <header>
+                        <a href="/">FindMyPackage</a>
+                    </header>
     <hr>
     <p>
         <ul>
@@ -31,9 +56,20 @@
             </li>
             <li><u>Our Mission:</u> track packages</li>
         </ul>
-        <br>
-        <br>
-        <a href="{% url 'main' %}">back</a>
+
+                </section>
+            </div>
+    
+            <section class="About">
+                <div class="right-col">
+                    <h2>About</h2>
+                    <p>We are the Find My Package Team!</p>
+                </div>
+            </section>
+            </div>
+        </main>
+    </body>
+    </html>
     </p>
 </body>
 </html>
