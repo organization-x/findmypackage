@@ -22,6 +22,7 @@ body {
 .sidebar .menu {
     margin: 0 -1rem;
     transition: 0.5s;
+    padding-left: 25px;
 }
  
 .sidebar .menu .menu-item {
@@ -37,6 +38,15 @@ body {
     margin-top: 3em;
     color: #ADAEF1;
     border-bottom: 7px solid #ADAEF1;
+}
+
+header a {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-top: 1000px;
+    margin: 20em 0 0 0;
+    color: white;
+    text-decoration: none;
 }
 
 @media (min-width: 930px) {
