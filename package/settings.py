@@ -108,6 +108,25 @@ DATABASES = {
     }
 }
 
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'TBD',
+            'USER': 'TBD',
+            'PASSWORD': 'TBD',
+            'HOST': 'TBD',
+            'PORT': 'TBD',
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'data' / 'db.sqlite3',
+        }
+    }
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -145,7 +164,7 @@ APPEND_SLASH = False
 
 if not os.path.exists(BASE_DIR / 'data'):
     os.makedirs(BASE_DIR / 'data')
-    
+
 if not os.path.exists(BASE_DIR / MEDIA_URL):
     os.makedirs(BASE_DIR / MEDIA_URL)
 
