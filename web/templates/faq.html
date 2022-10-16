@@ -1,21 +1,73 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>FAQ</title>
-    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/faq.css' %}" type="text/css">
+    
 </head>
 
 <body>
-    <h1>
-        <a href="{% url 'main' %}" style="color:#ffffff">FindMyPackage</a> 
-        <small> 
-            | <b><a href="{% url 'about' %}">about us</a></b> |
-            <a href="{% url 'faq' %}">facts and questions</a>
-        </small>
-    </h1>
-    <hr>
-    <h2>FAQ</h2>
+   <div class="app">
+
+        <div class="menu-toggle">
+            <div class="hamburger">
+                <span></span>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+
+            <div class="holder">
+                <label for="" class="toggle-btn">
+                    <span></span>
+            </div>
+
+            <nav class="menu">
+                <a href="{% url 'main' %}" class="menu-item">Track</a>
+                <a href="{% url 'faq' %}" class="menu-item is-active">FAQs</a>
+                <a href="{% url 'about' %}" class="menu-item">Developers</a>
+                <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
+
+            </nav>
+        </aside>
+    </div>
+    <div class="hero-bg">
+      <section class="top">
+          <header>
+              <a href="/">FindMyPackage</a>
+          </header>
+
+          <div class="accordion-body">
+            <div class="accordion">
+              <h1>Frequently Asked Questions</h1>
+              <hr>
+              <div class="container">
+                <div class="label">What is FindMyPackage?</div>
+                <div class="content">FindMyPackage is an available website for all individuals with the purpose of providing a precise real-time location and estimated time of arrival for packages ordered online. </div>
+              </div>
+              <hr>
+              <div class="container">
+                <div class="label">How do I use it?</div>
+                <div class="content">To use FindMyPackage, enter shipping number and hit "track" to view a shipping infromation.
+          </div>
+              </div>
+              <hr>
+              <div class="container">
+                <div class="label">What couriers can it track?</div>
+                <div class="content">FindMyPackage can provide shipping infromation from packages being delivered by UPS, USPS, FedEx, and DHL.</div>
+              </div>
+              <hr>
+            </div>
+            </div>
+          
+
+
+        
+</div>
+<script src="{% static 'admin/js/faq.js' %}" type="text/javascript"></script>
 </body>
 </html>

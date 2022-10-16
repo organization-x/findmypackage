@@ -5,6 +5,9 @@ import logging
 
 from .apis import DataMapper, Carrier
 
+from package.settings import SECRETS
+
+
 class MainView(TemplateView):
     def __init__(self):
         self.logger = logging.getLogger('fmp')
@@ -34,6 +37,7 @@ class TrackView(TemplateView):
                 ).get_mapped_data()
                 if data.get('errorMessage') is None:
                     break
+            data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']        
         return render(
             request,
             self.template_name,
