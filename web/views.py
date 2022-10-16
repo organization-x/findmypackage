@@ -65,11 +65,9 @@ class ReviewsView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         reviews = list(Review.objects.all())
-        print(reviews)
         context = {
             'reviews': random.sample(reviews, 5) if len(reviews) > 5 else random.sample(reviews, len(reviews))
         }
-        print(context)
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
