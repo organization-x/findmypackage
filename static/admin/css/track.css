@@ -5,12 +5,13 @@
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
-    display:grid;
+    display: grid;
 }
 
 
-.app {grid-area: bar;
- 
+.app {
+    grid-area: bar;
+
 }
 
 .sidebar {
@@ -19,20 +20,20 @@ body {
     padding: 1rem 0.5rem;
     background-color: #4A7FCB;
 }
- 
+
 .sidebar .menu {
     margin: 0 -1rem;
     transition: 0.5s;
 }
- 
+
 .sidebar .menu .menu-item {
-    display:inline;
+    display: inline;
     padding: 1em;
     color: whitesmoke;
     text-decoration: none;
     transition: 0.2s linear;
 }
- 
+
 .sidebar .menu .menu-item:hover,
 .sidebar .menu .menu-item.is-active {
     margin-top: 3em;
@@ -58,24 +59,24 @@ header a {
 }
 
 .map-container {
-    
-        background-color: rgb(255, 255, 255);
-        box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
-        margin-left: auto;
-        margin-right: auto;
-        width: 90%;      
-        text-align: center;
-        margin: 1em;
-        float:left;
-        border-radius: 25px;
+
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    text-align: center;
+    margin: 1em;
+    float: left;
+    border-radius: 25px;
 }
 
 .map-container iframe {
-padding: 0;
-margin: 0 0 -5px 0;
-background-color: rgb(255, 255, 255);
-box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
-border-radius: 25px;
+    padding: 0;
+    margin: 0 0 -5px 0;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
+    border-radius: 25px;
 }
 
 .Date-container {
@@ -88,7 +89,7 @@ border-radius: 25px;
     padding: 1rem 7rem 1rem 7rem;
     text-align: center;
     margin: 1em;
-    float:left;
+    float: left;
     border-radius: 25px;
 }
 
@@ -102,7 +103,7 @@ border-radius: 25px;
     padding: 1rem 7rem 1rem 7rem;
     text-align: center;
     margin: 1em;
-    float:left;
+    float: left;
     border-radius: 25px;
 }
 
@@ -116,7 +117,7 @@ border-radius: 25px;
     padding: 1rem 7rem 1rem 7rem;
     text-align: center;
     margin: 1em;
-    float:left;
+    float: left;
     border-radius: 25px;
 }
 
@@ -124,34 +125,34 @@ border-radius: 25px;
 
 h1 {
     text-align: center;
-  }
-  
-  /* Sets the width for the accordion. Sets the margin to 90px on the top and bottom and auto to the left and right */
-  
-  .accordion {
+}
+
+/* Sets the width for the accordion. Sets the margin to 90px on the top and bottom and auto to the left and right */
+
+.accordion {
     width: 400px;
     margin: 10px auto;
     color: black;
     background-color: white;
     padding: 45px 45px;
-  }
+}
 
-  .accordion .container {
+.accordion .container {
     position: relative;
     margin: 10px 10px;
-  }
-  
-  /* Positions the labels relative to the .container. Adds padding to the top and bottom and increases font size. Also makes its cursor a pointer */
-  
-  .accordion .label {
+}
+
+/* Positions the labels relative to the .container. Adds padding to the top and bottom and increases font size. Also makes its cursor a pointer */
+
+.accordion .label {
     position: relative;
     padding: 10px 0;
     font-size: 15px;
     color: black;
-  }
+}
 
 
-  .accordion .label::before {
+.accordion .label::before {
     content: '+';
     color: black;
     position: absolute;
@@ -159,11 +160,11 @@ h1 {
     right: -5px;
     font-size: 15px;
     transform: translateY(-50%);
-  }
-  
-  /* Hides the content (height: 0), decreases font size, justifies text and adds transition */
-  
-  .accordion .content {
+}
+
+/* Hides the content (height: 0), decreases font size, justifies text and adds transition */
+
+.accordion .content {
     position: relative;
     background: white;
     height: 0;
@@ -173,36 +174,36 @@ h1 {
     overflow: hidden;
     transition: 0.5s;
     margin: 10px;
-  }
-  
-  /* Adds a horizontal line between the contents */
-  
-  .accordion hr {
+}
+
+/* Adds a horizontal line between the contents */
+
+.accordion hr {
     margin: 10px;
     width: 100;
     margin-left: 0;
     border: 1px solid grey;
-  }
+}
 
 /* Unhides the content part when active. Sets the height */
 
 .accordion .container.active .content {
     height: auto;
-  }
-  
-  /* Changes from plus sign to negative sign once active */
-  
-  .accordion .container.active .label::before {
+}
+
+/* Changes from plus sign to negative sign once active */
+
+.accordion .container.active .label::before {
     content: '-';
     font-size: 40px;
-  }
+}
 
 
 @media (min-width: 730px) {
     .map-container {
         padding: 0;
         border-radius: 25px;
-        width: 50%;  
+        width: 50%;
     }
 
     .Date-container {
@@ -210,13 +211,14 @@ h1 {
         margin-right: auto;
         width: 30%;
     }
-    .location-container{
+
+    .location-container {
         margin-left: auto;
         margin-right: auto;
         width: 30%;
     }
 
-    .ToBeDetermined-container{
+    .ToBeDetermined-container {
         margin-left: auto;
         margin-right: auto;
         width: 30%;
@@ -225,18 +227,18 @@ h1 {
 
 
 @media (min-width: 930px) {
-.sidebar {
-    text-align: center;
-    padding-left: 1em;
-    padding-right: 2em;
-}
+    .sidebar {
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 2em;
+    }
 
-.accordion {
-    width: 900px;
-}
+    .accordion {
+        width: 900px;
+    }
 
-.accordion .content {
-    width: 900px;
-}
+    .accordion .content {
+        width: 900px;
+    }
 
 }

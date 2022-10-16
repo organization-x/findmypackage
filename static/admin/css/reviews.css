@@ -1,50 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
- 
-/*custom properties*/
- 
-:root {
-    --leading: 2em;
-    --text1: hsl(150 100% 8%);
-    --text2: hsl(150 10% 60%);
-    --bkg1: hsl(190 70% 94.5%);
-    --bkg2: hsl(190 70% 99.5%);
-    --accent1:#4A7FCB;
-    --accent2:#4A7FCB;
-    --gradient: linear-gradient(to right, var(--accent1), var(--accent2));
-  }
 
- 
+/*custom properties*/
+
+:root {
+  --leading: 2em;
+  --text1: hsl(150 100% 8%);
+  --text2: hsl(150 10% 60%);
+  --bkg1: hsl(190 70% 94.5%);
+  --bkg2: hsl(190 70% 99.5%);
+  --accent1: #4A7FCB;
+  --accent2: #4A7FCB;
+  --gradient: linear-gradient(to right, var(--accent1), var(--accent2));
+}
+
+
 body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    display:grid;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  display: grid;
 }
 
 .sidebar {
-    transition: 0.5s;
-    max-height: 400px;
-    padding: 1rem 1rem;
-    background-color: #4A7FCB;
+  transition: 0.5s;
+  max-height: 400px;
+  padding: 1rem 1rem;
+  background-color: #4A7FCB;
 }
- 
+
 .sidebar .menu {
-    margin: 0 -1rem;
-    transition: 0.5s;
+  margin: 0 -1rem;
+  transition: 0.5s;
 }
- 
+
 .sidebar .menu .menu-item {
-    display:inline;
-    padding: 1em;
-    color: whitesmoke;
-    text-decoration: none;
-    transition: 0.2s linear;
+  display: inline;
+  padding: 1em;
+  color: whitesmoke;
+  text-decoration: none;
+  transition: 0.2s linear;
 }
- 
+
 .sidebar .menu .menu-item:hover,
 .sidebar .menu .menu-item.is-active {
-    margin-top: 3em;
-    color: #ADAEF1;
-    border-bottom: 7px solid #ADAEF1;
+  margin-top: 3em;
+  color: #ADAEF1;
+  border-bottom: 7px solid #ADAEF1;
 }
 
 header a {
@@ -59,27 +59,26 @@ header a {
   margin: 0.4em 0 0 0;
 }
 
-.workbench.action.debug.selectandstart
-hr {
-    margin-top: 0;
+.workbench.action.debug.selectandstart hr {
+  margin-top: 0;
 }
 
 .hero-bg {
-    background: url('../img/bg.blue.jpg');
-    background-position: 0% 75%;
-    color: white;
-    text-align: center;
-    padding-bottom: 4em;
+  background: url('../img/bg.blue.jpg');
+  background-position: 0% 75%;
+  color: white;
+  text-align: center;
+  padding-bottom: 4em;
 }
 
 img {
-    width: 100%;
+  width: 100%;
 }
 
 
 
 .hero-bg .slider {
-  color:black;
+  color: black;
 }
 
 
@@ -115,19 +114,19 @@ img {
   cursor: pointer;
 }
 
-.arrow:is(:hover, :focus){
+.arrow:is(:hover, :focus) {
   color: var(--text1);
 }
 
 .arrow svg {
-  pointer-events: none;  
+  pointer-events: none;
 }
 
 #arrow--right {
   right: 4%;
 }
 
-#arrow--right:is(:hover, :focus){
+#arrow--right:is(:hover, :focus) {
   transform: translate(10%, -50%);
 }
 
@@ -144,7 +143,8 @@ img {
   transition: all 250ms ease-in-out;
 }
 
-#arrow--right:hover::before, #arrow--right:focus::before {
+#arrow--right:hover::before,
+#arrow--right:focus::before {
   transform: translate(4%, -2%) scale(.8);
 }
 
@@ -152,7 +152,7 @@ img {
   left: 4%;
 }
 
-#arrow--left:is(:hover, :focus){
+#arrow--left:is(:hover, :focus) {
   transform: translate(-10%, -50%);
 }
 
@@ -169,7 +169,8 @@ img {
   transition: all 250ms ease-in-out;
 }
 
-#arrow--left:hover::before, #arrow--left:focus::before {
+#arrow--left:hover::before,
+#arrow--left:focus::before {
   transform: translate(-4%, -2%) scale(.8);
 }
 
@@ -195,7 +196,7 @@ img {
 .review_stars {
   width: 25px;
   margin: 0;
-  float:left;
+  float: left;
 }
 
 .review_stars::after {
@@ -206,14 +207,14 @@ img {
 
 .review_stars img {
   margin: 0;
-  float:left;
+  float: left;
 }
 
 .review_body {
   max-width: 65%;
   font-size: 0.9em;
   text-align: center;
-  height:auto;
+  height: auto;
 }
 
 .read {
@@ -222,24 +223,36 @@ img {
 }
 
 /* Style inputs with type="text", select elements and textareas */
-input[type=text], select, textarea {
-  width: 100%; /* Full width */
-  padding: 12px; /* Some padding */ 
-  border: 1px solid #ccc; /* Gray border */
-  border-radius: 4px; /* Rounded borders */
-  box-sizing: border-box; /* Make sure that padding and width stays in place */
-  margin-top: 6px; /* Add a top margin */
-  margin-bottom: 16px; /* Bottom margin */
-  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+input[type=text],
+select,
+textarea {
+  width: 100%;
+  /* Full width */
+  padding: 12px;
+  /* Some padding */
+  border: 1px solid #ccc;
+  /* Gray border */
+  border-radius: 4px;
+  /* Rounded borders */
+  box-sizing: border-box;
+  /* Make sure that padding and width stays in place */
+  margin-top: 6px;
+  /* Add a top margin */
+  margin-bottom: 16px;
+  /* Bottom margin */
+  resize: vertical
+    /* Allow the user to vertically resize the textarea (not horizontally) */
 }
 
-.container input, select, textarea {
+.container input,
+select,
+textarea {
   border-color: #4A7FCB;
 }
 
 /* Style the submit button with a specific background color etc */
 input[type=submit] {
-  background-color: #00C185 ;
+  background-color: #00C185;
   color: white;
   border-color: #00C185;
   padding: 10px 0;
@@ -251,7 +264,7 @@ input[type=submit] {
 
 /* When moving the mouse over the submit button, add a darker green color */
 input[type=submit]:hover {
-  background-color:#0b996c;
+  background-color: #0b996c;
   border-color: #0b996c;
 }
 
@@ -267,59 +280,61 @@ input[type=submit]:hover {
 
 
 @media (min-width: 730px) {
- 
-    .container {
-      margin-left: 20%;
-      margin-right: 20%;
-      border-radius: 25px;
-      background-color: white;
-      box-shadow: 0 2px 10px 2px rgb(167, 210, 236);
-    }
- 
-    .review-container {
-      background-color: white;
-      box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
-      margin-left: 20%;
-      margin-right: 20%;
-      border-radius: 25px;
-      display: flex;
-    }
-    .review_stars {
-      width: 25px;
-      margin: 0;
-      float:left;
-    }
+
+  .container {
+    margin-left: 20%;
+    margin-right: 20%;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: 0 2px 10px 2px rgb(167, 210, 236);
+  }
+
+  .review-container {
+    background-color: white;
+    box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
+    margin-left: 20%;
+    margin-right: 20%;
+    border-radius: 25px;
+    display: flex;
+  }
+
+  .review_stars {
+    width: 25px;
+    margin: 0;
+    float: left;
+  }
 }
 
- 
+
 @media (min-width: 930px) {
- 
-    .sidebar {
-        text-align: center;
-        padding-left: 1em;
-        padding-right: 2em;
-    }
- 
- 
- 
-    .hero-bg {
-        text-align: center;
-    }
- 
-    section.Reviews{
-        display:grid;
-        margin: 0 0 0 0;
-        padding: 0 0;
-        grid-template-columns: repeat(2, 50%);
-        grid-template-areas:
-        "image text"
-    }
-    .right-col {
-        grid-area: text;
-        padding: 0 10%;
-        text-align: left;
-        align-self: center;
- 
-    }
- 
+
+  .sidebar {
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 2em;
+  }
+
+
+
+  .hero-bg {
+    text-align: center;
+  }
+
+  section.Reviews {
+    display: grid;
+    margin: 0 0 0 0;
+    padding: 0 0;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-areas:
+      "image text"
+  }
+
+  .right-col {
+    grid-area: text;
+    padding: 0 10%;
+    text-align: left;
+    align-self: center;
+
+  }
+
 }

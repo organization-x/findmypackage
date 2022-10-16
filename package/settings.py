@@ -8,7 +8,6 @@ SECRET_KEY = os.environ.get('FMP_DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('FMP_DJANGO_DEBUG') == 'true'
-print(DEBUG)
 
 SECRETS = {
     'FEDEX_ID': os.environ.get('FMP_FEDEX_ID'),

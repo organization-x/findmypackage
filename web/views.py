@@ -37,7 +37,7 @@ class TrackView(TemplateView):
                 ).get_mapped_data()
                 if data.get('errorMessage') is None:
                     break
-        data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']        
+            data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']        
         return render(
             request,
             self.template_name,
