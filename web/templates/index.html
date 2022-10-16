@@ -54,7 +54,16 @@
                             <input class="form-left-input" type="text" name="tracking_id" id="tracking_id_input">
                         </div>
                         <input class="submit" type="submit" value="submit">
+                        
                     </form>
+                    {% if error %}
+                        <p style="
+                            color: red;
+                            margin: 0;
+                        ">
+                            no information was found pertaining to that tracking number
+                        </p>
+                    {% endif %}
                 </div>
             </section>
         </div>

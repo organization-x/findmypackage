@@ -42,9 +42,9 @@
         <header>
             <a href="/">FindMyPackage</a>
         </header>
-<div class="read">
-             <p>Read a review</p>
-</div>
+    <div class="read">
+        <p>Read a review</p>
+    </div>
 
 
     <div class="review-container">
@@ -56,6 +56,17 @@
         </button>
 
         <div class="reviews">
+            <!-- TESTING -->
+            {% for review in reviews %}
+                <div class="review">
+                    <p class="review_name"><strong>{{ review.author }}</strong></p>
+                    <div class="review_stars_column">
+                        {{ review.stars }}
+                    </div>
+                    <p class="review_body">{{ review.content }}</p>
+                </div>
+            {% endfor %}
+
             <div class="review">
                 <p class="review_name"><strong>First Last</strong></p>
                 <div class="review_stars_column">
@@ -77,45 +88,39 @@
                 </div>
                 <p class="review_body">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus iure assumenda ipsam harum. Impedit, vero perferendis? Deleniti optio repellendus, repellat alias veniam voluptas consectetur, quod, nostrum aperiam placeat consequatur rem eos dolor ullam!</p>
             </div>
-            </div>
-       </div>
+        </div>
+    </div>
 
         <button class="arrow" id="arrow--right">
             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><polyline points="144 56 216 128 144 200" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline></svg>
         </button>
     </div>
 
-
 <div class="read">
 <h4>Write a review</h4>
 </div>
 
-<div class="container">
-
-      <label for="fname">Name</label>
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
-  
-      <label for="country">Rating</label>
-      <select id="country" name="country">
-        <option value="5-stars">5 stars</option>
-        <option value="4-stars">4 stars</option>
-        <option value="3-stars">3 stars</option>
-        <option value="2-stars">2 stars</option>
-        <option value="1-star">1 star</option>
-      </select>
-  
-      <label for="subject">Subject</label>
-      <textarea id="subject" name="subject" placeholder="Share your opinions.." style="height:200px"></textarea>
-  
-      <input type="submit" value="submit">
-  
-
-  </div>
-
-
-
-
-
+    <div class="container">
+        <form action="{% url 'reviews' %}" method="post">
+            {% csrf_token %}
+            <label for="name_input">Name</label>
+            <input type="text" id="name_input" name="name" placeholder="Your name..">
+    
+            <label for="stars_input">Rating</label>
+            <select id="stars_input" name="stars">
+            <option value="5">5 stars</option>
+            <option value="4">4 stars</option>
+            <option value="3">3 stars</option>
+            <option value="2">2 stars</option>
+            <option value="1">1 star</option>
+            </select>
+    
+            <label for="subject_input">Subject</label>
+            <textarea id="subject_input" name="subject" placeholder="Share your opinions.." style="height:200px"></textarea>
+    
+            <input type="submit" value="submit">
+        </form>
+    </div>
 </div>
 </body>
 </html>
