@@ -25,17 +25,11 @@ main {
     grid-area: about;
 }
  
- 
- 
 .holder:checked{
     position: 300px 300px;
 }
- 
-.app {
-    display:inline;
-    min-height: 100vh;
-}
- 
+
+
 .sidebar {
     transition: 0.5s;
     max-height: 400px;
@@ -62,11 +56,22 @@ main {
     color: #ADAEF1;
     border-bottom: 7px solid #ADAEF1;
 }
+
+header a {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-top: 1000px;
+    margin: 20em 0 0 0;
+    color: white;
+    text-decoration: none;
+}
+
  
  
 .content {
     flex: 1 1 0;
     margin: 4.8em 0 0 0;
+    
 }
  
 .content h1 {
@@ -76,14 +81,12 @@ main {
  
 .hero-bg {
     background: url('../img/bg.blue.jpg');
+    margin-left: auto;
+    margin-right: auto;
     background-position: 0% 75%;
     color: white;
     text-align: center;
     padding-bottom: 4em;
-}
- 
-header {
-    padding: 1em 0;
 }
  
  
@@ -149,6 +152,29 @@ input[type=button]:hover {
     background-color: #0b996c;
 }
  
+.track-container .form-left-input {
+    border-color: #4A7FCB;
+    color:black;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+}
+
+.track-container .submit {
+    border-radius: 5px;
+    background-color: #00C185;
+    color: white;
+    border-color:#00C185;
+    width: 18%;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.track-container .submit:hover {
+    background-color:#0b996c;
+    border-color:#0b996c;
+}
+
 .About {
     margin: 0;
 }

@@ -16,7 +16,6 @@
 
         <div class="menu-toggle">
             <div class="hamburger">
-                <span></span>
             </div>
         </div>
 
@@ -27,14 +26,12 @@
                     <span></span>
             </div>
 
-            <h3></h3>
             <nav class="menu">
                 <a href="#About" class="menu-item">About</a>
                 <a href="{% url 'main' %}" class="menu-item is-active">Track</a>
                 <a href="{% url 'faq' %}" class="menu-item">FAQs</a>
-                <a href="{% url 'about' %}" class="menu-item">About</a>
-                <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
                 <a href="{% url 'about' %}" class="menu-item">Developers</a>
+                <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
             </nav>
         </aside>
     </div>
@@ -54,9 +51,9 @@
                         {% csrf_token %}
                         <div class="form-left">
                             <label for="tracking_id_input">Enter your package ID:</label>
-                            <input type="text" name="tracking_id" id="tracking_id_input">
+                            <input class="form-left-input" type="text" name="tracking_id" id="tracking_id_input">
                         </div>
-                        <input type="submit" value="submit">
+                        <input class="submit" type="submit" value="submit">
                     </form>
                 </div>
             </section>
@@ -69,7 +66,6 @@
             </div>
             <img src="{% static 'admin/img/peoplewpackages.jpg' %}" alt="picture of people with packages">
         </section>
-        </div>
     </main>
 </body>
 </html>
