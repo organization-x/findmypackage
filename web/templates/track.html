@@ -35,7 +35,7 @@
                     style="width: 100%; height: 500px;"
                     frameborder="0" style="border:0"
                     referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=FMP_MAPS_KEY={{ currentStatus.location.city }},{{ currentStatus.location.state }},{{currentStatus.location.country }}"
+                    src="https://www.google.com/maps/embed/v1/place?key={{ FMP_MAPS_KEY }}&q={{ currentStatus.location.city }},{{ currentStatus.location.state }},{{currentStatus.location.country }}"
                     allowfullscreen>
                     </iframe>
                 </div>
