@@ -8,10 +8,10 @@
             "streetLines": [
                 "Not available"
             ],
-            "city": "N/A",
-            "state": "N/A",
-            "postalCode": "N/A",
-            "country": "N/A"
+            "city": "",
+            "state": "",
+            "postalCode": "",
+            "country": ""
         },
         "delayDetail": "Not available"
     },

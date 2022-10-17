@@ -8,9 +8,8 @@ from enum import Enum
 import requests
 import xmltodict
 from dateutil import parser
-
+from django.utils import timezone
 from package.settings import SECRETS
-
 
 logger = logging.getLogger('fmp')
 
@@ -101,8 +100,9 @@ class DataMapper():
                            event.get('scanLocation', {}).get('countryCode'))
             self.map_value(['events', i, 'status'], event.get('derivedStatus'))
 
-        self.map_value(['estimatedTimeArrival'], self.data['trackResults'][0].get(
-            'estimatedDeliveryTimeWindow', {}).get('window'))
+        delivery_window = self.data['trackResults'][0].get(
+            'estimatedDeliveryTimeWindow', {}).get('window', {})
+        self.map_value(['estimatedTimeArrival'],  f"{self.format_date(delivery_window.get('begins')) or 'N/A'} to {self.format_date(delivery_window.get('ends')) or 'N/A'}")
         return self.mapped_data
 
     def get_mapped_dhl_data(self):
@@ -122,7 +122,7 @@ class DataMapper():
             self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
             self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
             self.map_value(['currentStatus', 'location', 'streetLines'], None)
-            self.map_value(['events', 'location', 'state'], None)
+            self.map_value(['currentStatus', 'location', 'country'], None)
             self.map_value(['currentStatus', 'delayDetail'], None)
 
         destination = self.data.get('destination')
@@ -156,7 +156,7 @@ class DataMapper():
             i += 1
 
         self.map_value(['estimatedTimeArrival'],
-                       f"{self.data.get('estimatedTimeOfDelivery')}, {self.data.get('estimatedTimeOfDeliveryRemark')}")
+                       self.data.get('estimatedTimeOfDelivery'))
         return self.mapped_data
 
     def get_mapped_usps_data(self):
@@ -219,11 +219,11 @@ class DataMapper():
             i += 1
 
         self.map_value(['estimatedTimeArrival'],
-                       f"{self.data.get('ExpectedDeliveryDate')}, {self.data.get('ExpectedDeliveryTime')}")
+                       f"{self.data.get('ExpectedDeliveryDate') or ''} {self.data.get('ExpectedDeliveryTime') or ''}")
         return self.mapped_data
 
     def map_value(self, keys, value, action=None):
-        if (not value or (type(value) == list and not value[0])):
+        if (not value or (type(value) == list and not value[0]) or (type(value) == str and not value.strip())):
             return
         dict = self.mapped_data
         for i, key in enumerate(keys):
@@ -239,10 +239,14 @@ class DataMapper():
         return string.title()
 
     def format_date(self, date):
-        return parser.parse(date)
+        if not date:
+            return None
+        parsed_date = parser.parse(date)
+        date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
+        return date.strftime("%B %-d, %Y, %-I:%M %p")
 
 
-# FEDEX TESTING NUMBERS: 111111111111, 123456789012, 581190049992, 581190049992, 568838414941
+# FEDEX TESTING NUMBERS: 111111111111, 123456789012, 581190049992, 568838414941
 class FedexAPI():
     access_token = None
     access_token_expire_date = None
@@ -279,7 +283,7 @@ class FedexAPI():
             return ERROR_MESSAGE
 
 
-# USPS TESTING NUMBERS: 4209070387179200190314774201833062
+# USPS TESTING NUMBERS:
 class USPSApi():
     @staticmethod
     def get_track_package_data(tracking_number):
