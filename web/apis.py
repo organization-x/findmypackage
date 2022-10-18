@@ -174,21 +174,26 @@ class DataMapper():
         self.map_value(['trackingNumber'], self.data.get('@ID'))
 
         statusSummary = self.data.get('StatusSummary')
-        location = [re.sub(r'[^\w\s]', '', item)
-                    for item in statusSummary.split()[-3:]] or ['', '', '']
+        if statusSummary is not None:
+            # remove unnecessary comment in status summary
+            digits = re.sub(r'[^\d]', '', statusSummary)
+            postalDigitIndex = statusSummary.rfind(re.sub(r'[^\d]', '', statusSummary)[-1]) if digits else -1
+            statusSummary = statusSummary[:(postalDigitIndex+1 if postalDigitIndex!=-1 else len(statusSummary))]
 
-        self.map_value(['currentStatus', 'status'],
-                       self.data.get('StatusCategory'))
-        self.map_value(['currentStatus', 'description'], " ".join(
-            self.data.get('StatusSummary').split()[:-4]))
-        self.map_value(['currentStatus', 'location', 'streetLines'], None)
-        self.map_value(['currentStatus', 'location', 'city'],
-                       location[0], action=self.capitalize_string)
-        self.map_value(['currentStatus', 'location', 'state'], location[1])
-        self.map_value(['currentStatus', 'location',
-                       'postalCode'], location[2])
-        self.map_value(['currentStatus', 'location', 'country'], 'US')
-        self.map_value(['currentStatus', 'delayDetail'], None)
+            location = [re.sub(r'[^\w\s]', '', item) for item in statusSummary.split()[-3:]] or ['', '', '']
+
+            self.map_value(['currentStatus', 'status'],
+                        self.data.get('StatusCategory'))
+            self.map_value(['currentStatus', 'description'], " ".join(
+                self.data.get('StatusSummary').split()[:-4]))
+            self.map_value(['currentStatus', 'location', 'streetLines'], None)
+            self.map_value(['currentStatus', 'location', 'city'],
+                        location[0], action=self.capitalize_string)
+            self.map_value(['currentStatus', 'location', 'state'], location[1])
+            self.map_value(['currentStatus', 'location',
+                        'postalCode'], location[2])
+            self.map_value(['currentStatus', 'location', 'country'], 'US')
+            self.map_value(['currentStatus', 'delayDetail'], None)
 
         self.map_value(['destination', 'streetLines'], None)
         self.map_value(['destination', 'city'], self.data.get(
