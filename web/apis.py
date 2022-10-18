@@ -102,7 +102,9 @@ class DataMapper():
 
         delivery_window = self.data['trackResults'][0].get(
             'estimatedDeliveryTimeWindow', {}).get('window', {})
-        self.map_value(['estimatedTimeArrival'],  f"{self.format_date(delivery_window.get('begins')) or 'N/A'} to {self.format_date(delivery_window.get('ends')) or 'N/A'}")
+        begins, ends, = self.format_date(delivery_window.get('begins')), self.format_date(delivery_window.get('ends'))
+        print(begins, ends)
+        self.map_value(['estimatedTimeArrival'],  f"{begins or 'N/A'} to {ends or 'N/A'}" if begins and ends else None)
         return self.mapped_data
 
     def get_mapped_dhl_data(self):
@@ -288,7 +290,7 @@ class FedexAPI():
             return ERROR_MESSAGE
 
 
-# USPS TESTING NUMBERS:
+# USPS TESTING NUMBERS: 9400136106074907356100 (Lukas')
 class USPSApi():
     @staticmethod
     def get_track_package_data(tracking_number):
