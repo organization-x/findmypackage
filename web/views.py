@@ -1,5 +1,6 @@
 import logging
 import random
+from tkinter import Image
 
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
@@ -66,7 +67,7 @@ class ReviewsView(TemplateView):
     def get(self, request, *args, **kwargs):
         reviews = list(Review.objects.all())
         context = {
-            'reviews': random.sample(reviews, 5) if len(reviews) > 5 else random.sample(reviews, len(reviews))
+            'reviews': random.sample(reviews, 1) if len(reviews) > 1 else random.sample(reviews, len(reviews))
         }
         return render(request, self.template_name, context)
 

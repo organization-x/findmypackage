@@ -43,7 +43,7 @@ body {
 
 .hero-bg {
     margin-top: 7px;
-    background: url('../img/bg.blue.jpg');
+    background: linear-gradient(lightblue, white);
     background-position: 0% 75%;
     color: black;
     text-align: center;
