@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'admin/css/main.css' %}">
+    <script src="{% static 'admin/js/disable_submit_button.js' %}" defer></script>
 </head>
 
 <body>
@@ -47,13 +48,13 @@
                 <h1><span> The Best Way to</span> Track Your Package</h1>
 
                 <div class="track-container">
-                    <form action="{% url 'track' %}" method="post">
+                    <form action="{% url 'track' %}" method="post" id="track_form">
                         {% csrf_token %}
                         <div class="form-left">
                             <label for="tracking_id_input">Enter your package ID:</label>
                             <input class="form-left-input" type="text" name="tracking_id" id="tracking_id_input">
                         </div>
-                        <input class="submit" type="submit" value="submit">
+                        <input class="submit" type="submit" value="submit" id="submit_button">
                         
                     </form>
                     {% if error %}
