@@ -1,6 +1,8 @@
 import logging
 import random
 from tkinter import Image
+from venv import create
+from webbrowser import get
 
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
@@ -8,6 +10,7 @@ from package.settings import SECRETS
 
 from .apis import Carrier, DataMapper
 from .models import Review
+
 
 
 class MainView(TemplateView):
@@ -67,10 +70,10 @@ class ReviewsView(TemplateView):
     def get(self, request, *args, **kwargs):
         reviews = list(Review.objects.all())
         context = {
-            'reviews': random.sample(reviews, 1) if len(reviews) > 1 else random.sample(reviews, len(reviews))
+            'reviews': random.sample(reviews, 10) if len(reviews) > 10 else random.sample(reviews, len(reviews))
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        Review.objects.create(author=request.POST['name'], stars=int(request.POST['stars']), content=request.POST['subject'])
+        Review.objects.create(author=request.POST['name'], stars=request.POST['stars'], content=request.POST['subject'])
         return redirect('reviews')
