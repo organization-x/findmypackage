@@ -1,10 +1,12 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>About Us</title>
     <link rel="stylesheet" href="{% static 'admin/css/aboutus.css' %}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 
 <body>
@@ -23,53 +25,123 @@
                     <span></span>
             </div>
 
-            <h3></h3>
             <nav class="menu">
                 <a href="{% url 'main' %}" class="menu-item ">Track</a>
                 <a href="{% url 'faq' %}" class="menu-item">FAQs</a>
-                <a href="{% url 'about' %}" class="menu-item is-active">Developers</a>
+                <a href="{% url 'about' %}" class="menu-item is-active">Our Team</a>
                 <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
-
             </nav>
         </aside>
     </div>
 
-        <main class="content">
-            <div class="hero-bg">
-                <section class="top">
-                    <header>
-                        <a href="/">FindMyPackage</a>
-                    </header>
-    <hr>
-    <p>
-        <ul>
-            <li>
-                <u>Team Members:</u>
-                <ul>
-                    <li>Lukas - Team Lead</li>
-                    <li>Taimur - Product Manager</li>
-                    <li>Cassidy - Frontend</li>
-                    <li>Stefan - Frontend/Backend</li>
-                    <li>Kaizar - Backend</li>
-                    <li>Jefferson - Backend</li>
-                </ul>
-            </li>
-            <li><u>Our Mission:</u> track packages</li>
-        </ul>
+    <main class="content">
+        <div class="hero-bg">
+            <header>
+                <a href="/">FindMyPackage</a>
+            </header>
 
-                </section>
-            </div>
-    
-            <section class="About">
-                <div class="right-col">
-                    <h2>About</h2>
-                    <p>We are the Find My Package Team!</p>
+            <div class="container">
+                <div class="header">
+                    <h1>Meet Our Team</h1>
                 </div>
-            </section>
+                <div class="sub-container">
+                    <div class="team">
+                        <div class="avatar">
+                            <img src="{% static 'admin/img/avatar.png' %}">
+                        </div>
+                        <div class="name">Lukas Wehlitz</div>
+                        <div class="role">Team Lead</div>
+                        <div class="about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quod quam
+                            odit dolor ex dignissimos tempora dicta. Illum eum debitis dolore, rerum reprehenderit
+                            eaque, deleniti nostrum saepe ex rem nemo!</div>
+
+                        <div class="socials">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team">
+                        <img src="{% static 'admin/img/avatar.png' %}">
+                        <div class="name">Taimur Bajwa</div>
+                        <div class="role">Product Manager & UX/UI Designer</div>
+                        <div class="about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quod quam
+                            odit dolor ex dignissimos tempora dicta. Illum eum debitis dolore, rerum reprehenderit
+                            eaque, deleniti nostrum saepe ex rem nemo!</div>
+
+                        <div class="socials">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team">
+                        <img src="{% static 'admin/img/avatar.png' %}">
+                        <div class="name">Cassidy Blackwood</div>
+                        <div class="role">Frontend Developer & UX/UI Desginer</div>
+                        <div class="about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quod quam
+                            odit dolor ex dignissimos tempora dicta. Illum eum debitis dolore, rerum reprehenderit
+                            eaque, deleniti nostrum saepe ex rem nemo!</div>
+
+                        <div class="socials">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team">
+                        <img src="{% static 'admin/img/avatar.png' %}">
+                        <div class="name">Stefan Murphy</div>
+                        <div class="role">Frontend Developer & Backend Engineer</div>
+                        <div class="about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quod quam
+                            odit dolor ex dignissimos tempora dicta. Illum eum debitis dolore, rerum reprehenderit
+                            eaque, deleniti nostrum saepe ex rem nemo!</div>
+
+                        <div class="socials">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team">
+                        <img src="{% static 'admin/img/avatar.png' %}">
+                        <div class="name">Jefferson Hong</div>
+                        <div class="role">Backend Engineer</div>
+                        <div class="about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quod quam
+                            odit dolor ex dignissimos tempora dicta. Illum eum debitis dolore, rerum reprehenderit
+                            eaque, deleniti nostrum saepe ex rem nemo!</div>
+
+                        <div class="socials">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team">
+                        <img src="{% static 'admin/img/avatar.png' %}">
+                        <div class="name">Kaizar Rangwala</div>
+                        <div class="role">Backend Engineer</div>
+                        <div class="about">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam quod quam
+                            odit dolor ex dignissimos tempora dicta. Illum eum debitis dolore, rerum reprehenderit
+                            eaque, deleniti nostrum saepe ex rem nemo!</div>
+
+                        <div class="socials">
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </main>
-    </body>
-    </html>
-    </p>
+
+
+        </div>
+    </main>
 </body>
+
 </html>
