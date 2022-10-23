@@ -184,10 +184,10 @@ class DataMapper():
                 self.data.get('StatusSummary').split()[:-4]))
             self.map_value(['currentStatus', 'location', 'streetLines'], None)
             self.map_value(['currentStatus', 'location', 'city'],
-                        address.get('city'), action=self.capitalize_string)
+                           address.get('city'), action=self.capitalize_string)
             self.map_value(['currentStatus', 'location', 'state'], address.get('state'))
             self.map_value(['currentStatus', 'location',
-                        'postalCode'], address.get('postalCode'))
+                            'postalCode'], address.get('postalCode'))
             self.map_value(['currentStatus', 'location', 'country'], 'US')
             self.map_value(['currentStatus', 'delayDetail'], None)
 

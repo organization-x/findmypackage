@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('author', models.CharField(max_length=30)),
-                ('stars_amount', models.SmallIntegerField()),
+                ('stars', models.SmallIntegerField()),
                 ('content', models.TextField(max_length=300)),
             ],
         ),
