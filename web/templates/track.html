@@ -82,7 +82,7 @@
                             src="https://maps.googleapis.com/maps/api/js?key={{ FMP_MAPS_KEY }}&callback=initMap">
                             </script>
                             <body onload="initMap()">
-                                   <input id="address" value="{{currentStatus.location.city}}" type ="hidden">
+                                   <input id="address" value="{{currentStatus.location.city}},{{currentStatus.location.state}},{{currentStatus.location.country" type ="hidden">
                                </body>
                 </div>
 
