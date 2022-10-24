@@ -1,8 +1,5 @@
 import logging
 import random
-from tkinter import Image
-from venv import create
-from webbrowser import get
 
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
@@ -10,7 +7,6 @@ from package.settings import SECRETS
 
 from .apis import Carrier, DataMapper
 from .models import Review
-
 
 
 class MainView(TemplateView):
