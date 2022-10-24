@@ -12,11 +12,11 @@
 
 
     <style>
-    #map{
-      height:600px;
-      width: 80%px;
-    }
-  </style>
+        #map {
+            height: 600px;
+            width: 80%px;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,64 +34,68 @@
     </aside>
     <div class="hero-bg"> </div>
 
-        <section class="Information">
-                    <header>
+    <section class="Information">
+        <header>
             <a href="/">FindMyPackage</a>
         </header>
-            <div>       
-                  
-                <div id="map"></div>
+        
+        <div class="map-container">
 
-                    <script>
-                        function initMap(){
-                        // Map options
-                            var options = {
-                            zoom:7,
-                            center:{lat:42.3601,lng:-71.0589},
-                            }
-                            // New map
-                            var map = new google.maps.Map(document.getElementById('map'), options);
-                            var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-                            var geocoder;
-                            geocoder = new google.maps.Geocoder();
-                            var address = document.getElementById('address').value;
-                            geocoder.geocode( { 'address': address}, function(results, status) {
-                            if (status == 'OK') {
-                                map.setCenter(results[0].geometry.location);
-                                var marker = new google.maps.Marker({
-                                    map: map,
-                                    position: results[0].geometry.location,
-                                    icon:"{% static 'admin/img/p.png' %}"
+            <div id="map"></div>
+
+            <script>
+                function initMap() {
+                    // Map options
+                    var options = {
+                        zoom: 7,
+                        center: { lat: 42.3601, lng: -71.0589 },
+                    }
+                    // New map
+                    var map = new google.maps.Map(document.getElementById('map'), options);
+                    var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+                    var geocoder;
+                    geocoder = new google.maps.Geocoder();
+                    var address = document.getElementById('address').value;
+                    geocoder.geocode({ 'address': address }, function (results, status) {
+                        if (status == 'OK') {
+                            map.setCenter(results[0].geometry.location);
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                position: results[0].geometry.location,
+                                icon: "{% static 'admin/img/p.png' %}"
                             });
-                                } else {
-                                alert('Geocode was not successful for the following reason: ' + status);
-                                    }
-                                });
-                             }
+                        } else {
+                            alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                    });
+                }
 
-                             
-                            </script>
-                        <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key={{ FMP_MAPS_KEY }}&callback=initMap">
-                            </script>
-                            <body onload="initMap()">
-                                   <input id="address" value="{{currentStatus.location.city}},{{currentStatus.location.state}},{{currentStatus.location.country" type ="hidden">
-                               </body>
-                </div>
 
-                <div class="Date-container">
-                    <u>ETA:</u> {{ estimatedTimeArrival }}
-                </div>
+            </script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ FMP_MAPS_KEY }}&callback=initMap">
+            </script>
 
-                <div class="location-container">
-                    <i>Location:</i> {{ currentStatus.location.city }} {{ currentStatus.location.state }}, {{currentStatus.location.country }}
-                </div>
+            <body onload="initMap()">
+                <input id="address"
+                    value="{{currentStatus.location.city}},{{currentStatus.location.state}},{{currentStatus.location.country"
+                    type="hidden">
+            </body>
+        </div>
 
-                <div class="ToBeDetermined-container">
-                    <i>Status:</i> {{ currentStatus.status }}
-                </div>
-            </div>
-        </section>
+        <div class="Date-container">
+            <u>ETA:</u> {{ estimatedTimeArrival }}
+        </div>
+
+        <div class="location-container">
+            <i>Location:</i> {{ currentStatus.location.city }} {{ currentStatus.location.state }},
+            {{currentStatus.location.country }}
+        </div>
+
+        <div class="ToBeDetermined-container">
+            <i>Status:</i> {{ currentStatus.status }}
+        </div>
+        </div>
+    </section>
     </div>
     <section>
         <div class="accordion-body">
@@ -114,7 +118,8 @@
                                 <td>{{ event.date }}</td>
                                 <td>{{ event.description }}</td>
                                 <td>
-                                    {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode }}, {{ event.location.country }}
+                                    {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode
+                                    }}, {{ event.location.country }}
                                     <br>
                                     Street Lines: {% for line in event.location.streetLines %}{{ line }} {% endfor %}
                                 </td>
