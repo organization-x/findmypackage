@@ -20,7 +20,8 @@ SECRETS = {
     'FMP_MAPS_KEY': os.getenv('FMP_MAPS_KEY'),
 }
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://findmypackage-production.up.railway.app/']
 
 # Application definition
 
