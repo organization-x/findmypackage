@@ -36,6 +36,7 @@ main {
     max-height: 400px;
     padding: 1rem 1rem;
     background-color: #4A7FCB;
+    text-align: center;
 }
 
 .sidebar .menu {
