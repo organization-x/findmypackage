@@ -1,23 +1,26 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('FMP_DJANGO_KEY')
+SECRET_KEY = os.getenv('FMP_DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('FMP_DJANGO_DEBUG') == 'true'
+DEBUG = True if os.getenv('FMP_DJANGO_DEBUG') else False
 
 SECRETS = {
-    'FEDEX_ID': os.environ.get('FMP_FEDEX_ID'),
-    'FEDEX_SECRET': os.environ.get('FMP_FEDEX_SECRET'),
-    'USPS_ID': os.environ.get('FMP_USPS_ID'),
-    'DHL_SECRET': os.environ.get('FMP_DHL_SECRET'),
-    'FMP_MAPS_KEY': os.environ.get('FMP_MAPS_KEY'),
+    'FEDEX_ID': os.getenv('FMP_FEDEX_ID'),
+    'FEDEX_SECRET': os.getenv('FMP_FEDEX_SECRET'),
+    'USPS_ID': os.getenv('FMP_USPS_ID'),
+    'DHL_SECRET': os.getenv('FMP_DHL_SECRET'),
+    'FMP_MAPS_KEY': os.getenv('FMP_MAPS_KEY'),
 }
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', ['*']]
 
 # Application definition
 
@@ -80,6 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'package.urls'
@@ -150,9 +154,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
