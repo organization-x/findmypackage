@@ -21,7 +21,7 @@ SECRETS = {
 }
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://findmypackage-production.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://findmypackage-production.up.railway.app']
 
 # Application definition
 
