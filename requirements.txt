@@ -14,3 +14,4 @@ sqlparse==0.4.2
 urllib3
 wheel==0.34.2
 whitenoise==6.2.0
+xmltodict==0.13.0

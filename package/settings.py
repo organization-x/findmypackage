@@ -118,7 +118,7 @@ if not DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'TBD',
+            'NAME': os.getenv('PGDATABASE'),
             'USER': os.getenv('PGUSER'),
             'PASSWORD': os.getenv('PGPASSWORD'),
             'HOST': os.getenv('PGHOST'),
