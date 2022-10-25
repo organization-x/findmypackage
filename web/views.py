@@ -1,11 +1,12 @@
-from django.views.generic import TemplateView
-from django.shortcuts import render
-
 import logging
+import random
 
-from .apis import DataMapper, Carrier
-
+from django.shortcuts import redirect, render
+from django.views.generic import TemplateView
 from package.settings import SECRETS
+
+from .apis import Carrier, DataMapper
+from .models import Review
 
 
 class MainView(TemplateView):
@@ -14,19 +15,15 @@ class MainView(TemplateView):
         self.template_name = 'index.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'carriers': Carrier._member_names_})
+        return render(request, self.template_name, {'error': request.GET.get('error')})
 
 
 class TrackView(TemplateView):
     def __init__(self):
         self.logger = logging.getLogger('fmp')
         self.template_name = 'track.html'
-    
+
     def post(self, request, *args, **kwargs):
-        data = {
-            'trackingNumber': 'Invalid',
-            'errorMessage': 'Tracking number cannot be found. Please correct the tracking number and try again.'
-        }
         if request.POST['tracking_id']:
             for carrier in Carrier:
                 data = DataMapper(
@@ -35,10 +32,12 @@ class TrackView(TemplateView):
                         request.POST['tracking_id']
                     ),
                 ).get_mapped_data()
+                data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']
                 if data.get('errorMessage') is None:
-                    break
-        data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']        
-        return render(request, self.template_name, data)
+                    return render(request, self.template_name, data)
+        response = redirect('main')
+        response['Location'] += '?error=True'
+        return response
 
 
 class AboutUsView(TemplateView):
@@ -65,4 +64,12 @@ class ReviewsView(TemplateView):
         self.template_name = 'review.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {})
+        reviews = list(Review.objects.all())
+        context = {
+            'reviews': random.sample(reviews, 10) if len(reviews) > 10 else random.sample(reviews, len(reviews))
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        Review.objects.create(author=request.POST['name'], stars=request.POST['stars'], content=request.POST['subject'])
+        return redirect('reviews')

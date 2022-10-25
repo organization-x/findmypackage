@@ -10,7 +10,9 @@
 
 <body>
 
-    <script src="% static 'admin/js/reviews.js' %}.js"></script>
+  <!-- JS  LINK: but for some reason it doesn't show
+     <script src="{% static 'admin/js/reviews.js' %}"></script> 
+    -->
     
         <div class="app">
 
@@ -37,52 +39,92 @@
                 </nav>
             </aside>
         </div>
-        <main class="content"></main>
     <div class="hero-bg">
         <header>
             <a href="/">FindMyPackage</a>
         </header>
-<div class="read">
-             <p>Read a review</p>
-</div>
+    <div class="read">
+        <p>Read a review</p>
+    </div>
 
 
     <div class="review-container">
-        <div class="review-header">
-        </div>
-    <div class="review-content">
-        <button class="arrow" id="arrow--left">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="#000000" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><line x1="216" y1="128" x2="40" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><polyline points="112 56 40 128 112 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline></svg>
-        </button>
 
-        <div class="reviews">
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
+
+        <!-- Full-width images with number and caption text -->
+        {% for review in reviews %}
+        <div class="mySlides fade">
+            <div class="numbertext">{{ forloop.counter }} / 10</div>
             <div class="review">
-                <p class="review_name"><strong>First Last</strong></p>
-                <div class="review_stars_column">
-                    <div class="review_stars">
-                        <img src="{% static 'admin/img/star.png' %}">
-                    </div>
-                    <div class="review_stars">
-                        <img src="{% static 'admin/img/star.png' %}">
-                    </div>
-                    <div class="review_stars">
-                        <img src="{% static 'admin/img/star.png' %}">
-                    </div>
-                    <div class="review_stars">
-                        <img src="{% static 'admin/img/star.png' %}">
-                    </div>
-                    <div class="review_stars">
-                        <img src="{% static 'admin/img/star.png' %}">
-                    </div>
-                </div>
-                <p class="review_body">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus iure assumenda ipsam harum. Impedit, vero perferendis? Deleniti optio repellendus, repellat alias veniam voluptas consectetur, quod, nostrum aperiam placeat consequatur rem eos dolor ullam!</p>
+                <p class="review_name"><strong>{{ review.author }}</strong></p>
+                <div class="review_stars">
+                    <div class="review_stars1" style="--l:{{ review.stars }}"> 
+                    </div>                 
+                 </div>
+                
+                <p class="review_body">{{ review.content }}</p>
             </div>
-            </div>
-       </div>
+        </div>
+        {% endfor %}
+        
+      
+        <!-- Next and previous buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#xF12F; <button class="arrow" id="arrow--left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+              </svg>
+        </button>        
+        <a class="next" onclick="plusSlides(1)">&#xf104;<button class="arrow" id="arrow--right">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+              </svg>
+        </button></a>
+        </a>
+      </div>
+      <br>
+      
+      <!-- The dots/circles -->
+      <div style="text-align:center">
+        {% for review in reviews %}
+            <span class="dot" onclick="currentSlide( {{ forloop.counter }} )"></span>
+        {% endfor %}
+    </div>
 
-        <button class="arrow" id="arrow--right">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></line><polyline points="144 56 216 128 144 200" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"></polyline></svg>
-        </button>
+        <script>
+        let slideIndex = 1;
+            showSlides(slideIndex);
+            
+            // Next/previous controls
+            function plusSlides(n) {
+              showSlides(slideIndex += n);
+            }
+            
+            // Thumbnail image controls
+            function currentSlide(n) {
+              showSlides(slideIndex = n);
+            }
+            
+            function showSlides(n) {
+              let i;
+              let slides = document.getElementsByClassName("mySlides");
+              let dots = document.getElementsByClassName("dot");
+              if (n > slides.length) {slideIndex = 1}
+              if (n < 1) {slideIndex = slides.length}
+              for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+              }
+              for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+              }
+              slides[slideIndex-1].style.display = "block";
+              dots[slideIndex-1].className += " active";
+            }
+        
+            </script>
+
+
     </div>
 
 
@@ -90,32 +132,26 @@
 <h4>Write a review</h4>
 </div>
 
-<div class="container">
-
-      <label for="fname">Name</label>
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
+    <div class="container">
+        <form action="{% url 'reviews' %}" method="post">
+            {% csrf_token %}
+            <label for="name_input">Name</label>
+            <input type="text" id="name_input" name="name" placeholder="Your name..">
   
-      <label for="country">Rating</label>
-      <select id="country" name="country">
-        <option value="5-stars">5 stars</option>
-        <option value="4-stars">4 stars</option>
-        <option value="3-stars">3 stars</option>
-        <option value="2-stars">2 stars</option>
-        <option value="1-star">1 star</option>
-      </select>
-  
-      <label for="subject">Subject</label>
-      <textarea id="subject" name="subject" placeholder="Share your opinions.." style="height:200px"></textarea>
-  
-      <input type="submit" value="submit">
-  
-
-  </div>
-
-
-
-
-
+    <div class="stars_input">
+        <div select id="stars_input" class="stars">
+            <input type="radio" name="stars" value="1" />
+            <input type="radio" name="stars" value="2" />
+            <input type="radio" name="stars" value="3"  />
+            <input type="radio" name="stars" value="4" />
+            <input type="radio" name="stars" value="5" checked />
+            <i></i>
+          </div>
+</div>
+            <textarea id="subject_input" name="subject" placeholder="Share your opinions.." style="height:110px; font-size:16px;" maxlength="300"></textarea>
+            <input type="submit" value="submit">
+        </form>
+    </div>
 </div>
 </body>
 </html>

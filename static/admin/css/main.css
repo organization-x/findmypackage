@@ -82,7 +82,7 @@ header a {
 }
 
 .hero-bg {
-    background: url('../img/bg.blue.jpg');
+    background: linear-gradient(lightblue, white);
     margin-left: auto;
     margin-right: auto;
     background-position: 0% 75%;

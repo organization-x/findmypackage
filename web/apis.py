@@ -8,9 +8,8 @@ from enum import Enum
 import requests
 import xmltodict
 from dateutil import parser
-
+from django.utils import timezone
 from package.settings import SECRETS
-
 
 logger = logging.getLogger('fmp')
 
@@ -101,8 +100,10 @@ class DataMapper():
                            event.get('scanLocation', {}).get('countryCode'))
             self.map_value(['events', i, 'status'], event.get('derivedStatus'))
 
-        self.map_value(['estimatedTimeArrival'], self.data['trackResults'][0].get(
-            'estimatedDeliveryTimeWindow', {}).get('window'))
+        delivery_window = self.data['trackResults'][0].get(
+            'estimatedDeliveryTimeWindow', {}).get('window', {})
+        begins, ends, = self.format_date(delivery_window.get('begins')), self.format_date(delivery_window.get('ends'))
+        self.map_value(['estimatedTimeArrival'], f"{begins or 'N/A'} to {ends or 'N/A'}" if begins and ends else None)
         return self.mapped_data
 
     def get_mapped_dhl_data(self):
@@ -122,7 +123,7 @@ class DataMapper():
             self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
             self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
             self.map_value(['currentStatus', 'location', 'streetLines'], None)
-            self.map_value(['events', 'location', 'state'], None)
+            self.map_value(['currentStatus', 'location', 'country'], None)
             self.map_value(['currentStatus', 'delayDetail'], None)
 
         destination = self.data.get('destination')
@@ -156,7 +157,7 @@ class DataMapper():
             i += 1
 
         self.map_value(['estimatedTimeArrival'],
-                       f"{self.data.get('estimatedTimeOfDelivery')}, {self.data.get('estimatedTimeOfDeliveryRemark')}")
+                       self.data.get('estimatedTimeOfDelivery'))
         return self.mapped_data
 
     def get_mapped_usps_data(self):
@@ -174,21 +175,21 @@ class DataMapper():
         self.map_value(['trackingNumber'], self.data.get('@ID'))
 
         statusSummary = self.data.get('StatusSummary')
-        location = [re.sub(r'[^\w\s]', '', item)
-                    for item in statusSummary.split()[-3:]] or ['', '', '']
+        if statusSummary is not None:
+            address = self.get_address_from_string(statusSummary)
 
-        self.map_value(['currentStatus', 'status'],
-                       self.data.get('StatusCategory'))
-        self.map_value(['currentStatus', 'description'], " ".join(
-            self.data.get('StatusSummary').split()[:-4]))
-        self.map_value(['currentStatus', 'location', 'streetLines'], None)
-        self.map_value(['currentStatus', 'location', 'city'],
-                       location[0], action=self.capitalize_string)
-        self.map_value(['currentStatus', 'location', 'state'], location[1])
-        self.map_value(['currentStatus', 'location',
-                       'postalCode'], location[2])
-        self.map_value(['currentStatus', 'location', 'country'], 'US')
-        self.map_value(['currentStatus', 'delayDetail'], None)
+            self.map_value(['currentStatus', 'status'],
+                           self.data.get('Status'))
+            self.map_value(['currentStatus', 'description'], " ".join(
+                self.data.get('StatusSummary').split()[:-4]))
+            self.map_value(['currentStatus', 'location', 'streetLines'], None)
+            self.map_value(['currentStatus', 'location', 'city'],
+                           address.get('city'), action=self.capitalize_string)
+            self.map_value(['currentStatus', 'location', 'state'], address.get('state'))
+            self.map_value(['currentStatus', 'location',
+                            'postalCode'], address.get('postalCode'))
+            self.map_value(['currentStatus', 'location', 'country'], 'US')
+            self.map_value(['currentStatus', 'delayDetail'], None)
 
         self.map_value(['destination', 'streetLines'], None)
         self.map_value(['destination', 'city'], self.data.get(
@@ -199,15 +200,14 @@ class DataMapper():
                        self.data.get('DestinationZip'))
         self.map_value(['destination', 'country'], 'US')
 
-        for i, event in enumerate(reversed(self.data.get('TrackDetail') or [])):
+        for i, event in enumerate(self.data.get('TrackDetail') or []):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
             self.map_value(['events', i, 'date'],
                            f"{event.get('EventDate')}, {event.get('EventTime')}")
             self.map_value(['events', i, 'description'], event.get('Event'))
             self.map_value(['events', i, 'location', 'streetLines'], None)
-            self.map_value(['events', i, 'location', 'city'], event.get(
-                'EventCity'), action=self.capitalize_string)
+            self.map_value(['events', i, 'location', 'city'], event.get('EventCity'), action=self.capitalize_string)
             self.map_value(['events', i, 'location', 'state'],
                            event.get('EventState'))
             self.map_value(['events', i, 'location', 'postalCode'],
@@ -215,15 +215,15 @@ class DataMapper():
             self.map_value(['events', i, 'location', 'country'],
                            event.get('EventCountry'))
             self.map_value(['events', i, 'status'],
-                           event.get('EventStatusCategory'))
+                           event.get('Event'))
             i += 1
 
         self.map_value(['estimatedTimeArrival'],
-                       f"{self.data.get('ExpectedDeliveryDate')}, {self.data.get('ExpectedDeliveryTime')}")
+                       f"{self.data.get('ExpectedDeliveryDate') or ''} {self.data.get('ExpectedDeliveryTime') or ''}")
         return self.mapped_data
 
     def map_value(self, keys, value, action=None):
-        if (not value or (type(value) == list and not value[0])):
+        if (not value or (type(value) == list and not value[0]) or (type(value) == str and not value.strip())):
             return
         dict = self.mapped_data
         for i, key in enumerate(keys):
@@ -239,10 +239,32 @@ class DataMapper():
         return string.title()
 
     def format_date(self, date):
-        return parser.parse(date)
+        if not date:
+            return None
+        parsed_date = parser.parse(date)
+        date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
+        return date.strftime("%B %-d, %Y, %-I:%M %p")
+
+    def get_address_from_string(self, string):
+        address = {'city': None, 'state': None, 'postalCode': None}
+
+        string = string.split('.')[0].split(' in ')[-1].split(' on ')[0]
+        string = re.sub(r'[^\w\s]', '', string)
+
+        splitted = string.split(' ')
+        for split in splitted:
+            # check for postal number
+            if split.isnumeric():
+                address['postalCode'] = split
+                splitted.remove(split)
+                break
+        state = splitted.pop()
+        address['state'] = self.capitalize_string(state) if len(state) > 4 else state
+        address['city'] = " ".join(splitted)
+        return address
 
 
-# FEDEX TESTING NUMBERS: 111111111111, 123456789012, 581190049992, 581190049992, 568838414941
+# FEDEX TESTING NUMBERS: 111111111111, 123456789012, 581190049992, 568838414941
 class FedexAPI():
     access_token = None
     access_token_expire_date = None
@@ -279,7 +301,7 @@ class FedexAPI():
             return ERROR_MESSAGE
 
 
-# USPS TESTING NUMBERS: 4209070387179200190314774201833062
+# USPS TESTING NUMBERS: 9400136106074907356100 (Lukas')
 class USPSApi():
     @staticmethod
     def get_track_package_data(tracking_number):
