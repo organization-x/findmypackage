@@ -77,7 +77,7 @@
 
             <body onload="initMap()">
                 <input id="address"
-                    value="{{currentStatus.location.city}},{{currentStatus.location.state}},{{currentStatus.location.country"
+                    value="{{currentStatus.location.city}},{{currentStatus.location.state}},{{currentStatus.location.country}}"
                     type="hidden">
             </body>
         </div>
@@ -118,8 +118,7 @@
                                 <td>{{ event.date }}</td>
                                 <td>{{ event.description }}</td>
                                 <td>
-                                    {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode
-                                    }}, {{ event.location.country }}
+                                    {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode }}, {{ event.location.country }}
                                     <br>
                                     Street Lines: {% for line in event.location.streetLines %}{{ line }} {% endfor %}
                                 </td>
