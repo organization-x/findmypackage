@@ -8,6 +8,7 @@ from enum import Enum
 import requests
 import xmltodict
 from dateutil import parser
+from dateutil.parser import ParserError
 from django.utils import timezone
 from package.settings import SECRETS
 
@@ -227,7 +228,7 @@ class DataMapper():
             return ERROR_MESSAGE
 
         self.data = self.data.get('trackResponse', {}).get('shipment', [{}])[0]
-        if self.data.get('Error') is not None:
+        if self.data.get('warnings') is not None:
             return ERROR_MESSAGE
 
         self.map_value(['carrier'], 'UPS')
@@ -258,7 +259,7 @@ class DataMapper():
         for i, event in enumerate(self.data.get('activity') or []):
             self.mapped_data['events'].append(
                 copy.deepcopy(self.mapped_data['eventTemplate']))
-            self.map_value(['events', i, 'date'], event.get('date'))
+            self.map_value(['events', i, 'date'], event.get('date'), action=self.format_date)
             self.map_value(['events', i, 'description'], None)
             self.map_value(['events', i, 'location', 'streetLines'], None)
             self.map_value(['events', i, 'location', 'city'], event.get('location', {}).get('address', {}).get('city'), action=self.capitalize_string)
@@ -267,9 +268,8 @@ class DataMapper():
             self.map_value(['events', i, 'location', 'country'], event.get('location', {}).get('address', {}).get('country'))
             self.map_value(['events', i, 'status'], event.get('status', {}).get('description'))
 
-        # get delivery time working later
         delivery_date, delivery_time = self.data.get('deliveryDate', [{}])[0].get('date'), self.data.get('deliveryTime', {}).get('endTime')
-        self.map_value(['estimatedTimeArrival'], delivery_date, action=self.format_date)
+        self.map_value(['estimatedTimeArrival'], f'{delivery_date} T {delivery_time}', action=self.format_date)
         return self.mapped_data
 
     def map_value(self, keys, value, action=None):
@@ -289,11 +289,12 @@ class DataMapper():
         return string.title()
 
     def format_date(self, date):
-        if not date:
+        try:
+            parsed_date = parser.parse(date)
+            date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
+            return date.strftime("%B %-d, %Y, %-I:%M %p")
+        except ParserError:
             return None
-        parsed_date = parser.parse(date)
-        date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
-        return date.strftime("%B %-d, %Y, %-I:%M %p")
 
     def get_address_from_string(self, string):
         address = {'city': None, 'state': None, 'postalCode': None}
