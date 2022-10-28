@@ -103,10 +103,16 @@ class DataMapper():
                            event.get('scanLocation', {}).get('countryCode'))
             self.map_value(['events', i, 'status'], event.get('derivedStatus'))
 
-        delivery_window = self.data['trackResults'][0].get(
-            'estimatedDeliveryTimeWindow', {}).get('window', {})
-        begins, ends, = self.format_date(delivery_window.get('begins')), self.format_date(delivery_window.get('ends'))
-        self.map_value(['estimatedTimeArrival'], f"{begins or 'N/A'} to {ends or 'N/A'}" if begins and ends else None)
+        # FedEx has two different places for delivery date
+        delivery_date_a = None
+        dates = self.data['trackResults'][0].get('dateAndTimes', [{}])
+        for date in dates:
+            if date.get('type') != 'ESTIMATED_DELIVERY': continue
+            delivery_date_a = date.get('dateTime')
+            break
+
+        delivery_time =  delivery_date_a or self.data['trackResults'][0].get('estimatedDeliveryTimeWindow', {}).get('window', {}).get('ends')
+        self.map_value(['estimatedTimeArrival'], delivery_time, action=self.format_date)
         return self.mapped_data
 
     def get_mapped_usps_data(self):
@@ -293,7 +299,7 @@ class DataMapper():
             parsed_date = parser.parse(date)
             date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
             return date.strftime("%B %-d, %Y, %-I:%M %p")
-        except ParserError:
+        except (TypeError, ParserError):
             return None
 
     def get_address_from_string(self, string):
