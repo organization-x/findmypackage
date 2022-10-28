@@ -1,6 +1,6 @@
 # Find My Package (Incubator 2022)
 
-### FMP - All-in-One Website, where you can track all your shipments
+### FMP - All-in-One Website, where you can track your packages
 
 ## Overview
 
@@ -12,7 +12,7 @@ As part of the 2022 incubator hosted by AI Camp, we (a group of highschool stude
 
 #### Frontend
 
-Our website was outlined with [Figma](https://www.figma.com/), and later written with HTML and CSS, all from scratch. 
+Our website was outlined in brief with [Figma](https://www.figma.com/), linked [here](https://www.figma.com/file/JSULGHeTbNlblRTeW8jWoK/FindMyPackageMockup?node-id=27%3A1973), and later written with HTML and CSS from scratch. For functionality of the review section on the website we used [JavaScript](https://www.javascript.com/)
 
 #### Backend
 
