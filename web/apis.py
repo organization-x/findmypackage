@@ -103,7 +103,7 @@ class DataMapper():
                            event.get('scanLocation', {}).get('countryCode'))
             self.map_value(['events', i, 'status'], event.get('derivedStatus'))
 
-        # FedEx has two different places for delivery date
+        # FedEx has two different spots for delivery date
         delivery_date_a = None
         dates = self.data['trackResults'][0].get('dateAndTimes', [{}])
         for date in dates:
@@ -230,7 +230,7 @@ class DataMapper():
         return self.mapped_data
 
     def get_mapped_ups_data(self):
-        if self.data.get('errors') is not None:
+        if self.data.get('errors') is not None or self.data.get('response', {}).get('errors') is not None:
             return ERROR_MESSAGE
 
         self.data = self.data.get('trackResponse', {}).get('shipment', [{}])[0]
