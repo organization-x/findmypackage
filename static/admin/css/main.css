@@ -210,7 +210,7 @@ p {
 
     .track-container {
         margin: 5em 7em;
-        border-radius: .5em
+        border-radius: 25px;
     }
 
     img {
@@ -245,7 +245,7 @@ p {
     .track-container {
         margin: 5em 7em;
         padding: 2em;
-        border-radius: .5em
+        border-radius: 25px;
     }
 
     section.About {

@@ -221,6 +221,33 @@ img {
     #ccc;
 }
 
+
+.review_stars2 {
+  margin: 7px 0 0 0;
+  padding: 0;
+  --s:33px;
+  width:calc(var(--n,1)*var(--s));
+  height:calc(var(--s)*0.9);
+  --v1:transparent,#000 0.5deg 108deg,#0000 109deg;
+  --v2:transparent,#000 0.5deg  36deg,#0000  37deg;
+  -webkit-mask:
+    conic-gradient(from 54deg  at calc(var(--s)*0.68) calc(var(--s)*0.57),var(--v1)),
+    conic-gradient(from 90deg  at calc(var(--s)*0.02) calc(var(--s)*0.35),var(--v2)),
+    conic-gradient(from 126deg at calc(var(--s)*0.5)  calc(var(--s)*0.7) ,var(--v1)),
+    conic-gradient(from 162deg at calc(var(--s)*0.5)  0                  ,var(--v2));
+  -webkit-mask-size: var(--s) var(--s);
+  -webkit-mask-composite: xor,destination-over;
+  mask-composite: exclude,add;
+  background:
+    linear-gradient(gold 0 0) 0/calc(var(--l,0)*var(--s)) 100% no-repeat
+    #ccc;
+    float: left;
+}
+
+.review_stars2 p {
+  float: left;
+}
+
 .review_body {
   max-width: 65%;
   font-size: 0.9em;
@@ -451,7 +478,36 @@ input:nth-of-type(10):hover ~ i {--l:10}
           from {opacity: .4}
           to {opacity: 1}
         }
+
+.stars_input p {
+  font-size: 12px;
+  margin-top: -5px;
+  color: gray;
+}
+
+.subject_input {
+  font-family: 'Montserrat', sans-serif;;
+}
+
+.average {
+  margin-left: 10px;
+  overflow: hidden; 
+}
+
+.r3 {
+  float: left;
+  margin-left: 8px;
+}
+
+.r4 {
+  float: left;
+  margin-left: 8px;
+  color: gray;
+}
+
+        
 @media (min-width: 730px) {
+
 
   .container {
     margin-left: 20%;
@@ -487,8 +543,7 @@ input:nth-of-type(10):hover ~ i {--l:10}
     padding-left: 1em;
     padding-right: 2em;
   }
-
-
+  
 
   .hero-bg {
     text-align: center;
