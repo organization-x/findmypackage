@@ -274,7 +274,8 @@ class DataMapper():
             self.map_value(['events', i, 'location', 'country'], event.get('location', {}).get('address', {}).get('country'))
             self.map_value(['events', i, 'status'], event.get('status', {}).get('description'))
 
-        delivery_date, delivery_time = self.data.get('deliveryDate', [{}])[0].get('date'), self.data.get('deliveryTime', {}).get('endTime')
+        delivery_date = self.data.get('deliveryDate')
+        delivery_date, delivery_time = (delivery_date if len(delivery_date) > 0 else [{}])[0].get('date'), self.data.get('deliveryTime', {}).get('endTime')
         self.map_value(['estimatedTimeArrival'], f'{delivery_date} T {delivery_time}', action=self.format_date)
         return self.mapped_data
 
