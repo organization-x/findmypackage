@@ -10,8 +10,7 @@
 </head>
 
 <body>
-
-  <!-- JS  LINK: but for some reason it doesn't show
+<div class="format-test"> <!-- JS  LINK: but for some reason it doesn't show
     <script src="{% static 'admin/js/reviews.js' %}"></script> 
     -->
 
@@ -71,7 +70,7 @@
 
           <div class="average">
             <div class="review_stars2" style="--l:2"></div>
-              <div class="r3"><p>4.85</p></div>
+              <div class="r3"><p>4.95</p></div>
               <div class="r4"><p>(from 34 reviews)</p></div>
           </div>
 
@@ -173,17 +172,18 @@ average_rating([ 2, 4 ])
             <input type="radio" name="stars" value="2" />
             <input type="radio" name="stars" value="3" />
             <input type="radio" name="stars" value="4" />
-            <input type="radio" name="stars" value="5" checked />
+            <input type="radio" name="stars" value="5" />
             <i></i>
           </div>
           <p>(Click to change)</p>
         </div>
         <textarea id="subject_input" name="subject" placeholder="Your opinions..."
-          style=" maxlength="300"></textarea>
+        maxlength="300"></textarea>
         <input type="submit" value="submit">
       </form>
     </div>
-
+</div>
+ 
   
 </body>
 

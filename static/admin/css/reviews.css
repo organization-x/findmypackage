@@ -20,6 +20,7 @@ body {
   display: grid;
 }
 
+
 .sidebar {
   transition: 0.5s;
   max-height: 400px;
@@ -29,8 +30,8 @@ body {
 }
 
 .sidebar .menu {
-  margin: 0 -1rem;
-  transition: 0.5s;
+  margin: 0 -1em -0.4em -1em;
+  font-size: 0.7em;
 }
 
 .sidebar .menu .menu-item {
@@ -43,7 +44,6 @@ body {
 
 .sidebar .menu .menu-item:hover,
 .sidebar .menu .menu-item.is-active {
-  margin-top: 3em;
   color: #ADAEF1;
   border-bottom: 7px solid #ADAEF1;
 }
@@ -71,14 +71,6 @@ header a {
   color: white;
   text-align: center;
   padding-bottom: 4em;
-}
-
-img {
-  width: 100%;
-}
-
-.hero-bg .slider {
-  color: black;
 }
 
 
@@ -190,9 +182,10 @@ img {
 }
 
 .review_name {
-  letter-spacing: .05rem;
-  font-size: 1.2em;
+  max-width: 65%;
+  font-size: 0.9em;
   text-align: center;
+  height: auto;
 }
 
 
@@ -296,7 +289,7 @@ input[type=submit] {
   padding: 10px 0;
   border-radius: 4px;
   cursor: pointer;
-  width: 18%;
+  width: 25%;
   font-size: 1.1em;
 }
 
@@ -505,9 +498,12 @@ input:nth-of-type(10):hover ~ i {--l:10}
   color: gray;
 }
 
-        
 @media (min-width: 730px) {
 
+  .sidebar .menu {
+    margin: 0 -1em 0 -1em;
+    font-size: 1em;
+  }
 
   .container {
     margin-left: 20%;
@@ -523,6 +519,14 @@ input:nth-of-type(10):hover ~ i {--l:10}
     margin-left: 20%;
     margin-right: 20%;
     border-radius: 25px;
+  }
+
+  .review_name {
+    font-size: 1.1em;
+  }
+
+  .review_body {
+    font-size: 1em;
   }
 
   .prev {
