@@ -7,7 +7,6 @@ from package.settings import SECRETS
 
 from .apis import Carrier, DataMapper
 from .models import Review
-from .webscraper import create_database_headlines
 
 
 class MainView(TemplateView):
@@ -16,7 +15,6 @@ class MainView(TemplateView):
         self.template_name = 'index.html'
 
     def get(self, request, *args, **kwargs):
-        create_database_headlines()
         return render(request, self.template_name, {'error': request.GET.get('error')})
 
 

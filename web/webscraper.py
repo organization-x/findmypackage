@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, timezone
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -10,9 +12,8 @@ class WebScraper:
 
     def get_world_headlines(self):
         headlines = []
-
         world_news_response = requests.get(self.news_url)
-        content = world_news_response.content   
+        content = world_news_response.content
 
         data = BeautifulSoup(content, 'lxml')
         headline_cards = data.find_all('div', class_='CardHeadline')
@@ -23,8 +24,9 @@ class WebScraper:
             })
         return headlines
 
-def create_database_headlines():
+def update_database_headlines():
     for headline in WebScraper().get_world_headlines():
         if NewsHeadline.objects.filter(headline=headline.get('headline')).exists(): continue
-        print('created one!')
         NewsHeadline.objects.create(headline=headline.get('headline'), date=headline.get('date'))
+    # delete news headlines older than 14 days
+    NewsHeadline.objects.filter(date__lte=datetime.now(timezone.utc)-timedelta(days=14)).delete()
