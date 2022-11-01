@@ -1,25 +1,30 @@
-from webbrowser import get
-from bs4 import BeautifulSoup 
 import requests
+from bs4 import BeautifulSoup
 
-#p1 = WebScraper()
-#p1.get_world_headlines()
+from .models import NewsHeadline
+
 
 class WebScraper:
     def __init__(self):
-        self.headlines_url = 'https://apnews.com/hub/world-news'
-
+        self.news_url = 'https://apnews.com/hub/world-news'
 
     def get_world_headlines(self):
-        world_news_response = requests.get(self.headlines_url) #You can change the url to the news site you want to use (make sure to change the specific tag as well)
-        content = world_news_response.text                                      #This just isolates the text in the headline tag from all the actual code
+        headlines = []
 
-        world_soup = BeautifulSoup(content, "lxml") 
+        world_news_response = requests.get(self.news_url)
+        content = world_news_response.content   
 
-        return world_soup.find_all('h2') #Locate Specific Headline Tag
+        data = BeautifulSoup(content, 'lxml')
+        headline_cards = data.find_all('div', class_='CardHeadline')
+        for headline_card in headline_cards:
+            headlines.append({
+                'headline': headline_card.find('h2').text,
+                'date': headline_card.find('span', class_='Timestamp').get('data-source')
+            })
+        return headlines
 
-
-
-    
-
-
+def create_database_headlines():
+    for headline in WebScraper().get_world_headlines():
+        if NewsHeadline.objects.filter(headline=headline.get('headline')).exists(): continue
+        print('created one!')
+        NewsHeadline.objects.create(headline=headline.get('headline'), date=headline.get('date'))
