@@ -66,12 +66,14 @@
 
             <p class="review_body">{{ review.content }}</p>
 
+            Written on {{ review.date }}
+
           </div>
 
           <div class="average">
             <div class="review_stars2" style="--l:2"></div>
-              <div class="r3"><p>4.95</p></div>
-              <div class="r4"><p>(from 34 reviews)</p></div>
+            <div class="r3"><p>{{ stars_average }}</p></div>
+            <div class="r4"><p>(out of {{ total_reviews_count }} reviews)</p></div>
           </div>
 
         </div>
