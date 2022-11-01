@@ -107,11 +107,12 @@ class DataMapper():
         delivery_date_a = None
         dates = self.data['trackResults'][0].get('dateAndTimes', [{}])
         for date in dates:
-            if date.get('type') != 'ESTIMATED_DELIVERY': continue
+            if date.get('type') != 'ESTIMATED_DELIVERY':
+                continue
             delivery_date_a = date.get('dateTime')
             break
 
-        delivery_time =  delivery_date_a or self.data['trackResults'][0].get('estimatedDeliveryTimeWindow', {}).get('window', {}).get('ends')
+        delivery_time = delivery_date_a or self.data['trackResults'][0].get('estimatedDeliveryTimeWindow', {}).get('window', {}).get('ends')
         self.map_value(['estimatedTimeArrival'], delivery_time, action=self.format_date)
         return self.mapped_data
 
