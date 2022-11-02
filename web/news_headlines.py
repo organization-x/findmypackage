@@ -1,12 +1,13 @@
 from datetime import datetime, timedelta, timezone
 
 import requests
+from apscheduler.schedulers.background import BackgroundScheduler
 from bs4 import BeautifulSoup
 
 from .models import NewsHeadline
 
 
-class WebScraper:
+class AssociatedPress:
     def __init__(self):
         self.news_url = 'https://apnews.com/hub/world-news'
 
@@ -25,8 +26,13 @@ class WebScraper:
         return headlines
 
 def update_database_headlines():
-    for headline in WebScraper().get_world_headlines():
+    for headline in AssociatedPress().get_world_headlines():
         if NewsHeadline.objects.filter(headline=headline.get('headline')).exists(): continue
         NewsHeadline.objects.create(headline=headline.get('headline'), date=headline.get('date'))
     # delete news headlines older than 14 days
     NewsHeadline.objects.filter(date__lte=datetime.now(timezone.utc)-timedelta(days=14)).delete()
+
+def start_job():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(update_database_headlines, 'interval', minutes=30)
+    scheduler.start()
