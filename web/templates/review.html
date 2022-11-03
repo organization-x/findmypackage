@@ -66,13 +66,13 @@
 
             <p class="review_body">{{ review.content }}</p>
 
-            Written on {{ review.date }}
+           <!--- Written on {{ review.date }}-->
 
           </div>
 
           <div class="average">
             <div class="review_stars2" style="--l:2"></div>
-            <div class="r3"><p>{{ stars_average|floatformat }}</p></div>
+            <div class="r3"><p>{{ stars_average|floatformat:1 }}</p></div>
             <div class="r4"><p>(out of {{ total_reviews_count }} reviews)</p></div>
           </div>
 
@@ -166,7 +166,7 @@ average_rating([ 2, 4 ])
       <form action="{% url 'reviews' %}" method="post">
         {% csrf_token %}
         <label for="name_input">Name</label>
-        <input type="text" id="name_input" name="name" placeholder="Your name...">
+        <input type="text" id="name_input" name="name" style="font-family: 'Montserrat'" placeholder="Your name...">
 
         <div class="stars_input">
           <div select id="stars_input" class="stars">
@@ -180,9 +180,10 @@ average_rating([ 2, 4 ])
           <p>(Click to change)</p>
         </div>
         <textarea id="subject_input" name="subject" placeholder="Your opinions..."
-        maxlength="300"></textarea>
+        maxlength="300" style="font-family: 'Montserrat'"></textarea>
         <input type="submit" value="submit">
       </form>
+      
     </div>
 </div>
  
