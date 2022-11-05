@@ -184,12 +184,12 @@ input[type=button]:hover {
 .right-col {
     text-align: left;
     margin: 3em 1em;
-
 }
 
 h2 {
     text-transform: uppercase;
     position: relative;
+    text-align: center;
 }
 
 img {
@@ -198,7 +198,6 @@ img {
 
 p {
     line-height: var(--leading);
-
 }
 
 @media (min-width: 730px) {

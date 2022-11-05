@@ -95,7 +95,7 @@ header a {
 
 .team img {
     width: 200px;
-    height: auto;
+    height: 200px;
     max-width: 100%;
     border-radius: 50%
 }
