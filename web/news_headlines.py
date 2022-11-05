@@ -27,10 +27,11 @@ class AssociatedPress:
 
 def update_database_headlines():
     for headline in AssociatedPress().get_world_headlines():
-        if NewsHeadline.objects.filter(headline=headline.get('headline')).exists(): continue
+        if NewsHeadline.objects.filter(headline=headline.get('headline')).exists():
+            continue
         NewsHeadline.objects.create(headline=headline.get('headline'), date=headline.get('date'))
     # delete news headlines older than 14 days
-    NewsHeadline.objects.filter(date__lte=datetime.now(timezone.utc)-timedelta(days=14)).delete()
+    NewsHeadline.objects.filter(date__lte=datetime.now(timezone.utc) - timedelta(days=14)).delete()
 
 def start_job():
     scheduler = BackgroundScheduler()
