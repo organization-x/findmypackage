@@ -1,7 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,61 +14,81 @@
 </head>
 
 <body>
-
+2
 <div class="format-test">
    <div class="app">
 
-        <div class="menu-toggle">
-            <div class="hamburger">
-                <span></span>
-            </div>
-        </div>
-
-        <aside class="sidebar">
-
-            <div class="holder">
-                <label for="" class="toggle-btn">
-                    <span></span>
-            </div>
-
-            <nav class="menu">
-                <a href="{% url 'main' %}" class="menu-item">Track</a>
-                <a href="{% url 'faq' %}" class="menu-item is-active">FAQs</a>
-                <a href="{% url 'about' %}" class="menu-item">Our Team</a>
-                <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
-
-            </nav>
-        </aside>
+    <div class="menu-toggle">
+      <div class="hamburger">
+        <span></span>
+      </div>
     </div>
-    <div class="hero-bg">
-      <section class="top">
-          <header>
-              <a href="/">FindMyPackage</a>
-          </header>
 
-          <div class="accordion-body">
-            <div class="accordion">
-              <h1>Frequently Asked Questions</h1>
-              <hr>
-              <div class="container">
-                <div class="label">What is FindMyPackage?</div>
-                <div class="content">FindMyPackage is an available website for all individuals with the purpose of providing a precise real-time location and estimated time of arrival for packages ordered online. </div>
-              </div>
-              <hr>
-              <div class="container">
-                <div class="label">How do I use it?</div>
-                <div class="content">To use FindMyPackage, enter shipping number and hit "track" to view a shipping infromation.
+    <aside class="sidebar">
+
+      <div class="holder">
+        <label for="" class="toggle-btn">
+          <span></span>
+      </div>
+
+      <nav class="menu">
+        <a href="{% url 'main' %}" class="menu-item">Track</a>
+        <a href="{% url 'faq' %}" class="menu-item is-active">FAQs</a>
+        <a href="{% url 'about' %}" class="menu-item">Our Team</a>
+        <a href="{% url 'reviews' %}" class="menu-item">Reviews</a>
+
+      </nav>
+    </aside>
+  </div>
+  <div class="hero-bg">
+    <section class="top">
+      <header>
+        <a href="/">FindMyPackage</a>
+      </header>
+
+      <div class="accordion-body">
+        <div class="accordion">
+          <h1>Frequently Asked Questions</h1>
+          <hr>
+          <div class="container">
+            <div class="label">What is FindMyPackage?</div>
+            <div class="content">FindMyPackage is an all-in-one package tracker that tells you all the essential details
+              regarding your package's location and delivery time.</div>
           </div>
-              </div>
-              <hr>
-              <div class="container">
-                <div class="label">What couriers can it track?</div>
-                <div class="content">FindMyPackage can provide shipping infromation from packages being delivered by UPS, USPS, FedEx, and DHL.</div>
-              </div>
-              <hr>
+          <hr>
+          <div class="container">
+            <div class="label">How do I use it?</div>
+            <div class="content">Go to our Track Page, enter a shipping number and hit "track" to view all the shipment
+              details you'll need regarding your package.
+              infromation.
             </div>
-            </div>
-          
+          </div>
+          <hr>
+          <div class="container">
+            <div class="label">What couriers can it track?</div>
+            <div class="content">We support packages the four most common and popular shipping couriers: UPS,
+              USPS, FedEx, and DHL.</div>
+          </div>
+          <hr>
+          <div class="container">
+            <div class="label">What features are unique to it?</div>
+            <div class="content">Our platform implements new features such as a visual and interactive map showing the package location and an adjusted ETA dependent on any global events that may affect shipping.</div>
+          </div>
+          <hr>
+          <div class="container">
+            <div class="label">Who is it made for?</div>
+            <div class="content">Our website is for the average person who wants to know the essentials while not having the additional, less significant information clutter the screen.</div>
+          </div>
+          <hr>
+          <div class="container">
+            <div class="label">How do we calculate the Delay?</div>
+            <div class="content">We web scrape Associated Press's news articles from the past 14 days and use the GPT-3 model to identify the location of the event(s) and the severity of the event(s) towards shipping. We then use Google Maps and a specific exponential model to compare the distance between the event(s) and the package to output an appropriate delay to the user's shipment time.</div>
+          </div>
+          <hr>
+        </div>
+      </div>
+
+
 
 
         
@@ -74,4 +96,5 @@
 <script src="{% static 'admin/js/faq.js' %}" type="text/javascript"></script></div>
 
 </body>
+
 </html>

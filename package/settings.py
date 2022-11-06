@@ -14,6 +14,9 @@ SECRETS = {
     'FEDEX_SECRET': os.environ.get('FMP_FEDEX_SECRET'),
     'USPS_ID': os.environ.get('FMP_USPS_ID'),
     'DHL_SECRET': os.environ.get('FMP_DHL_SECRET'),
+    'UPS_SECRET': os.environ.get('FMP_UPS_SECRET'),
+    'UPS_USERNAME': os.environ.get('FMP_UPS_USERNAME'),
+    'UPS_PASSWORD': os.environ.get('FMP_UPS_PASSWORD'),
     'FMP_MAPS_KEY': os.environ.get('FMP_MAPS_KEY'),
 }
 

@@ -80,36 +80,52 @@
 
             <body onload="initMap()">
                 <input id="address"
+
                     value="{{currentStatus.location.city}},{{currentStatus.location.state}},{{currentStatus.location.country}}"
                     type="hidden">
             </body>
         </div>
+    <div class="info-boxes">
+        <div class="info-container">
+            <i>Location:</i>
+            {% if currentStatus.location.city or currentStatus.location.state or currentStatus.location.country %}
+            {{ currentStatus.location.city }} {{ currentStatus.location.state }}
+            {% if currentstatus.location.country %}
+            , {{ currentStatus.location.country }}
+            {% endif %}
+            {% else %}
+            N/A
+            {% endif %}
 
-        <div class="Date-container">
-            <u>ETA:</u> {{ estimatedTimeArrival }}
         </div>
 
-        <div class="location-container">
-            <i>Location:</i> {{ currentStatus.location.city }} {{ currentStatus.location.state }},
-            {{currentStatus.location.country }}
+        <div class="info-container">
+            <u><i>ETA:</i></u> {{ estimatedTimeArrival }}
         </div>
 
-        <div class="ToBeDetermined-container">
+        <div class="info-container">
+            <u><i>Delay:</i></u>
+        </div>
+
+        <div class="info-container">
+            <i>Events Causing Delay:</i>
+        </div>
+
+        <div class="info-container">
             <i>Status:</i> {{ currentStatus.status }}
         </div>
-        </div>
-    </section>
     </div>
+    </section>
+
     <section>
         <div class="accordion-body">
             <div class="accordion">
-                <h1>Additional Information</h1>
+                <h1>Events</h1>
                 <hr>
                 <div class="container">
                     <div class="label">Click to toggle</div>
                     <div class="content">
-                        <u>Events:</u>
-                        <table>
+                        <table class="additionalInfo">
                             <tr>
                                 <th>Date</th>
                                 <th>Summary</th>
