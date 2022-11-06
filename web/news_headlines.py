@@ -67,3 +67,7 @@ def start_job():
     scheduler = BackgroundScheduler()
     scheduler.add_job(update_database_headlines, 'interval', minutes=30)
     scheduler.start()
+
+
+# for testing, uncomment this and runserver to update your database immediately
+# update_database_headlines()
