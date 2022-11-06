@@ -5,3 +5,8 @@ for (i=0; i<accordion.length; i++) {
     this.classList.toggle('active')
   })
 }
+
+function myFunction() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+}
