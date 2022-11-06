@@ -86,6 +86,30 @@
             <u>ETA:</u> {{ estimatedTimeArrival }}
         </div>
 
+        <div class="Date-container">
+            <u>Possible Delay:</u>
+            {% if calculated_delay.days or calculated_delay.hours %}
+                +
+                {% if calculated.delay.days %}
+                    {{ calculated_delay.days }} days,
+                {% endif %}
+                {{ calculated_delay.hours }} hours
+            {% else %}
+                none
+            {% endif %}
+        </div>
+
+        <div class="Date-container">
+            <u>Events Affecting Delay:</u>
+            <ol>
+                {% for headline in calculated_delay.headlines %}
+                    <li>{{ headline }}</li>
+                {% empty %}
+                    <li>none</li>
+                {% endfor %}
+            </ol>
+        </div>
+
         <div class="location-container">
             <i>Location:</i> 
             {% if currentStatus.location.city or currentStatus.location.state or currentStatus.location.country %}

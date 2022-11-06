@@ -7,6 +7,7 @@ from package.settings import SECRETS
 
 from .apis import Carrier, DataMapper
 from .models import Review
+from .gpt3 import calculate_delivery_delay
 
 
 class MainView(TemplateView):
@@ -32,8 +33,11 @@ class TrackView(TemplateView):
                         request.POST['tracking_id']
                     ),
                 ).get_mapped_data()
-                data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']
                 if data.get('errorMessage') is None:
+                    data['calculated_delay'] = (calculate_delivery_delay(data.get('estimatedTimeArrival'), data.get('currentStatus', {}).get('location')))
+                    data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']
+                    print(data.get('estimatedTimeArrival'))
+                    print(carrier)
                     return render(request, self.template_name, data)
         response = redirect('main')
         response['Location'] += '?error=True'

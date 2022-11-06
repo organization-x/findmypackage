@@ -1,7 +1,9 @@
 import json
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import openai
+from dateutil import parser
+import requests
 
 from package.settings import SECRETS
 
@@ -62,18 +64,56 @@ def retrieve_countries_from_headlines(news_headlines):
     return total_countries
 
 
-def get_adjusted_eta(eta: datetime, package_location):
+def calculate_delivery_delay(eta: str, package_location):
+    response = {'days': '', 'hours': '', 'headlines': []}
+    if not eta or eta.lower() == 'n/a':
+        return response
+
+    # convert string to datetime
+    eta = parser.parse(eta)
     adjusted_eta = eta
-    # get all news headlines with an impact score greater than or equal to 10
+    affected_headlines = []
+
     news_headlines = NewsHeadline.objects.filter(impact_score__gte=10)
     for news_headline in news_headlines:
-        # do something with countries here
         countries = json.loads(news_headline.countries_affected).get('countries')
-        # do something with impact score here (from 0 of 100)
+        for country in countries:
+            if country.lower() in ('nowhere', 'n/a', '-', 'none') or not country:
+                continue
+            # do something with the country
+
         impact_score = news_headline.impact_score
-        # add to the adjusted eta
-        adjusted_eta += timedelta(hours=news_headline.impact_score / 100)
-    return adjusted_eta
+
+        affected_headlines.append(news_headline.headline)
+        adjusted_eta += timedelta(hours=impact_score / 100)
+
+    delay = adjusted_eta - eta
+    response['days'] = delay.days
+    response['hours'] = delay.seconds / 3600
+    response['headlines'] = affected_headlines
+    return response
+
+
+# returns a number 1 to 100 based on how close the two locations are ( closer to 100 means the locations are closer )
+def calculate_distance_relevance(origin, destination):
+    url = 'https://maps.googleapis.com/maps/api/distancematrix/json'
+    params = {
+        'origins': origin,
+        'destinations': destination,
+        'units': 'imperial',
+        'key': SECRETS['FMP_MAPS_KEY']
+    }
+
+    response = requests.get(url, params=params)
+    data = json.loads(response.content).get('rows')[0].get('elements', [{}])[0]
+    if data.get('status') == "ZERO_RESULTS":
+        return 0
+    distance = data.get('distance', {}).get('text')
+    distance = distance[:distance.rfind(" ")].replace(',', '')
+    relevance = 6.644 - (0.007 * int(distance))
+    relevance = 2 ** relevance
+    if relevance < 1:
+        relevance = 0
 
 
 # ---------------------------------------------------------------------------- #
@@ -89,7 +129,7 @@ real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia 
 
 # for adjusted eta testing, uncomment and runserver to test
 # print('Start time:', datetime.now().strftime("%H:%M:%S"))
-# print('End time:  ', get_adjusted_eta(
+# print('End time:  ', calculate_delivery_delay(
 #     datetime.now(), 
 #     {
 #         'streetLines': [
@@ -100,4 +140,4 @@ real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia 
 #         'postalCode': '90001',
 #         'country': 'United States'
 #     }
-# ).strftime("%H:%M:%S"))
+# ))

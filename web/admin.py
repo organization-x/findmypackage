@@ -9,3 +9,4 @@ class ReviewAdmin(admin.ModelAdmin):
 class NewsHeadlineAdmin(admin.ModelAdmin):
     list_display = ('headline', 'impact_score', 'countries_affected')
     search_fields = ('headline', )
+    ordering = ['-date']
