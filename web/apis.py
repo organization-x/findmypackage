@@ -8,6 +8,7 @@ from enum import Enum
 import requests
 import xmltodict
 from dateutil import parser
+from dateutil.parser import ParserError
 from django.utils import timezone
 from package.settings import SECRETS
 
@@ -33,6 +34,8 @@ class DataMapper():
             return self.get_mapped_usps_data()
         elif self.carrier is Carrier.dhl:
             return self.get_mapped_dhl_data()
+        elif self.carrier is Carrier.ups:
+            return self.get_mapped_ups_data()
 
     def get_mapped_fedex_data(self):
         if self.data.get('errors') is not None:
@@ -106,60 +109,6 @@ class DataMapper():
         self.map_value(['estimatedTimeArrival'], f"{begins or 'N/A'} to {ends or 'N/A'}" if begins and ends else None)
         return self.mapped_data
 
-    def get_mapped_dhl_data(self):
-        if self.data.get('title') is not None:
-            return ERROR_MESSAGE
-
-        self.data = self.data.get('shipments')[0]
-        self.map_value(['carrier'], 'DHL')
-        self.map_value(['trackingNumber'], self.data.get('id'))
-
-        latestStatus = self.data.get('status')
-        if latestStatus is not None:
-            description = f"{latestStatus.get('remark') or ''} {latestStatus.get('nextSteps') or ''} {latestStatus.get('nextSteps') or ''}"
-            self.map_value(['currentStatus', 'status'], latestStatus.get('statusCode'))
-            self.map_value(['currentStatus', 'description'], description)
-            self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('location', {}).get('countryCode'))
-            self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
-            self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
-            self.map_value(['currentStatus', 'location', 'streetLines'], None)
-            self.map_value(['currentStatus', 'location', 'country'], None)
-            self.map_value(['currentStatus', 'delayDetail'], None)
-
-        destination = self.data.get('destination')
-        if destination is not None:
-            address = destination.get('address')
-            self.map_value(['destination', 'streetLines'], None)
-            self.map_value(['destination', 'city'], address.get(
-                'addressLocality'), action=self.capitalize_string)
-            self.map_value(['destination', 'state'], None)
-            self.map_value(['destination', 'postalCode'],
-                           address.get("postalCode"))
-            self.map_value(['destination', 'country'],
-                           address.get('countryCode'))
-
-        for i, event in enumerate(reversed(self.data.get('events') or [])):
-            self.mapped_data['events'].append(
-                copy.deepcopy(self.mapped_data['eventTemplate']))
-            self.map_value(['events', i, 'date'], event.get(
-                'timestamp'), action=self.format_date)
-            self.map_value(['events', i, 'description'],
-                           event.get('description'))
-            self.map_value(['events', i, 'location', 'streetLines'], None)
-            self.map_value(['events', i, 'location', 'state'], None)
-            self.map_value(['events', i, 'location', 'city'], event.get('location', {}).get(
-                'address', {}).get('addressLocality'), action=self.capitalize_string)
-            self.map_value(['events', i, 'location', 'postalCode'], event.get(
-                'location', {}).get('address', {}).get('postalCode'))
-            self.map_value(['events', i, 'location', 'country'], event.get(
-                'location', {}).get('address', {}).get('countryCode'))
-            self.map_value(['events', i, 'status'], event.get('statusCode'))
-            i += 1
-
-        self.map_value(['estimatedTimeArrival'],
-                       self.data.get('estimatedTimeOfDelivery'))
-        return self.mapped_data
-
     def get_mapped_usps_data(self):
         if self.data.get('Error') is not None:
             return ERROR_MESSAGE
@@ -216,10 +165,111 @@ class DataMapper():
                            event.get('EventCountry'))
             self.map_value(['events', i, 'status'],
                            event.get('Event'))
-            i += 1
 
         self.map_value(['estimatedTimeArrival'],
                        f"{self.data.get('ExpectedDeliveryDate') or ''} {self.data.get('ExpectedDeliveryTime') or ''}")
+        return self.mapped_data
+
+    def get_mapped_dhl_data(self):
+        if self.data.get('title') is not None:
+            return ERROR_MESSAGE
+
+        self.data = self.data.get('shipments')[0]
+        self.map_value(['carrier'], 'DHL')
+        self.map_value(['trackingNumber'], self.data.get('id'))
+
+        latestStatus = self.data.get('status')
+        if latestStatus is not None:
+            description = f"{latestStatus.get('remark') or ''} {latestStatus.get('nextSteps') or ''} {latestStatus.get('nextSteps') or ''}"
+            self.map_value(['currentStatus', 'status'], latestStatus.get('statusCode'))
+            self.map_value(['currentStatus', 'description'], description)
+            self.map_value(['currentStatus', 'location', 'country'], latestStatus.get('location', {}).get('countryCode'))
+            self.map_value(['currentStatus', 'location', 'postalCode'], latestStatus.get('location', {}).get('address', {}).get('postalCode'))
+            self.map_value(['currentStatus', 'location', 'city'], latestStatus.get('location', {}).get('address', {}).get('addressLocality'), action=self.capitalize_string)
+            self.map_value(['currentStatus', 'location', 'streetLines'], None)
+            self.map_value(['currentStatus', 'location', 'country'], None)
+            self.map_value(['currentStatus', 'delayDetail'], None)
+
+        destination = self.data.get('destination')
+        if destination is not None:
+            address = destination.get('address')
+            self.map_value(['destination', 'streetLines'], None)
+            self.map_value(['destination', 'city'], address.get(
+                'addressLocality'), action=self.capitalize_string)
+            self.map_value(['destination', 'state'], None)
+            self.map_value(['destination', 'postalCode'],
+                           address.get("postalCode"))
+            self.map_value(['destination', 'country'],
+                           address.get('countryCode'))
+
+        for i, event in enumerate(reversed(self.data.get('events') or [])):
+            self.mapped_data['events'].append(
+                copy.deepcopy(self.mapped_data['eventTemplate']))
+            self.map_value(['events', i, 'date'], event.get(
+                'timestamp'), action=self.format_date)
+            self.map_value(['events', i, 'description'],
+                           event.get('description'))
+            self.map_value(['events', i, 'location', 'streetLines'], None)
+            self.map_value(['events', i, 'location', 'state'], None)
+            self.map_value(['events', i, 'location', 'city'], event.get('location', {}).get(
+                'address', {}).get('addressLocality'), action=self.capitalize_string)
+            self.map_value(['events', i, 'location', 'postalCode'], event.get(
+                'location', {}).get('address', {}).get('postalCode'))
+            self.map_value(['events', i, 'location', 'country'], event.get(
+                'location', {}).get('address', {}).get('countryCode'))
+            self.map_value(['events', i, 'status'], event.get('statusCode'))
+
+        self.map_value(['estimatedTimeArrival'],
+                       self.data.get('estimatedTimeOfDelivery'))
+        return self.mapped_data
+
+    def get_mapped_ups_data(self):
+        if self.data.get('errors') is not None:
+            return ERROR_MESSAGE
+
+        self.data = self.data.get('trackResponse', {}).get('shipment', [{}])[0]
+        if self.data.get('warnings') is not None:
+            return ERROR_MESSAGE
+
+        self.map_value(['carrier'], 'UPS')
+        self.map_value(['trackingNumber'], self.data.get('inquiryNumber'))
+
+        self.data = self.data.get('package', [{}])[0]
+
+        currentStatus = self.data.get('activity', [{}])[0]
+        if currentStatus is not None:
+            status = currentStatus.get('status', {})
+            location = currentStatus.get('location', {}).get('address', {})
+            self.map_value(['currentStatus', 'status'], status.get('description'))
+            self.map_value(['currentStatus', 'description'], None)
+            self.map_value(['currentStatus', 'location', 'streetLines'], location.get('addressLine1'))
+            self.map_value(['currentStatus', 'location', 'city'], location.get('city'), action=self.capitalize_string)
+            self.map_value(['currentStatus', 'location', 'state'], location.get('stateProvince'))
+            self.map_value(['currentStatus', 'location', 'postalCode'], location.get('postalCode'))
+            self.map_value(['currentStatus', 'location', 'country'], location.get('country'))
+            self.map_value(['currentStatus', 'delayDetail'], None)
+
+        destination = self.data.get('packageAddress', [{}])[0].get('address', {})
+        self.map_value(['destination', 'streetLines'], destination.get('addressLine1'))
+        self.map_value(['destination', 'city'], destination.get('city'), action=self.capitalize_string)
+        self.map_value(['destination', 'state'], destination.get('stateProvince'))
+        self.map_value(['destination', 'postalCode'], destination.get('postalCode'))
+        self.map_value(['destination', 'country'], destination.get('countryCode'))
+
+        for i, event in enumerate(self.data.get('activity') or []):
+            self.mapped_data['events'].append(
+                copy.deepcopy(self.mapped_data['eventTemplate']))
+            self.map_value(['events', i, 'date'], event.get('date'), action=self.format_date)
+            self.map_value(['events', i, 'description'], None)
+            self.map_value(['events', i, 'location', 'streetLines'], None)
+            self.map_value(['events', i, 'location', 'city'], event.get('location', {}).get('address', {}).get('city'), action=self.capitalize_string)
+            self.map_value(['events', i, 'location', 'state'], event.get('location', {}).get('address', {}).get('stateProvince'))
+            self.map_value(['events', i, 'location', 'postalCode'], event.get('location', {}).get('address', {}).get('postalCode'))
+            self.map_value(['events', i, 'location', 'country'], event.get('location', {}).get('address', {}).get('country'))
+            self.map_value(['events', i, 'status'], event.get('status', {}).get('description'))
+
+        delivery_date, delivery_time = self.data.get('deliveryDate', [{}])[0].get('date'), self.data.get('deliveryTime', {}).get('endTime')
+        self.map_value(['estimatedTimeArrival'], f'{delivery_date} T {delivery_time}', action=self.format_date)
         return self.mapped_data
 
     def map_value(self, keys, value, action=None):
@@ -239,11 +289,12 @@ class DataMapper():
         return string.title()
 
     def format_date(self, date):
-        if not date:
+        try:
+            parsed_date = parser.parse(date)
+            date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
+            return date.strftime("%B %-d, %Y, %-I:%M %p")
+        except ParserError:
             return None
-        parsed_date = parser.parse(date)
-        date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
-        return date.strftime("%B %-d, %Y, %-I:%M %p")
 
     def get_address_from_string(self, string):
         address = {'city': None, 'state': None, 'postalCode': None}
@@ -333,10 +384,26 @@ class DHLApi():
             return ERROR_MESSAGE
 
 
+# UPS TESING NUMBERS: 1Z689F0V0314879807
+class UPSApi():
+    @staticmethod
+    def get_track_package_data(tracking_number):
+        try:
+            url = f"https://onlinetools.ups.com/track/v1/details/{tracking_number}"
+            headers = {'AccessLicenseNumber': SECRETS['UPS_SECRET'], 'Username': SECRETS['UPS_USERNAME'], 'Password': SECRETS['UPS_PASSWORD']}
+            response = requests.request(
+                "GET", url, headers=headers)
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            logger.warning(e)
+            return ERROR_MESSAGE
+
+
 class Carrier(Enum):
     fedex = FedexAPI
     usps = USPSApi
     dhl = DHLApi
+    ups = UPSApi
 
 
 ERROR_MESSAGE = {
