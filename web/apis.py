@@ -300,7 +300,7 @@ class DataMapper():
         try:
             parsed_date = parser.parse(date)
             date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
-            return date.strftime("%m-%d-%Y %H:%M%p")
+            return date.strftime("%B %-d, %Y, %-I:%M %p")
         except (TypeError, ParserError):
             return None
 
