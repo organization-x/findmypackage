@@ -30,7 +30,7 @@ class GPT_Completion():
 def rate_news_headlines(news_headlines):
     prompt = (
         'Decide a score out of 0 to 100 for each event from each news headline, numbered below, based on how much the event would delay world-wide transportation today:\n\n'
-        'EXAMPLES:\n1. Ship ports are closed down: 70\n2. Natural disaster arrives at a country: 100\n3. Tragic event happens and less than a thousand people die: 0\n4. Pandemic spreads to a large country: 80\n\nNEWS HEADLINES:'
+        'EXAMPLES:\n1. Ship ports are closed down: 70\n2. Natural disaster arrives at a country: 100\n3. Less than five-hundred people die because of a tragic event: 0\n4. Pandemic spreads to a large country: 80\n\nNEWS HEADLINES:'
     )
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
@@ -38,15 +38,16 @@ def rate_news_headlines(news_headlines):
 
     current_number = 1
     headline_ratings = []
-    for headline_rating in response.splitlines():
-        if headline_rating.startswith(f'{current_number}. '):
-            headline_ratings.append(headline_rating.split()[-1])
+    for line in response.splitlines():
+        if line.startswith(f'{current_number}. '):
+            headline_rating = line.split()[-1]
+            headline_ratings.append(int(headline_rating) if headline_rating.isnumeric() else -1)
             current_number += 1
     return headline_ratings
 
 
 def retrieve_countries_from_headlines(news_headlines):
-    prompt = 'Retrieve the countries affected for each event from each news headline, numbered below:\n\nNEWS HEADLINES:\n'
+    prompt = 'Retrieve the country names affected for each event from each news headline, numbered below:\n\nNEWS HEADLINES:\n'
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
     response = GPT_Completion(prompt).get_response()
@@ -61,7 +62,7 @@ def retrieve_countries_from_headlines(news_headlines):
     return total_countries
 
 
-def get_adjusted_eta(eta: datetime):
+def get_adjusted_eta(eta: datetime, package_location):
     adjusted_eta = eta
     # get all news headlines with an impact score greater than or equal to 10
     news_headlines = NewsHeadline.objects.filter(impact_score__gte=10)
@@ -88,4 +89,15 @@ real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia 
 
 # for adjusted eta testing, uncomment and runserver to test
 # print('Start time:', datetime.now().strftime("%H:%M:%S"))
-# print('End time:  ', get_adjusted_eta(datetime.now()).strftime("%H:%M:%S"))
+# print('End time:  ', get_adjusted_eta(
+#     datetime.now(), 
+#     {
+#         'streetLines': [
+#             'Not available'
+#         ],
+#         'city': 'Los Angeles',
+#         'state': 'California',
+#         'postalCode': '90001',
+#         'country': 'United States'
+#     }
+# ).strftime("%H:%M:%S"))
