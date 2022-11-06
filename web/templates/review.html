@@ -1,20 +1,20 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Reviews</title>
-    <link rel="stylesheet" href="{% static 'admin/css/reviews.css' %}">
 
+<head>
+  <meta charset="utf-8">
+  <title>Reviews - FMP</title>
+  <link rel="stylesheet" href="{% static 'admin/css/reviews.css' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'admin/img/packageiocn2.png' %}">
 </head>
 
 <body>
-
-  <!-- JS  LINK: but for some reason it doesn't show
-     <script src="{% static 'admin/js/reviews.js' %}"></script> 
+<div class="format-test"> <!-- JS  LINK: but for some reason it doesn't show
+    <script src="{% static 'admin/js/reviews.js' %}"></script> 
     -->
-    
-        <div class="app">
+
+  <div class="app">
 
             <div class="menu-toggle">
                 <div class="hamburger">
@@ -44,114 +44,150 @@
             <a href="/">FindMyPackage</a>
         </header>
     <div class="read">
-        <p>Read a review</p>
+      <p>Read a review</p>
     </div>
 
 
     <div class="review-container">
 
-    <!-- Slideshow container -->
-    <div class="slideshow-container">
+      <!-- Slideshow container -->
+      <div class="slideshow-container">
 
         <!-- Full-width images with number and caption text -->
         {% for review in reviews %}
         <div class="mySlides fade">
-            <div class="numbertext">{{ forloop.counter }} / 10</div>
-            <div class="review">
-                <p class="review_name"><strong>{{ review.author }}</strong></p>
-                <div class="review_stars">
-                    <div class="review_stars1" style="--l:{{ review.stars }}"> 
-                    </div>                 
-                 </div>
-                
-                <p class="review_body">{{ review.content }}</p>
+          <div class="numbertext">{{ forloop.counter }} / 10</div>
+          <div class="review">
+            <p class="review_name"><strong>{{ review.author }}</strong></p>
+            <div class="review_stars">
+              <div class="review_stars1" style="--l:{{ review.stars }}">
+              </div>
             </div>
+
+            <p class="review_body">{{ review.content }}</p>
+
+           <!--- Written on {{ review.date }}-->
+
+          </div>
+
+          <div class="average">
+            <div class="review_stars2" style="--l:2"></div>
+            <div class="r3"><p>{{ stars_average|floatformat:1 }}</p></div>
+            <div class="r4"><p>(out of {{ total_reviews_count }} reviews)</p></div>
+          </div>
+
         </div>
         {% endfor %}
-        
       
+   
+
         <!-- Next and previous buttons -->
         <a class="prev" onclick="plusSlides(-1)">&#xF12F; <button class="arrow" id="arrow--left">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left"
+              viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+          </button>
+          <a class="next" onclick="plusSlides(1)">&#xf104;<button class="arrow" id="arrow--right">
+              <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
               </svg>
-        </button>        
-        <a class="next" onclick="plusSlides(1)">&#xf104;<button class="arrow" id="arrow--right">
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-              </svg>
-        </button></a>
+            </button></a>
         </a>
       </div>
       <br>
-      
+
       <!-- The dots/circles -->
       <div style="text-align:center">
         {% for review in reviews %}
-            <span class="dot" onclick="currentSlide( {{ forloop.counter }} )"></span>
+        <span class="dot" onclick="currentSlide( {{ forloop.counter }} )"></span>
         {% endfor %}
-    </div>
+      </div>
 
-        <script>
+
+
+      <script>
+
+function average_rating(array){
+  let average = 0;
+  for (let i = 0; i < array.length; i++){
+  let currentNum = array[i]
+}
+average = average / array.length
+return average;
+}
+average_rating([ 2, 4 ])
+
+
+
         let slideIndex = 1;
-            showSlides(slideIndex);
-            
-            // Next/previous controls
-            function plusSlides(n) {
-              showSlides(slideIndex += n);
-            }
-            
-            // Thumbnail image controls
-            function currentSlide(n) {
-              showSlides(slideIndex = n);
-            }
-            
-            function showSlides(n) {
-              let i;
-              let slides = document.getElementsByClassName("mySlides");
-              let dots = document.getElementsByClassName("dot");
-              if (n > slides.length) {slideIndex = 1}
-              if (n < 1) {slideIndex = slides.length}
-              for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-              }
-              for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-              }
-              slides[slideIndex-1].style.display = "block";
-              dots[slideIndex-1].className += " active";
-            }
-        
-            </script>
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+          showSlides(slideIndex += n);
+        }
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+          showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+          let i;
+          let slides = document.getElementsByClassName("mySlides");
+          let dots = document.getElementsByClassName("dot");
+          if (n > slides.length) { slideIndex = 1 }
+          if (n < 1) { slideIndex = slides.length }
+          for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+          }
+          for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+          }
+          slides[slideIndex - 1].style.display = "block";
+          dots[slideIndex - 1].className += " active";
+        }
+
+      </script>
+  </div>
 
 
+
+
+    <div class="read">
+      <h4>Write a review</h4>
     </div>
-
-
-<div class="read">
-<h4>Write a review</h4>
-</div>
 
     <div class="container">
-        <form action="{% url 'reviews' %}" method="post">
-            {% csrf_token %}
-            <label for="name_input">Name</label>
-            <input type="text" id="name_input" name="name" placeholder="Your name..">
-  
-    <div class="stars_input">
-        <div select id="stars_input" class="stars">
+      <form action="{% url 'reviews' %}" method="post">
+        {% csrf_token %}
+        <label for="name_input">Name</label>
+        <input type="text" id="name_input" name="name" style="font-family: 'Montserrat'" placeholder="Your name...">
+
+        <div class="stars_input">
+          <div select id="stars_input" class="stars">
             <input type="radio" name="stars" value="1" />
             <input type="radio" name="stars" value="2" />
-            <input type="radio" name="stars" value="3"  />
+            <input type="radio" name="stars" value="3" />
             <input type="radio" name="stars" value="4" />
-            <input type="radio" name="stars" value="5" checked />
+            <input type="radio" name="stars" value="5" />
             <i></i>
           </div>
-</div>
-            <textarea id="subject_input" name="subject" placeholder="Share your opinions.." style="height:110px; font-size:16px;" maxlength="300"></textarea>
-            <input type="submit" value="submit">
-        </form>
+          <p>(Click to change)</p>
+        </div>
+        <textarea id="subject_input" name="subject" placeholder="Your opinions..."
+        maxlength="300" style="font-family: 'Montserrat'"></textarea>
+        <input type="submit" value="submit">
+      </form>
+      
     </div>
 </div>
+ 
+  
 </body>
+
 </html>

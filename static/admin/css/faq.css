@@ -13,6 +13,9 @@ body {
     color: red;
 }
 
+
+
+
 .sidebar {
     transition: 0.5s;
     max-height: 400px;
@@ -23,9 +26,8 @@ body {
 }
  
 .sidebar .menu {
-  padding-top: 16px;
-    margin: 0 -1rem;
-    transition: 0.5s;
+  margin: 0 -1em -0.4em -1em;
+  font-size: 0.7em;
 }
  
 .sidebar .menu .menu-item {
@@ -73,7 +75,7 @@ h1 {
   /* Sets the width for the accordion. Sets the margin to 90px on the top and bottom and auto to the left and right */
   
   .accordion {
-    width: 375px;
+    width: 50%;
     margin: 20px auto;
     color: black;
     background-color: white;
@@ -100,6 +102,7 @@ h1 {
 
 
   .accordion .label::before {
+    margin-top: -15px;
     content: '+';
     color: black;
     position: absolute;
@@ -127,7 +130,6 @@ h1 {
   
   .accordion hr {
     margin: 10px;
-    width: 100;
     margin-left: 0;
     border: 1px solid grey;
   }
@@ -135,14 +137,35 @@ h1 {
 /* Unhides the content part when active. Sets the height */
 
 .accordion .container.active .content {
-    height: 120px ;
+    height: auto ;
   }
   
   /* Changes from plus sign to negative sign once active */
   
   .accordion .container.active .label::before {
+    margin-top: -16px;
     content: '-';
     font-size: 30px;
+  }
+
+  .container label {
+    padding: 5%;
+    margin: 5%;
+  }
+
+.container .content {
+  width: auto;
+  transition: 0.5s;
+  font-size: 0.8em;
+  text-align: left;
+}
+
+  @media (min-width: 730px) {
+
+    .sidebar .menu {
+      margin: 0 -1em 0 -1em;
+      font-size: 1em;
+    }
   }
 
 @media (min-width: 930px) {
