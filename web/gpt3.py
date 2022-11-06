@@ -1,6 +1,11 @@
+import json
+from datetime import datetime, timedelta
+
 import openai
 
 from package.settings import SECRETS
+
+from .models import NewsHeadline
 
 openai.api_key = SECRETS['OPENAI_SECRET']
 
@@ -22,11 +27,6 @@ class GPT_Completion():
         return response.choices[0].text
 
 
-def get_adjusted_eta(eta):
-    # work on this
-    pass
-
-
 def rate_news_headlines(news_headlines):
     prompt = (
         'Decide a score out of 0 to 100 for each event from each news headline, numbered below, based on how much the event would delay world-wide transportation today:\n\n'
@@ -46,18 +46,33 @@ def rate_news_headlines(news_headlines):
 
 
 def retrieve_countries_from_headlines(news_headlines):
-    prompt = 'Retrieve the countries affected for each event from each news headline, numbered below:\n'
+    prompt = 'Retrieve the countries affected for each event from each news headline, numbered below:\n\nNEWS HEADLINES:\n'
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
     response = GPT_Completion(prompt).get_response()
 
     current_number = 1
-    countries = []
-    for country in response.splitlines():
-        if country.startswith(f'{current_number}. '):
-            countries.append(country.removeprefix(f'{current_number}. ').split(','))
+    total_countries = []
+    for line in response.splitlines():
+        if line.startswith(f'{current_number}. '):
+            current_countries = line.removeprefix(f'{current_number}. ').split(',')
+            total_countries.append([country.replace('and ', '').strip() for country in current_countries])
             current_number += 1
-    return countries
+    return total_countries
+
+
+def get_adjusted_eta(eta: datetime):
+    adjusted_eta = eta
+    # get all news headlines with an impact score greater than or equal to 10
+    news_headlines = NewsHeadline.objects.filter(impact_score__gte=10)
+    for news_headline in news_headlines:
+        # do something with countries here
+        countries = json.loads(news_headline.countries_affected).get('countries')
+        # do something with impact score here (from 0 of 100)
+        impact_score = news_headline.impact_score
+        # add to the adjusted eta
+        adjusted_eta += timedelta(hours=news_headline.impact_score / 100)
+    return adjusted_eta
 
 
 # ---------------------------------------------------------------------------- #
@@ -70,3 +85,7 @@ real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia 
 
 # print(rate_news_headlines(real_events))
 # print(retrieve_countries_from_headlines(other))
+
+# for adjusted eta testing, uncomment and runserver to test
+# print('Start time:', datetime.now().strftime("%H:%M:%S"))
+# print('End time:  ', get_adjusted_eta(datetime.now()).strftime("%H:%M:%S"))
