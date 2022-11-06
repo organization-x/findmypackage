@@ -29,8 +29,8 @@ def get_adjusted_eta(eta):
 
 def rate_news_headlines(news_headlines):
     prompt = (
-        'Decide a score out of 0 to 100 based on how much each event from each news headline, numbered below, would delay world-wide transportation today:\n\n'
-        'EXAMPLES:\n1. Ship ports closed in America: 70\n2. Typhoon approaching China: 70\n3. Heavy snowfall in California: 80\n4. Pandemic spreads to Mexico: 80\n\nSCORES:'
+        'Decide a score out of 0 to 100 for each event from each news headline, numbered below, based on how much the event would delay world-wide transportation today:\n\n'
+        'EXAMPLES:\n1. Ship ports are closed down: 70\n2. Natural disaster arrives at a country: 100\n3. Tragic event happens and less than a thousand people die: 0\n4. Pandemic spreads to a large country: 80\n\nNEWS HEADLINES:'
     )
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
@@ -46,7 +46,7 @@ def rate_news_headlines(news_headlines):
 
 
 def retrieve_countries_from_headlines(news_headlines):
-    prompt = 'Retrieve the countries affected from these events taken from news headlines, numbered below:\n'
+    prompt = 'Retrieve the countries affected for each event from each news headline, numbered below:\n'
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
     response = GPT_Completion(prompt).get_response()
@@ -66,7 +66,7 @@ def retrieve_countries_from_headlines(news_headlines):
 
 news_headlines = ['Iran also barred from Nobel ceremony, after Russia, Belaru', 'Ship ports closed everywhere',
                   'Celebrity wins an oscar award', 'Famous person has died', 'Minor pandemic spreads to America']
-real_events = ["Bolsonaro or Lula? U.S. Brazilians cast ballots in their home country's high-stakes runoff election", "Russia is suspending a Ukraine grain export deal that has helped keep food prices down", "World Series rainout, Astros-Phils to play Game 3 Tuesday", 'The Coronavirus Impact on Personal Finances', 'Tropical Depression Lisa crosses into southern Mexico']
+real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia is suspending a Ukraine grain export deal that has helped keep food prices down", "World Series rainout, Astros-Phils to play Game 3 Tuesday", 'The Coronavirus Impact on Personal Finances']
 
-print(rate_news_headlines(real_events))
-print(retrieve_countries_from_headlines(real_events))
+# print(rate_news_headlines(real_events))
+# print(retrieve_countries_from_headlines(other))
