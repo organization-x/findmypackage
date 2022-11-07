@@ -90,10 +90,10 @@
             <u>Possible Delay:</u>
             {% if calculated_delay.days or calculated_delay.hours %}
                 +
-                {% if calculated.delay.days %}
+                {% if calculated_delay.days %}
                     {{ calculated_delay.days }} days,
                 {% endif %}
-                {{ calculated_delay.hours }} hours
+                {{ calculated_delay.hours|floatformat:2 }} hours
             {% else %}
                 none
             {% endif %}

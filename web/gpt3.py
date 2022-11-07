@@ -32,7 +32,7 @@ class GPT_Completion():
 def rate_news_headlines(news_headlines):
     prompt = (
         'Decide a score out of 0 to 100 for each event from each news headline, numbered below, based on how much the event would delay world-wide transportation today:\n\n'
-        'EXAMPLES:\n1. Ship ports are closed down: 70\n2. Natural disaster arrives at a country: 100\n3. Less than five-hundred people die because of a tragic event: 0\n4. Pandemic spreads to a large country: 80\n\nNEWS HEADLINES:'
+        'EXAMPLES:\n1. Ship ports are closed down: 70\n2. Natural disaster arrives at a country: 100\n3. Less than five-hundred people die because of a tragic event: 0\n4. Pandemic spreads to a large country: 80\n5. A country practices to attack another country: 0\n\nNEWS HEADLINES:'
     )
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
@@ -49,7 +49,7 @@ def rate_news_headlines(news_headlines):
 
 
 def retrieve_countries_from_headlines(news_headlines):
-    prompt = 'Retrieve the country names affected for each event from each news headline, numbered below:\n\nNEWS HEADLINES:\n'
+    prompt = 'Retrieve the country name, with the state or city name if possible, affected for each event from each news headline, numbered below:\n\nNEWS HEADLINES:\n'
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
     response = GPT_Completion(prompt).get_response()
@@ -78,21 +78,16 @@ def calculate_delivery_delay(eta: str, package_location):
 
     news_headlines = NewsHeadline.objects.filter(impact_score__gte=10)
     for news_headline in news_headlines:
-        impact_score = news_headline.impact_score
-
         countries = json.loads(news_headline.countries_affected).get('countries')
         for country in countries:
             if country.lower() in ('nowhere', 'n/a', '-', 'none') or not country:
                 continue
             distance_relevance = calculate_distance_relevance(package_address, country)
             if distance_relevance > 0:
-                impact_score *= distance_relevance
+                total_impact_score = news_headline.impact_score * (distance_relevance / 100)
                 affected_headlines.append(news_headline.headline)
+                adjusted_eta += timedelta(hours=total_impact_score / 3)
                 break
-
-        # check if impact score increased from the countries
-        if impact_score > news_headline.impact_score:
-            adjusted_eta += timedelta(hours=impact_score / 3)
 
     delay = adjusted_eta - eta
     response['days'] = delay.days
@@ -113,10 +108,9 @@ def calculate_distance_relevance(origin, destination):
 
     response = requests.get(url, params=params)
     data = json.loads(response.content)
-    print(data)
     relevance_function = all_other_relevance_function
     destination_address, origin_address = data.get('destination_addresses', [''])[0].lower(), data.get('origin_addresses', [''])[0].lower()
-    if ('usa' in destination_address or 'united states' in destination_address or " us" in destination_address) and ('usa' in origin_address or 'united states' in origin_address or " us" in origin_address):
+    if ('usa' in destination_address or 'united states' in destination_address or 'us' in destination_address) and ('usa' in origin_address or 'united states' in origin_address or 'us' in origin_address):
         relevance_function = united_states_relevance_function
     elif (destination_address in origin_address) or (origin_address in destination_address):
         return 100
@@ -146,6 +140,8 @@ news_headlines = ['Iran also barred from Nobel ceremony, after Russia, Belaru', 
                   'Celebrity wins an oscar award', 'Famous person has died', 'Minor pandemic spreads to America']
 real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia is suspending a Ukraine grain export deal that has helped keep food prices down", "World Series rainout, Astros-Phils to play Game 3 Tuesday", 'The Coronavirus Impact on Personal Finances']
 
+other = ["Tanzania: Plane crashes into Lake Victoria; 19 dead", "Amnesty: Egypt has days to save jailed activist’s life", "	Nuclear bomb goes off in Cerritos California killing 10000 people", "Ship refuses to leave Italy port until all migrants are off", "	EXPLAINER: Qatar’s vast wealth helps it host FIFA World Cup"]
+
 # print(rate_news_headlines(real_events))
 # print(retrieve_countries_from_headlines(other))
 
@@ -163,5 +159,4 @@ real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia 
 #         'country': 'United States'
 #     }
 # ))
-print(calculate_distance_relevance('Cerritos California', 'Florida USA'))
-print(calculate_distance_relevance('Houston Texas', 'USA'))
+# print(calculate_distance_relevance('California', 'United States'))
