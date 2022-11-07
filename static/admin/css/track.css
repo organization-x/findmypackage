@@ -71,6 +71,12 @@ header a {
     border-radius: 25px;
 }
 
+#map {
+    height: 600px;
+    width: 80%px;
+    border-radius: 25px;
+}
+
 .info-container {
     font-size: 1.5rem;
     background-color: white;
@@ -160,6 +166,15 @@ h1 {
     font-size: 40px;
 }
 
+.additionalInfo {
+    border-spacing: 60px 60px;
+}
+
+.additionalInfo th, td {
+    text-align: justify;
+    text-align: center;
+}
+
 button[name="toggle-dark-mode"] {
     font-family: 'Montserrat';
     float: left;
@@ -202,10 +217,6 @@ button[name="toggle-dark-mode"]:hover {
     background: linear-gradient(#333858, #36393f);
 }
 
-.dark-mode .track-container {
-    background-color: #3f4575;
-}
-
 .dark-mode .sidebar {
     background-color: #3f4575;
 }
@@ -232,24 +243,50 @@ button[name="toggle-dark-mode"]:hover {
     color: #717496;
 }
 
-.dark-mode #light-img {
-    visibility: hidden;
+.dark-mode .info-container {
+    background-color: #3f4575;
 }
 
-.dark-mode #dark-img {
-    visibility: visible;
+.dark-mode .info-boxes i {
+    color: rgba(204,205,206,255);
 }
 
-
-
-.additionalInfo {
-    border-spacing: 60px 60px;
+.dark-mode .info-boxes u {
+    color: rgba(204,205,206,255);
 }
 
-.additionalInfo th, td {
-    text-align: justify;
-    text-align: center;
+.dark-mode .info-boxes span {
+    color: rgba(204,205,206,255);
 }
+
+.dark-mode .accordion {
+    background: transparent;
+}
+
+.dark-mode .accordion h1 {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode .label {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode .content {
+    background: transparent;
+}
+
+.dark-mode .additionalInfo th, td {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode .accordion .label::before {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode .accordion .container.active .label::before {
+    color: rgba(204,205,206,255);
+}
+
 
 @media (min-width: 730px) {
 
@@ -288,6 +325,15 @@ button[name="toggle-dark-mode"]:hover {
         margin-right: auto;
         width: 30%;
     }
+
+    .dark-mode .info-container {
+        box-shadow: 0 2px 10px 2px #717496;
+    }
+
+    .dark-mode .map-container {
+        box-shadow: 0 2px 10px 2px #717496;
+    }
+    
 }
 
 
