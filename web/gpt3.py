@@ -74,7 +74,7 @@ def calculate_delivery_delay(eta: str, package_location):
     adjusted_eta = eta
     affected_headlines = []
 
-    package_address = f"{package_location.get('city')} {package_location.get('state')} {package_location.get('postalCode')}, {package_location.get('country')}"
+    package_address = f"{package_location.get('city')} {package_location.get('state')}, {package_location.get('country')}"
 
     news_headlines = NewsHeadline.objects.filter(impact_score__gte=10)
     for news_headline in news_headlines:
@@ -85,13 +85,14 @@ def calculate_delivery_delay(eta: str, package_location):
             if country.lower() in ('nowhere', 'n/a', '-', 'none') or not country:
                 continue
             distance_relevance = calculate_distance_relevance(package_address, country)
-            if distance_relevance > 1:
-                impact_score += distance_relevance
+            if distance_relevance > 0:
+                impact_score *= distance_relevance
                 affected_headlines.append(news_headline.headline)
+                break
 
         # check if impact score increased from the countries
         if impact_score > news_headline.impact_score:
-            adjusted_eta += timedelta(hours=impact_score / 100)
+            adjusted_eta += timedelta(hours=impact_score / 3)
 
     delay = adjusted_eta - eta
     response['days'] = delay.days
@@ -111,16 +112,28 @@ def calculate_distance_relevance(origin, destination):
     }
 
     response = requests.get(url, params=params)
-    data = json.loads(response.content).get('rows')[0].get('elements', [{}])[0]
-    if data.get('status') == "ZERO_RESULTS":
+    data = json.loads(response.content)
+    print(data)
+    relevance_function = all_other_relevance_function
+    destination_address, origin_address = data.get('destination_addresses', [''])[0].lower(), data.get('origin_addresses', [''])[0].lower()
+    if ('usa' in destination_address or 'united states' in destination_address) and ('usa' in origin_address or 'united states' in origin_address):
+        relevance_function = united_states_relevance_function
+    data = data.get('rows')[0].get('elements', [{}])[0]
+    if data.get('status') == 'ZERO_RESULTS':
         return 0
     distance = data.get('distance', {}).get('text')
-    distance = distance[:distance.rfind(" ")].replace(',', '')
-    relevance = 6.644 - (0.007 * int(distance))
-    relevance = 2 ** relevance
-    if relevance < 1:
+    distance = distance[:distance.rfind(' ')].replace(',', '')
+    relevance = relevance_function(int(distance))
+    if relevance < 0.5:
         relevance = 0
     return relevance
+
+
+def united_states_relevance_function(distance):
+    return -0.00001 * (distance ** 2) + 100
+
+def all_other_relevance_function(distance):
+    return 2 ** (6.644 - (0.007 * distance))
 
 
 # ---------------------------------------------------------------------------- #
@@ -148,3 +161,5 @@ real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia 
 #         'country': 'United States'
 #     }
 # ))
+print(calculate_distance_relevance('Cerritos California', 'Florida USA'))
+print(calculate_distance_relevance('Houston Texas', 'USA'))
