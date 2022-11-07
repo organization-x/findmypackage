@@ -43,19 +43,17 @@
             <div id="map"></div>
 
             <script>
+                var element = document.body;
                 function initMap() {
-                    // Map options
-                    if (element.classList.toggle("dark-mode") === true) {
-                        var options = {
+                    var options = {
                             zoom: 7,
                             center: { lat: 42.3601, lng: -71.0589 },
-                            mapId: 'ac6272f72a9d6a78'
                         };
-                    }
-                    else {
+                    if (element.classList.contains("dark-mode") === true) {
                         var options = {
                             zoom: 7,
                             center: { lat: 42.3601, lng: -71.0589 },
+                            mapId: 'ac6272f72a9d6a78',
                         };
                     }
                     // New map
@@ -72,16 +70,16 @@
                                 position: results[0].geometry.location,
                                 icon: "{% static 'admin/img/packageIcon.png' %}"
                             });
-                        } else {
-                            alert('Geocode was not successful for the following reason: ' + status);
-                        }
+                        } 
                     });
                 }
+                var changeMap = document.getElementById("dark-mode");
+                changeMap.addEventListener("click", initMap);
+
             </script>
 
-            <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5FA27aS8awnK4T0YiWW80GjPBIVJv5wQ&map_ids=ac6272f72a9d6a78&callback=initMap">
-                </script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ FMP_MAPS_KEY }}&map_ids=ac6272f72a9d6a78&callback=initMap">
+            </script>
 
             <body onload="initMap()">
                 <input id="address"
@@ -143,8 +141,7 @@
                                 <td>{{ event.date }}</td>
                                 <td>{{ event.description }}</td>
                                 <td>
-                                    {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode
-                                    }}, {{ event.location.country }}
+                                    {{ event.location.city }} {{ event.location.state }}, {{ event.location.postalCode }}, {{ event.location.country }}
                                     <br>
                                     Street Lines: {% for line in event.location.streetLines %}{{ line }} {% endfor %}
                                 </td>
