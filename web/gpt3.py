@@ -74,23 +74,29 @@ def calculate_delivery_delay(eta: str, package_location):
     adjusted_eta = eta
     affected_headlines = []
 
+    package_address = f"{package_location.get('city')} {package_location.get('state')} {package_location.get('postalCode')}, {package_location.get('country')}"
+
     news_headlines = NewsHeadline.objects.filter(impact_score__gte=10)
     for news_headline in news_headlines:
+        impact_score = news_headline.impact_score
+
         countries = json.loads(news_headline.countries_affected).get('countries')
         for country in countries:
             if country.lower() in ('nowhere', 'n/a', '-', 'none') or not country:
                 continue
-            # do something with the country
+            distance_relevance = calculate_distance_relevance(package_address, country)
+            if distance_relevance > 1:
+                impact_score += distance_relevance
+                affected_headlines.append(news_headline.headline)
 
-        impact_score = news_headline.impact_score
-
-        affected_headlines.append(news_headline.headline)
-        adjusted_eta += timedelta(hours=impact_score / 100)
+        # check if impact score increased from the countries
+        if impact_score > news_headline.impact_score:
+            adjusted_eta += timedelta(hours=impact_score / 100)
 
     delay = adjusted_eta - eta
     response['days'] = delay.days
     response['hours'] = delay.seconds / 3600
-    response['headlines'] = affected_headlines
+    response['headlines'] = affected_headlines[:3] # cap off displaying affected headlines to 3
     return response
 
 
@@ -114,6 +120,7 @@ def calculate_distance_relevance(origin, destination):
     relevance = 2 ** relevance
     if relevance < 1:
         relevance = 0
+    return relevance
 
 
 # ---------------------------------------------------------------------------- #
