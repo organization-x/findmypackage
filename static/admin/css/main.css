@@ -40,33 +40,33 @@ main {
     padding: 1rem 0;
     background-color: #4A7FCB;
     text-align: center;
-  }
-  
-  .sidebar .menu {
+}
+
+.sidebar .menu {
     margin: 0 -1em -0.4em -1em;
     font-size: 0.7em;
-  }
-  
-  .sidebar .menu .menu-item {
+}
+
+.sidebar .menu .menu-item {
     display: inline;
     padding: 1em 0.5em 1em 0.5em;
     color: whitesmoke;
     text-decoration: none;
     transition: 0.5s;
-  }
-  
-  .sidebar .menu .menu-item:hover,
-  .sidebar .menu .menu-item.is-active {
+}
+
+.sidebar .menu .menu-item:hover,
+.sidebar .menu .menu-item.is-active {
     color: #ADAEF1;
     border-bottom: 7px solid #ADAEF1;
-  }
-  
-  header a {
+}
+
+header a {
     font-size: 1.3rem;
     text-align: center;
     color: white;
     text-decoration: none;
-  }
+}
 
 
 
@@ -207,7 +207,7 @@ p {
 
 button[name="toggle-dark-mode"] {
     font-family: 'Montserrat';
-    float:left;
+    float: left;
     margin: -25px 10px 0 90%;
     height: 30px;
     width: auto;
@@ -219,14 +219,14 @@ button[name="toggle-dark-mode"] {
 }
 
 button[name="toggle-dark-mode"] svg {
-    float:left;
+    float: left;
     padding: 0;
     height: 27px;
     width: 27px;
 }
 
 button[name="toggle-dark-mode"] p {
-    float:left;
+    float: left;
     text-align: right;
     padding: 0;
     margin: 0 -75px 0 0;
@@ -236,12 +236,12 @@ button[name="toggle-dark-mode"] p {
 button[name="toggle-dark-mode"]:hover {
     cursor: pointer;
     color: #ADAEF1;
-  }
+}
 
 .dark-mode {
     background-color: #36393f;
     color: white;
-  }
+}
 
 .dark-mode .hero-bg {
     background: linear-gradient(#333858, #36393f);
@@ -253,20 +253,20 @@ button[name="toggle-dark-mode"]:hover {
 
 .dark-mode .sidebar {
     background-color: #3f4575;
-  }
-  
-  
-  .dark-mode  .sidebar .menu .menu-item {
-    color: rgba(204,205,206,255);
-  }
-  
-  .dark-mode .sidebar .menu .menu-item:hover,
-  .dark-mode .sidebar .menu .menu-item.is-active {
+}
+
+
+.dark-mode .sidebar .menu .menu-item {
+    color: rgba(204, 205, 206, 255);
+}
+
+.dark-mode .sidebar .menu .menu-item:hover,
+.dark-mode .sidebar .menu .menu-item.is-active {
     color: #717496;
     border-bottom: 7px solid #717496;
-  }
+}
 
-   .dark-mode .track-container .submit {
+.dark-mode .track-container .submit {
     background-color: #717496;
     color: lightgray;
     border-color: #717496;
@@ -278,7 +278,7 @@ button[name="toggle-dark-mode"]:hover {
 }
 
 .dark-mode .package-id-words {
-    color: rgba(204,205,206,255);
+    color: rgba(204, 205, 206, 255);
 }
 
 .dark-mode .track-container .form-left-input {
@@ -286,43 +286,43 @@ button[name="toggle-dark-mode"]:hover {
 }
 
 .dark-mode .findmypackage-name {
-    color: rgba(204,205,206,255);
+    color: rgba(204, 205, 206, 255);
 }
 
 .dark-mode .best-way-to-track {
-    color: rgba(204,205,206,255);
+    color: rgba(204, 205, 206, 255);
 }
 
 .dark-mode button[name="toggle-dark-mode"] {
     background-color: #3f4575;
     border: none;
-    color:lightgray;
+    color: lightgray;
 }
 
 .dark-mode button[name="toggle-dark-mode"]:hover {
-  cursor: pointer;
-  color: #717496;
+    cursor: pointer;
+    color: #717496;
 }
 
 .dark-mode #light-img {
-visibility: hidden;
+    visibility: hidden;
 }
 
 .dark-mode #dark-img {
     visibility: visible;
-    }
-    
+}
+
 @media (min-width: 730px) {
-    
+
     button[name="toggle-dark-mode"] svg {
-        float:left;
+        float: left;
         padding: 0;
         height: 27px;
         width: 27px;
     }
 
     button[name="toggle-dark-mode"] p {
-        float:left;
+        float: left;
         text-align: right;
         padding: 0;
         margin: -5px 0 0 0;
@@ -330,17 +330,17 @@ visibility: hidden;
     }
 
     button[name="toggle-dark-mode"] {
-        float:left;
+        float: left;
         margin: -20px 10px 0 80%;
         height: 30px;
         width: auto;
         font-size: 0.9em;
     }
-    
+
     .sidebar .menu {
         margin: 0 -1em 0 -1em;
         font-size: 1em;
-      }
+    }
 
     .sidebar .menu .menu-item {
         padding: 1em;
@@ -389,7 +389,7 @@ visibility: hidden;
         margin: 5em 7em;
         padding: 2em;
         border-radius: 25px;
-        
+
     }
 
     section.About {

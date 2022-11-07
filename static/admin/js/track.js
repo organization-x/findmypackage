@@ -9,4 +9,5 @@ for (i=0; i<accordion.length; i++) {
 function myFunction() {
   var element = document.body;
   element.classList.toggle("dark-mode");
+  initMap();
 }
