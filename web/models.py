@@ -10,3 +10,5 @@ class Review(models.Model):
 class NewsHeadline(models.Model):
     headline = models.TextField()
     date = models.DateTimeField()
+    impact_score = models.SmallIntegerField(default=-1)
+    countries_affected = models.TextField(default="{'countries': ['Nowhere']}")

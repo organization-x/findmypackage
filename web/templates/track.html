@@ -77,13 +77,39 @@
 
             <body onload="initMap()">
                 <input id="address"
-                    value="{{currentStatus.location.city}}{{currentStatus.location.state}}{{ currentStatus.location.postalCode }},{{currentStatus.location.country}}"
+                    value="{{currentStatus.location.city}} {{currentStatus.location.state}} {{ currentStatus.location.postalCode }}, {{currentStatus.location.country}}"
                     type="hidden">
             </body>
         </div>
 
         <div class="Date-container">
             <u>ETA:</u> {{ estimatedTimeArrival }}
+        </div>
+
+        <div class="Date-container">
+            <u>Possible Delay:</u>
+            {% if calculated_delay.days or calculated_delay.hours %}
+                +
+                {% if calculated_delay.days %}
+                    {{ calculated_delay.days }} days,
+                {% endif %}
+                {{ calculated_delay.hours|floatformat:2 }} hours
+            {% else %}
+                none
+            {% endif %}
+        </div>
+
+        <div class="Date-container">
+            <u>World Events Affecting Delay:</u>
+            {% if calculated_delay.headlines %}
+            <ul>
+                {% for headline in calculated_delay.headlines %}
+                    <li>{{ headline }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            none
+            {% endif %}
         </div>
 
         <div class="location-container">

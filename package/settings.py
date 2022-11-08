@@ -18,6 +18,7 @@ SECRETS = {
     'UPS_USERNAME': os.environ.get('FMP_UPS_USERNAME'),
     'UPS_PASSWORD': os.environ.get('FMP_UPS_PASSWORD'),
     'FMP_MAPS_KEY': os.environ.get('FMP_MAPS_KEY'),
+    'OPENAI_SECRET': os.environ.get('FMP_OPENAI_SECRET'),
 }
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']

@@ -247,7 +247,7 @@ class DataMapper():
         if currentStatus is not None:
             status = currentStatus.get('status', {})
             location = currentStatus.get('location', {}).get('address', {})
-            self.map_value(['currentStatus', 'status'], status.get('description'))
+            self.map_value(['currentStatus', 'status'], status.get('description'), action=self.capitalize_string)
             self.map_value(['currentStatus', 'description'], None)
             self.map_value(['currentStatus', 'location', 'streetLines'], location.get('addressLine1'))
             self.map_value(['currentStatus', 'location', 'city'], location.get('city'), action=self.capitalize_string)
