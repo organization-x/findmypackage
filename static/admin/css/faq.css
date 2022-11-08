@@ -10,14 +10,13 @@ body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     display:grid;
-    color: red;
+    color: white;
 }
 
 
 
 
 .sidebar {
-    transition: 0.5s;
     max-height: 400px;
     padding: 1rem 0.5rem;
     background-color: #4A7FCB;
@@ -79,9 +78,7 @@ h1 {
     margin: 20px auto;
     color: black;
     background-color: white;
-    padding: 45px 45px;        
-    box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
-    border-radius: 25px;
+    padding: 45px 45px;       
   }
 
   .accordion .container {
@@ -97,7 +94,6 @@ h1 {
     padding: 10px 0;
     font-size: 15px;
     color: black;
-
   }
 
 
@@ -116,7 +112,7 @@ h1 {
   
   .accordion .content {
     position: relative;
-    background: white;
+    background: transparent;
     height: 0;
     font-size: 18px;
     text-align: justify;
@@ -160,13 +156,155 @@ h1 {
   text-align: left;
 }
 
+
+button[name="toggle-dark-mode"] {
+  font-family: 'Montserrat';
+  float:right;
+  margin: -20px 10px 0 90%;
+  height: 30px;
+  width: auto;
+  font-size: 0.7em;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+button[name="toggle-dark-mode"] svg {
+  float:left;
+  padding: 0;
+  height: 27px;
+  width: 27px;
+}
+
+button[name="toggle-dark-mode"] p {
+  float:left;
+  text-align: right;
+  padding: 0;
+  margin: 0 -75px 0 0;
+  visibility: hidden;
+}
+
+button[name="toggle-dark-mode"]:hover {
+  cursor: pointer;
+  color: #ADAEF1;
+}
+
+.dark-mode button[name="toggle-dark-mode"]:hover {
+  cursor: pointer;
+  color: #717496;
+}
+
+.dark-mode {
+  color: gray;
+  background-color: #36393f;
+  color: white;
+}
+
+.dark-mode svg {
+  color: rgba(204,205,206,255);
+}
+
+.dark-mode .hero-bg {
+  background: linear-gradient(#333858, #36393f);
+}
+
+.dark-mode .sidebar {
+  background-color: #3f4575;
+}
+
+
+.dark-mode  .sidebar .menu .menu-item {
+  color: rgba(204,205,206,255);
+}
+
+.dark-mode .sidebar .menu .menu-item:hover,
+.dark-mode .sidebar .menu .menu-item.is-active {
+  color: #717496;
+  border-bottom: 7px solid #717496;
+}
+
+.dark-mode #header{
+  color: rgba(204,205,206,255);
+}
+
+.dark-mode .accordion {
+  background-color: #3f4575;
+  color: rgba(204,205,206,255);
+}
+
+.dark-mode .accordion .label {
+  color: rgba(204,205,206,255);
+  transition: none;
+}
+
+.dark-mode .accordion .content {
+  color: rgba(204,205,206,255);
+}
+
+.dark-mode .accordion .container.active .label::before {
+  color: rgba(204,205,206,255);
+}
+
+.dark-mode .accordion .label::before {
+  color: rgba(204,205,206,255);
+}
+
   @media (min-width: 730px) {
 
+.accordion {
+  box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
+  border-radius: 25px;
+  width: 50%;
+  margin: 70px auto;
+}
+
+.dark-mode .accordion {
+  box-shadow: 0 2px 10px 2px #717496;
+  border-radius: 25px;
+}
+
+    button[name="toggle-dark-mode"] svg {
+      float:left;
+      padding: 0;
+      height: 27px;
+      width: 27px;
+  }
+
+  button[name="toggle-dark-mode"] p {
+      float:left;
+      text-align: right;
+      padding: 0;
+      margin: 3px 0 0 0;
+      visibility: visible;
+  }
+
+  
+.dark-mode button[name="toggle-dark-mode"] {
+  background-color: #3f4575;
+  border: none;
+  color:lightgray;
+}
+
+.dark-mode button[name="toggle-dark-mode"]:hover {
+cursor: pointer;
+color: #717496;
+}
+
+  button[name="toggle-dark-mode"] {
+      float:left;
+      margin: -20px 10px 0 80%;
+      height: 30px;
+      width: auto;
+      font-size: 0.9em;
+  }
+  
     .sidebar .menu {
       margin: 0 -1em 0 -1em;
       font-size: 1em;
     }
   }
+
 
 @media (min-width: 930px) {
  

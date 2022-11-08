@@ -1,3 +1,5 @@
+// THIS IS FOR THE SLIDES FOR READ-A-REVIEW SECTION DO NOT DELETE!!!!
+
 let slideIndex = 1;
 showSlides(slideIndex);
 
@@ -25,4 +27,9 @@ function showSlides(n) {
   }
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
+}
+
+function myFunction() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
 }

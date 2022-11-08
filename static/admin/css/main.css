@@ -8,7 +8,7 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    margin: 0;
+    margin: -19px 0 0 0;
     display: grid;
 }
 
@@ -312,26 +312,132 @@ button[name="toggle-dark-mode"]:hover {
     visibility: visible;
 }
 
-@media (min-width: 730px) {
+button[name="toggle-dark-mode"] {
+    font-family: 'Montserrat';
+    float:right;
+    margin: -20px 10px 0 90%;
+    height: 30px;
+    width: auto;
+    font-size: 0.7em;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
 
-    button[name="toggle-dark-mode"] svg {
-        float: left;
-        padding: 0;
-        height: 27px;
-        width: 27px;
+button[name="toggle-dark-mode"] svg {
+    float:left;
+    padding: 0;
+    height: 27px;
+    width: 27px;
+}
+
+button[name="toggle-dark-mode"] p {
+    float:left;
+    text-align: right;
+    padding: 0;
+    margin: 0 -75px 0 0;
+    visibility: hidden;
+}
+
+button[name="toggle-dark-mode"]:hover {
+    cursor: pointer;
+    color: #ADAEF1;
+  }
+
+.dark-mode {
+    background-color: #36393f;
+    color: white;
+  }
+
+.dark-mode .hero-bg {
+    background: linear-gradient(#333858, #36393f);
+}
+
+.dark-mode .track-container {
+    background-color: #3f4575;
+}
+
+.dark-mode .sidebar {
+    background-color: #3f4575;
+  }
+  
+  
+  .dark-mode  .sidebar .menu .menu-item {
+    color: rgba(204,205,206,255);
+  }
+  
+  .dark-mode .sidebar .menu .menu-item:hover,
+  .dark-mode .sidebar .menu .menu-item.is-active {
+    color: #717496;
+    border-bottom: 7px solid #717496;
+  }
+
+   .dark-mode .track-container .submit {
+    background-color: #038057;
+    color: lightgray;
+    border-color: #038057;
+}
+
+.dark-mode .track-container .submit:hover {
+    background-color: #056344;
+    border-color: #056344;
+}
+
+.dark-mode .package-id-words {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode .track-container .form-left-input {
+    border-color: #717496;
+    background-color: rgba(204,205,206,255);
+}
+
+.dark-mode .findmypackage-name {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode .best-way-to-track {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode button[name="toggle-dark-mode"] {
+    background-color: #3f4575;
+    border: none;
+    color:lightgray;
+}
+
+.dark-mode button[name="toggle-dark-mode"]:hover {
+  cursor: pointer;
+  color: #717496;
+}
+
+.dark-mode #light-img {
+visibility: hidden;
+}
+
+.dark-mode #dark-img {
+    visibility: visible;
     }
 
+.dark-mode .right-col {
+    color: rgba(204,205,206,255);
+}
+    
+@media (min-width: 730px) {
+
     button[name="toggle-dark-mode"] p {
-        float: left;
+        float:left;
         text-align: right;
         padding: 0;
-        margin: -5px 0 0 0;
+        margin: -4px 1px 0 0;
+
         visibility: visible;
     }
 
     button[name="toggle-dark-mode"] {
-        float: left;
-        margin: -20px 10px 0 80%;
+        float:left;
+        margin: -20px 13px 0 80%;
         height: 30px;
         width: auto;
         font-size: 0.9em;
@@ -340,7 +446,7 @@ button[name="toggle-dark-mode"]:hover {
     .sidebar .menu {
         margin: 0 -1em 0 -1em;
         font-size: 1em;
-    }
+      }
 
     .sidebar .menu .menu-item {
         padding: 1em;

@@ -13,7 +13,6 @@ body {
 }
 
 .sidebar {
-    transition: 0.5s;
     max-height: 400px;
     padding: 1rem 1rem;
     background-color: #4A7FCB;
@@ -139,6 +138,103 @@ header a {
     color: #444;
 }
 
+#cassidy-name {
+    width: 90%;
+}
+
+button[name="toggle-dark-mode"] {
+    font-family: 'Montserrat';
+    float:right;
+    margin: -20px 10px 0 90%;
+    height: 30px;
+    width: auto;
+    font-size: 0.7em;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
+
+button[name="toggle-dark-mode"] svg {
+    float:left;
+    padding: 0;
+    height: 27px;
+    width: 27px;
+}
+
+button[name="toggle-dark-mode"] p {
+    float:left;
+    text-align: right;
+    padding: 0;
+    margin: 0 -75px 0 0;
+    visibility: hidden;
+}
+
+button[name="toggle-dark-mode"]:hover {
+    cursor: pointer;
+    color: #ADAEF1;
+  }
+
+.dark-mode {
+    background-color: #36393f;
+    color: white;
+  }
+
+.dark-mode .hero-bg {
+    background: linear-gradient(#333858, #36393f);
+}
+
+.dark-mode .track-container {
+    background-color: #3f4575;
+}
+
+.dark-mode .sidebar {
+    background-color: #3f4575;
+  }
+  
+  
+  .dark-mode  .sidebar .menu .menu-item {
+    color: rgba(204,205,206,255);
+  }
+  
+  .dark-mode .sidebar .menu .menu-item:hover,
+  .dark-mode .sidebar .menu .menu-item.is-active {
+    color: #717496;
+    border-bottom: 7px solid #717496;
+  }
+
+  
+.dark-mode button[name="toggle-dark-mode"] {
+    background-color: transparent;
+    border: none;
+    color:lightgray;
+}
+
+.dark-mode button[name="toggle-dark-mode"]:hover {
+  cursor: pointer;
+  color: #717496;
+}
+
+.dark-mode .name, .dark-mode .about {
+    color: rgba(204,205,206,255);
+}
+
+.dark-mode .socials a i{
+    color: gray;
+}
+
+.dark-mode #header {
+    color:gray;
+} 
+
+.dark-mode .header {
+    color:lightgray;
+}
+
+.dark-mode .team:hover {
+    background: #717496;
+  }
+
 @media screen and (max-width: 500px) {
   
     .team {
@@ -147,6 +243,29 @@ header a {
 }
 
 @media (min-width: 730px) {
+
+    button[name="toggle-dark-mode"] svg {
+        float:left;
+        padding: 0;
+        height: 27px;
+        width: 27px;
+    }
+
+    button[name="toggle-dark-mode"] p {
+        float:left;
+        text-align: right;
+        padding: 0;
+        margin: 3px 1px 0 0;
+        visibility: visible;
+    }
+
+    button[name="toggle-dark-mode"] {
+        float:left;
+        margin: -20px 13px 0 80%;
+        height: 30px;
+        width: auto;
+        font-size: 0.9em;
+    }
 
     .sidebar .menu {
       margin: 0 -1em 0 -1em;

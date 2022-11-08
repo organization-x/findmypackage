@@ -103,10 +103,17 @@ class DataMapper():
                            event.get('scanLocation', {}).get('countryCode'))
             self.map_value(['events', i, 'status'], event.get('derivedStatus'))
 
-        delivery_window = self.data['trackResults'][0].get(
-            'estimatedDeliveryTimeWindow', {}).get('window', {})
-        begins, ends, = self.format_date(delivery_window.get('begins')), self.format_date(delivery_window.get('ends'))
-        self.map_value(['estimatedTimeArrival'], f"{begins or 'N/A'} to {ends or 'N/A'}" if begins and ends else None)
+        # FedEx has two different spots for delivery date
+        delivery_date_a = None
+        dates = self.data['trackResults'][0].get('dateAndTimes', [{}])
+        for date in dates:
+            if date.get('type') != 'ESTIMATED_DELIVERY':
+                continue
+            delivery_date_a = date.get('dateTime')
+            break
+
+        delivery_time = delivery_date_a or self.data['trackResults'][0].get('estimatedDeliveryTimeWindow', {}).get('window', {}).get('ends')
+        self.map_value(['estimatedTimeArrival'], delivery_time, action=self.format_date)
         return self.mapped_data
 
     def get_mapped_usps_data(self):
@@ -224,7 +231,7 @@ class DataMapper():
         return self.mapped_data
 
     def get_mapped_ups_data(self):
-        if self.data.get('errors') is not None:
+        if self.data.get('errors') is not None or self.data.get('response', {}).get('errors') is not None:
             return ERROR_MESSAGE
 
         self.data = self.data.get('trackResponse', {}).get('shipment', [{}])[0]
@@ -268,7 +275,8 @@ class DataMapper():
             self.map_value(['events', i, 'location', 'country'], event.get('location', {}).get('address', {}).get('country'))
             self.map_value(['events', i, 'status'], event.get('status', {}).get('description'))
 
-        delivery_date, delivery_time = self.data.get('deliveryDate', [{}])[0].get('date'), self.data.get('deliveryTime', {}).get('endTime')
+        delivery_date = self.data.get('deliveryDate')
+        delivery_date, delivery_time = (delivery_date if len(delivery_date) > 0 else [{}])[0].get('date'), self.data.get('deliveryTime', {}).get('endTime')
         self.map_value(['estimatedTimeArrival'], f'{delivery_date} T {delivery_time}', action=self.format_date)
         return self.mapped_data
 
@@ -293,7 +301,7 @@ class DataMapper():
             parsed_date = parser.parse(date)
             date = timezone.localtime(parsed_date) if not timezone.is_naive(parsed_date) else parsed_date
             return date.strftime("%B %-d, %Y, %-I:%M %p")
-        except ParserError:
+        except (TypeError, ParserError):
             return None
 
     def get_address_from_string(self, string):
