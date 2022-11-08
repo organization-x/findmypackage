@@ -143,15 +143,6 @@
 </div>
 
     <div class="container">
-<<<<<<< Updated upstream
-        <form action="{% url 'reviews' %}" method="post">
-            {% csrf_token %}
-            <label for="name_input">Name</label>
-            <input type="text" id="name_input" name="name" placeholder="Your name..">
-  
-    <div class="stars_input">
-        <div select id="stars_input" class="stars">
-=======
       <form action="{% url 'reviews' %}" method="post">
         {% csrf_token %}
         <label id="name_input1" for="name_input">Name</label>
@@ -159,7 +150,6 @@
 
         <div class="stars_input">
           <div select id="stars_input" class="stars">
->>>>>>> Stashed changes
             <input type="radio" name="stars" value="1" />
             <input type="radio" name="stars" value="2" />
             <input type="radio" name="stars" value="3"  />
@@ -167,14 +157,6 @@
             <input type="radio" name="stars" value="5" checked />
             <i></i>
           </div>
-<<<<<<< Updated upstream
-</div>
-            <textarea id="subject_input" name="subject" placeholder="Share your opinions.." style="height:110px; font-size:16px;" maxlength="300"></textarea>
-            <input type="submit" value="submit">
-        </form>
-    </div>
-</div>
-=======
           <p>(Click to change)</p>
         </div>
         <textarea class="user-input" id="subject_input" name="subject" placeholder="Your opinions..."
@@ -185,6 +167,5 @@
     </div>
 </div>
 <script src="{% static 'admin/js/review.js' %}" type="text/javascript"></script></div> 
->>>>>>> Stashed changes
 </body>
 </html>

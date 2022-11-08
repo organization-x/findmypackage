@@ -10,7 +10,7 @@
   --bkg2: hsl(190 70% 99.5%);
   --accent1: #4A7FCB;
   --accent2: #4A7FCB;
-  --accent3:#038057;
+  --accent3: #038057;
   --accent4: #038057;
   --gradient: linear-gradient(to right, var(--accent1), var(--accent2));
   --gradient2: linear-gradient(to right, var(--accent3), var(--accent4));
@@ -146,7 +146,7 @@ img {
   transition: all 250ms ease-in-out;
 }
 
-.dark-mode #arrow--right::before { 
+.dark-mode #arrow--right::before {
   background: var(--gradient2)
 }
 
@@ -177,7 +177,7 @@ img {
 }
 
 .dark-mode #arrow--left::before {
-background: var(--gradient2)
+  background: var(--gradient2)
 }
 
 #arrow--left:hover::before,
@@ -213,22 +213,21 @@ background: var(--gradient2)
 }
 
 .review_stars1 {
-  --s:33px;
-  width:calc(var(--n,5)*var(--s));
-  height:calc(var(--s)*0.9);
-  --v1:transparent,#000 0.5deg 108deg,#0000 109deg;
-  --v2:transparent,#000 0.5deg  36deg,#0000  37deg;
+  --s: 33px;
+  width: calc(var(--n, 5)*var(--s));
+  height: calc(var(--s)*0.9);
+  --v1: transparent, #000 0.5deg 108deg, #0000 109deg;
+  --v2: transparent, #000 0.5deg 36deg, #0000 37deg;
   -webkit-mask:
-    conic-gradient(from 54deg  at calc(var(--s)*0.68) calc(var(--s)*0.57),var(--v1)),
-    conic-gradient(from 90deg  at calc(var(--s)*0.02) calc(var(--s)*0.35),var(--v2)),
-    conic-gradient(from 126deg at calc(var(--s)*0.5)  calc(var(--s)*0.7) ,var(--v1)),
-    conic-gradient(from 162deg at calc(var(--s)*0.5)  0                  ,var(--v2));
+    conic-gradient(from 54deg at calc(var(--s)*0.68) calc(var(--s)*0.57), var(--v1)),
+    conic-gradient(from 90deg at calc(var(--s)*0.02) calc(var(--s)*0.35), var(--v2)),
+    conic-gradient(from 126deg at calc(var(--s)*0.5) calc(var(--s)*0.7), var(--v1)),
+    conic-gradient(from 162deg at calc(var(--s)*0.5) 0, var(--v2));
   -webkit-mask-size: var(--s) var(--s);
-  -webkit-mask-composite: xor,destination-over;
-  mask-composite: exclude,add;
+  -webkit-mask-composite: xor, destination-over;
+  mask-composite: exclude, add;
   background:
-    linear-gradient(gold 0 0) 0/calc(var(--l,0)*var(--s)) 100% no-repeat
-    #ccc;
+    linear-gradient(gold 0 0) 0/calc(var(--l, 0)*var(--s)) 100% no-repeat #ccc;
 }
 
 .review_body {
@@ -305,171 +304,240 @@ input[type=submit]:hover {
 }
 
 .stars {
-  --s:50px;
-  position:relative;
-  display:inline-flex;
+  --s: 50px;
+  position: relative;
+  display: inline-flex;
 }
+
 .stars input {
-  width:var(--s);
-  height:var(--s);
-  margin:0;
-  opacity:0;
-  cursor:pointer;
+  width: var(--s);
+  height: var(--s);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
 }
+
 .stars i {
-  position:absolute;
-  inset:0 0 calc(var(--s)*0.1);
-  pointer-events:none;
-  --v1:transparent,#000 0.5deg 108deg,#0000 109deg;
-  --v2:transparent,#000 0.5deg  36deg,#0000  37deg;
+  position: absolute;
+  inset: 0 0 calc(var(--s)*0.1);
+  pointer-events: none;
+  --v1: transparent, #000 0.5deg 108deg, #0000 109deg;
+  --v2: transparent, #000 0.5deg 36deg, #0000 37deg;
   -webkit-mask:
-    conic-gradient(from 54deg  at calc(var(--s)*0.68) calc(var(--s)*0.57),var(--v1)),
-    conic-gradient(from 90deg  at calc(var(--s)*0.02) calc(var(--s)*0.35),var(--v2)),
-    conic-gradient(from 126deg at calc(var(--s)*0.5)  calc(var(--s)*0.7) ,var(--v1)),
-    conic-gradient(from 162deg at calc(var(--s)*0.5)  0                  ,var(--v2));
+    conic-gradient(from 54deg at calc(var(--s)*0.68) calc(var(--s)*0.57), var(--v1)),
+    conic-gradient(from 90deg at calc(var(--s)*0.02) calc(var(--s)*0.35), var(--v2)),
+    conic-gradient(from 126deg at calc(var(--s)*0.5) calc(var(--s)*0.7), var(--v1)),
+    conic-gradient(from 162deg at calc(var(--s)*0.5) 0, var(--v2));
   -webkit-mask-size: var(--s) var(--s);
-  -webkit-mask-composite: xor,destination-over;
-  mask-composite: exclude,add;
+  -webkit-mask-composite: xor, destination-over;
+  mask-composite: exclude, add;
   background:
-    linear-gradient(rgba(255,0,0,var(--o,0.3)) 0 0),  
-    linear-gradient(gold                       0 0)
-    #ccc;
-  background-size:calc(var(--l,0)*var(--s)) 100%,calc(var(--p,0)*var(--s)) 100%;
-  background-repeat:no-repeat;
+    linear-gradient(rgba(255, 0, 0, var(--o, 0.3)) 0 0),
+    linear-gradient(gold 0 0) #ccc;
+  background-size: calc(var(--l, 0)*var(--s)) 100%, calc(var(--p, 0)*var(--s)) 100%;
+  background-repeat: no-repeat;
 }
 
 .stars:focus-within {
-  outline:1px solid;
+  outline: 1px solid;
 }
 
-input:active ~ i{--o:1}
+input:active~i {
+  --o: 1
+}
 
-input:nth-of-type(1):checked ~ i {--p:1}
-input:nth-of-type(2):checked ~ i {--p:2}
-input:nth-of-type(3):checked ~ i {--p:3}
-input:nth-of-type(4):checked ~ i {--p:4}
-input:nth-of-type(5):checked ~ i {--p:5}
-input:nth-of-type(6):checked ~ i {--p:6}
-input:nth-of-type(7):checked ~ i {--p:7}
-input:nth-of-type(8):checked ~ i {--p:8}
-input:nth-of-type(9):checked ~ i {--p:9}
-input:nth-of-type(10):checked ~ i {--p:10}
+input:nth-of-type(1):checked~i {
+  --p: 1
+}
+
+input:nth-of-type(2):checked~i {
+  --p: 2
+}
+
+input:nth-of-type(3):checked~i {
+  --p: 3
+}
+
+input:nth-of-type(4):checked~i {
+  --p: 4
+}
+
+input:nth-of-type(5):checked~i {
+  --p: 5
+}
+
+input:nth-of-type(6):checked~i {
+  --p: 6
+}
+
+input:nth-of-type(7):checked~i {
+  --p: 7
+}
+
+input:nth-of-type(8):checked~i {
+  --p: 8
+}
+
+input:nth-of-type(9):checked~i {
+  --p: 9
+}
+
+input:nth-of-type(10):checked~i {
+  --p: 10
+}
+
 /*input:nth-of-type(N):checked ~ i {--p:N}*/
 
-input:nth-of-type(1):hover ~ i {--l:1}
-input:nth-of-type(2):hover ~ i {--l:2}
-input:nth-of-type(3):hover ~ i {--l:3}
-input:nth-of-type(4):hover ~ i {--l:4}
-input:nth-of-type(5):hover ~ i {--l:5}
-input:nth-of-type(6):hover ~ i {--l:6}
-input:nth-of-type(7):hover ~ i {--l:7}
-input:nth-of-type(8):hover ~ i {--l:8}
-input:nth-of-type(9):hover ~ i {--l:9}
-input:nth-of-type(10):hover ~ i {--l:10}
+input:nth-of-type(1):hover~i {
+  --l: 1
+}
+
+input:nth-of-type(2):hover~i {
+  --l: 2
+}
+
+input:nth-of-type(3):hover~i {
+  --l: 3
+}
+
+input:nth-of-type(4):hover~i {
+  --l: 4
+}
+
+input:nth-of-type(5):hover~i {
+  --l: 5
+}
+
+input:nth-of-type(6):hover~i {
+  --l: 6
+}
+
+input:nth-of-type(7):hover~i {
+  --l: 7
+}
+
+input:nth-of-type(8):hover~i {
+  --l: 8
+}
+
+input:nth-of-type(9):hover~i {
+  --l: 9
+}
+
+input:nth-of-type(10):hover~i {
+  --l: 10
+}
+
 /*input:nth-of-type(N):hover ~ i {--l:N}*/
 
 .counter {
   color: black;
 }
 
-* {box-sizing:border-box}
-    
-        /* Slideshow container */
-        .slideshow-container {
-          max-width: 1000px;
-          height: auto;
-          position: relative;
-          margin: auto;
-        }
-        
-        /* Hide the images by default */
-        .mySlides {
-          display: none;
-          height: auto;
-        }
-        
-        /* Next & previous buttons */
-        .prev, .next {
-          cursor: pointer;
-          position: absolute;
-          top: 50%;
-          width: auto;
-          margin-top: -22px;
-          padding: 16px;
-          color: white;
-          font-weight: bold;
-          font-size: 18px;
-          transition: 0.6s ease;
-          border-radius: 0 3px 3px 0;
-          user-select: none;
-        }
-        
-        /* Position the "next button" to the right */
-        .next {
-          right: 0;
-          border-radius: 3px 0 0 3px;
-        }
-        
-        /* On hover, add a black background color with a little bit see-through */
-        .prev:hover, .next:hover {
-          background-color: rgba(0,0,0,0.8);
-        }
-        
-        /* Caption text */
-        .text {
-          color: #f2f2f2;
-          font-size: 15px;
-          padding: 8px 12px;
-          position: absolute;
-          bottom: 8px;
-          width: 100%;
-          text-align: center;
-        }
-        
-        /* Number text (1/3 etc) */
-        .numbertext {
-          color: #f2f2f2;
-          font-size: 12px;
-          padding: 8px 12px;
-          position: absolute;
-          top: 0;
-        }
-        
-        /* The dots/bullets/indicators */
-        .dot {
-          cursor: pointer;
-          height: 15px;
-          width: 15px;
-          margin: 0 2px;
-          background-color: #bbb;
-          border-radius: 50%;
-          display: inline-block;
-          transition: background-color 0.6s ease;
-        }
-        
-        .active, .dot:hover {
-          background-color: #717171;
-        }
-        
-        /* Fading animation */
-        .fade {
-          animation-name: fade;
-          animation-duration: 1.5s;
-        }
-        
-        @keyframes fade {
-          from {opacity: .4}
-          to {opacity: 1}
-        }
-<<<<<<< Updated upstream
-@media (min-width: 730px) {
+* {
+  box-sizing: border-box
+}
 
-=======
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  height: auto;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+  height: auto;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: .4
+  }
+
+  to {
+    opacity: 1
+  }
+}
 
 
-        #name_input1 {
-          color:  transparent;
-        }
+#name_input1 {
+  color: transparent;
+}
 
 .stars_input p {
   font-size: 12px;
@@ -478,12 +546,13 @@ input:nth-of-type(10):hover ~ i {--l:10}
 }
 
 .subject_input {
-  font-family: 'Montserrat', sans-serif;;
+  font-family: 'Montserrat', sans-serif;
+  ;
 }
 
 .average {
   margin-left: 10px;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .r3 {
@@ -499,7 +568,7 @@ input:nth-of-type(10):hover ~ i {--l:10}
 
 button[name="toggle-dark-mode"] {
   font-family: 'Montserrat';
-  float:right;
+  float: right;
   margin: -20px 10px 0 90%;
   height: 30px;
   width: auto;
@@ -511,14 +580,14 @@ button[name="toggle-dark-mode"] {
 }
 
 button[name="toggle-dark-mode"] svg {
-  float:left;
+  float: left;
   padding: 0;
   height: 27px;
   width: 27px;
 }
 
 button[name="toggle-dark-mode"] p {
-  float:left;
+  float: left;
   text-align: right;
   padding: 0;
   margin: 0 -75px 0 0;
@@ -531,12 +600,13 @@ button[name="toggle-dark-mode"]:hover {
 }
 
 .dark-mode button[name="toggle-dark-mode"] {
-background-color: transparent;
-border: none;
+  background-color: transparent;
+  border: none;
 }
 
-.dark-mode .toggle svg, .dark-mode .toggle p {
-  color: rgba(204,205,206,255);
+.dark-mode .toggle svg,
+.dark-mode .toggle p {
+  color: rgba(204, 205, 206, 255);
 }
 
 
@@ -549,8 +619,8 @@ border: none;
 }
 
 
-.dark-mode  .sidebar .menu .menu-item {
-  color: rgba(204,205,206,255);
+.dark-mode .sidebar .menu .menu-item {
+  color: rgba(204, 205, 206, 255);
 }
 
 .dark-mode .sidebar .menu .menu-item:hover,
@@ -564,16 +634,17 @@ border: none;
   color: white;
 }
 
-.dark-mode .container, .dark-mode .review-container {
+.dark-mode .container,
+.dark-mode .review-container {
   background-color: #3f4575;
-  color: rgba(204,205,206,255);
+  color: rgba(204, 205, 206, 255);
 }
 
 .dark-mode .user-input {
-  background-color: rgba(204,205,206,255);
+  background-color: rgba(204, 205, 206, 255);
 }
 
-.dark-mode #submit { 
+.dark-mode #submit {
   background-color: #038057;
   border-color: #038057;
 }
@@ -584,51 +655,53 @@ border: none;
 }
 
 .dark-mode .hero-bg header {
-  color: rgba(204,205,206,255);
+  color: rgba(204, 205, 206, 255);
 }
 
 .dark-mode .FindMyPackage {
-  color: rgba(204,205,206,255);
+  color: rgba(204, 205, 206, 255);
 }
 
-.dark-mode .read h4, .dark-mode .read p {
-  color: rgba(204,205,206,255);
+.dark-mode .read h4,
+.dark-mode .read p {
+  color: rgba(204, 205, 206, 255);
 }
 
 
 #dark-mode {
-  color:red;
+  color: red;
 }
+
 @media (min-width: 730px) {
 
   button[name="toggle-dark-mode"] svg {
-    float:left;
+    float: left;
     padding: 0;
     height: 27px;
     width: 27px;
-}
+  }
 
-button[name="toggle-dark-mode"] p {
-    float:left;
+  button[name="toggle-dark-mode"] p {
+    float: left;
     text-align: right;
     padding: 0;
     margin: 3px 1px 0 0;
     visibility: visible;
-}
+  }
 
-button[name="toggle-dark-mode"] {
-    float:left;
+  button[name="toggle-dark-mode"] {
+    float: left;
     margin: -20px 13px 0 80%;
     height: 30px;
     width: auto;
     font-size: 0.9em;
-}
+  }
+
   .sidebar .menu {
     margin: 0 -1em 0 -1em;
     font-size: 1em;
   }
 
->>>>>>> Stashed changes
   .container {
     margin-left: 20%;
     margin-right: 20%;
@@ -645,11 +718,10 @@ button[name="toggle-dark-mode"] {
     border-radius: 25px;
   }
 
-<<<<<<< Updated upstream
-=======
-.dark-mode .container, .dark-mode .review-container {
-  box-shadow: 0 2px 10px 2px #717496;
-}
+.dark-mode .container,
+  .dark-mode .review-container {
+    box-shadow: 0 2px 10px 2px #717496;
+  }
 
   .review_name {
     font-size: 1.1em;
@@ -659,8 +731,7 @@ button[name="toggle-dark-mode"] {
     font-size: 1em;
   }
 
->>>>>>> Stashed changes
-  .prev {
+.prev {
     left: 0;
   }
 

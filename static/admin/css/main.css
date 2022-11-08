@@ -201,8 +201,6 @@ p {
 
 }
 
-<<<<<<< Updated upstream
-=======
 button[name="toggle-dark-mode"] {
     font-family: 'Montserrat';
     float:right;
@@ -315,11 +313,8 @@ visibility: hidden;
     color: rgba(204,205,206,255);
 }
     
->>>>>>> Stashed changes
 @media (min-width: 730px) {
 
-<<<<<<< Updated upstream
-=======
     button[name="toggle-dark-mode"] p {
         float:left;
         text-align: right;
@@ -343,7 +338,6 @@ visibility: hidden;
     .sidebar .menu .menu-item {
         padding: 1em;
     }
->>>>>>> Stashed changes
 
     section {
         margin: 0 4em;

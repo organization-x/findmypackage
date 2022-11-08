@@ -239,8 +239,6 @@ button[name="toggle-dark-mode"]:hover {
     .team {
         max-width: 100%;
     }
-<<<<<<< Updated upstream
-=======
 }
 
 @media (min-width: 730px) {
@@ -272,5 +270,4 @@ button[name="toggle-dark-mode"]:hover {
       margin: 0 -1em 0 -1em;
       font-size: 1em;
     }
->>>>>>> Stashed changes
 }
