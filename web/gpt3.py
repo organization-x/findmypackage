@@ -9,7 +9,7 @@ from .models import NewsHeadline
 openai.api_key = SECRETS['OPENAI_SECRET']
 
 
-class Gpt_Completion():
+class GptCompletion():
     def __init__(self, prompt):
         self.prompt = prompt
 
@@ -33,7 +33,7 @@ def rate_news_headlines(news_headlines):
     )
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
-    response = Gpt_Completion(prompt).get_response()
+    response = GptCompletion(prompt).get_response()
 
     current_number = 1
     headline_ratings = []
@@ -49,7 +49,7 @@ def retrieve_countries_from_headlines(news_headlines):
     prompt = 'Retrieve the country name, with the state or city name if possible, affected for each event from each news headline, numbered below:\n\nNEWS HEADLINES:\n'
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
-    response = Gpt_Completion(prompt).get_response()
+    response = GptCompletion(prompt).get_response()
 
     current_number = 1
     total_countries = []
@@ -102,15 +102,16 @@ def calculate_distance_relevance(origin, destination):
         'units': 'imperial',
         'key': SECRETS['FMP_MAPS_KEY']
     }
-
     response = requests.get(url, params=params)
     data = json.loads(response.content)
     relevance_function = all_other_relevance_function
-    destination_address, origin_address = data.get('destination_addresses', [''])[0].lower(), data.get('origin_addresses', [''])[0].lower()
-    if ('usa' in destination_address or 'united states' in destination_address or 'us' in destination_address) and ('usa' in origin_address or 'united states' in origin_address or 'us' in origin_address):
+    destination_address, origin_address = f" {data.get('destination_addresses', [''])[0].lower()} ", f" {data.get('origin_addresses', [''])[0].lower()} "
+    if (' usa' in destination_address or ' united states ' in destination_address or ' us ' in destination_address) and (' usa ' in origin_address or ' united states' in origin_address or ' us ' in origin_address):
         relevance_function = united_states_relevance_function
     elif (destination_address in origin_address) or (origin_address in destination_address):
         return 100
+    if not data.get('destination_addresses', [''])[0] or not data.get('origin_addresses', [''])[0]:
+        return 0
     data = data.get('rows')[0].get('elements', [{}])[0]
     if data.get('status') == 'ZERO_RESULTS':
         return 0
@@ -127,4 +128,3 @@ def united_states_relevance_function(distance):
 
 def all_other_relevance_function(distance):
     return 2 ** (6.644 - (0.007 * distance))
-    
