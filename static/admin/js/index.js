@@ -1,4 +1,3 @@
-
 var element = document.body;
 
 const check=document.getElementById("check")

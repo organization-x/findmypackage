@@ -24,6 +24,7 @@ body {
   display: grid;
 }
 
+
 .sidebar {
   max-height: 400px;
   padding: 1rem 1rem;
@@ -32,8 +33,8 @@ body {
 }
 
 .sidebar .menu {
-  margin: 0 -1rem;
-  transition: 0.5s;
+  margin: 0 -1em -0.4em -1em;
+  font-size: 0.7em;
 }
 
 .sidebar .menu .menu-item {
@@ -46,7 +47,6 @@ body {
 
 .sidebar .menu .menu-item:hover,
 .sidebar .menu .menu-item.is-active {
-  margin-top: 3em;
   color: #ADAEF1;
   border-bottom: 7px solid #ADAEF1;
 }
@@ -74,14 +74,6 @@ header a {
   color: white;
   text-align: center;
   padding-bottom: 4em;
-}
-
-img {
-  width: 100%;
-}
-
-.hero-bg .slider {
-  color: black;
 }
 
 
@@ -200,9 +192,10 @@ img {
 }
 
 .review_name {
-  letter-spacing: .05rem;
-  font-size: 1.2em;
+  max-width: 65%;
+  font-size: 0.9em;
   text-align: center;
+  height: auto;
 }
 
 
@@ -228,6 +221,33 @@ img {
   mask-composite: exclude, add;
   background:
     linear-gradient(gold 0 0) 0/calc(var(--l, 0)*var(--s)) 100% no-repeat #ccc;
+}
+
+
+.review_stars2 {
+  margin: 7px 0 0 0;
+  padding: 0;
+  --s:33px;
+  width:calc(var(--n,1)*var(--s));
+  height:calc(var(--s)*0.9);
+  --v1:transparent,#000 0.5deg 108deg,#0000 109deg;
+  --v2:transparent,#000 0.5deg  36deg,#0000  37deg;
+  -webkit-mask:
+    conic-gradient(from 54deg  at calc(var(--s)*0.68) calc(var(--s)*0.57),var(--v1)),
+    conic-gradient(from 90deg  at calc(var(--s)*0.02) calc(var(--s)*0.35),var(--v2)),
+    conic-gradient(from 126deg at calc(var(--s)*0.5)  calc(var(--s)*0.7) ,var(--v1)),
+    conic-gradient(from 162deg at calc(var(--s)*0.5)  0                  ,var(--v2));
+  -webkit-mask-size: var(--s) var(--s);
+  -webkit-mask-composite: xor,destination-over;
+  mask-composite: exclude,add;
+  background:
+    linear-gradient(gold 0 0) 0/calc(var(--l,0)*var(--s)) 100% no-repeat
+    #ccc;
+    float: left;
+}
+
+.review_stars2 p {
+  float: left;
 }
 
 .review_body {
@@ -278,7 +298,7 @@ input[type=submit] {
   padding: 10px 0;
   border-radius: 4px;
   cursor: pointer;
-  width: 18%;
+  width: 25%;
   font-size: 1.1em;
 }
 
@@ -722,7 +742,7 @@ button[name="toggle-dark-mode"]:hover {
   .dark-mode .review-container {
     box-shadow: 0 2px 10px 2px #717496;
   }
-
+  
   .review_name {
     font-size: 1.1em;
   }
@@ -732,6 +752,7 @@ button[name="toggle-dark-mode"]:hover {
   }
 
 .prev {
+
     left: 0;
   }
 
@@ -753,8 +774,7 @@ button[name="toggle-dark-mode"]:hover {
     padding-left: 1em;
     padding-right: 2em;
   }
-
-
+  
 
   .hero-bg {
     text-align: center;

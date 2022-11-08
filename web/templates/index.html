@@ -6,13 +6,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Track - FMP</title>
     <link rel="stylesheet" href="{% static 'admin/css/main.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'admin/img/packageiocn2.png' %}">
     <script src="{% static 'admin/js/disable_submit_button.js' %}" defer></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7190812934066985"
+     crossorigin="anonymous"></script>
 </head>
 
 <body>
-
+<div class="format-test">
     <div class="app">
 
         <div class="menu-toggle">
@@ -51,31 +54,33 @@
         <div class="hero-bg">
             <section class="top">
                 <header>
-                    <a href="/">FindMyPackage</a>
+                    <a class="findmypackage-name" href="/">FindMyPackage</a>
                 </header>
 
-                <h1><span> The Best Way to</span> Track Your Package</h1>
+                <h1 class="best-way-to-track"><span> The Best Way to</span> Track Your Package</h1>
 
                 <div class="track-container">
                     <form action="{% url 'track' %}" method="post" id="track_form">
                         {% csrf_token %}
                         <div class="form-left">
-                            <label for="tracking_id_input">Enter your package ID:</label>
-                            <input class="form-left-input" type="text" name="tracking_id" id="tracking_id_input">
+                            <label class="package-id-words" for="tracking_id_input">Enter your package ID:</label>
+                            <input class="form-left-input" style="font-family: 'Montserrat'" type="text" name="tracking_id" id="tracking_id_input">
                         </div>
                         <input class="submit" type="submit" value="submit" id="submit_button">
                         
                     </form>
-                    {% if error %}
-                        <p style="
+                    <div class="error">    
+                        {% if error %}
+                        <p name="error" style="
                             color: white;
-                            margin: 10px 10%;
+                            margin: 10px 7%;
                             background-color: #FF541E;
                             border-radius: 8px;
                         ">
                             oh no! Tracking number not found
                         </p>
-                    {% endif %}
+                    {% endif %}</div>
+                
                 </div>
             </section>
         </div>
@@ -83,10 +88,16 @@
         <section class="About" id ="About">
             <div class="right-col">
                 <h2>About</h2>
-                <p>We are the Find My Package Team!</p>
+                <p>FindMyPackage is an all-in-one package tracker that tells you all the essential details regarding your package's location and delivery time. 
+                    Behind this project is a group of high schoolers who made this product as part of the Incubator Program by AI Camp.
+                </p>
             </div>
-            <img src="{% static 'admin/img/peoplewpackages.jpg' %}" alt="picture of people with packages">
+            <img src="{% static 'admin/img/peoplewpackages-light.png' %}" id="light-img" alt="picture of people with packages">
+            <img src="{% static 'admin/img/peoplewpackages-dark.png' %}" id="dark-img" alt="picture of people with packages darkened">
         </section>
+        
     </main>
+</div>
+<script src="{% static 'admin/js/index.js' %}" type="text/javascript"></script></div>
 </body>
 </html>
