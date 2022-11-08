@@ -1,11 +1,3 @@
-const accordion = document.getElementsByClassName('container');
-
-for (i=0; i<accordion.length; i++) {
-  accordion[i].addEventListener('click', function () {
-    this.classList.toggle('active')
-  })
-}
-
 var element = document.body;
 
 const check=document.getElementById("check")

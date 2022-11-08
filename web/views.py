@@ -1,12 +1,14 @@
 import logging
 import random
 
+from django.db.models import Avg
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from package.settings import SECRETS
 
 from .apis import Carrier, DataMapper
 from .models import Review
+from .gpt3 import calculate_delivery_delay
 
 
 class MainView(TemplateView):
@@ -32,8 +34,9 @@ class TrackView(TemplateView):
                         request.POST['tracking_id']
                     ),
                 ).get_mapped_data()
-                data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']
                 if data.get('errorMessage') is None:
+                    data['calculated_delay'] = (calculate_delivery_delay(data.get('estimatedTimeArrival'), data.get('currentStatus', {}).get('location')))
+                    data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']
                     return render(request, self.template_name, data)
         response = redirect('main')
         response['Location'] += '?error=True'
@@ -64,9 +67,12 @@ class ReviewsView(TemplateView):
         self.template_name = 'review.html'
 
     def get(self, request, *args, **kwargs):
-        reviews = list(Review.objects.all())
+        reviews = Review.objects.all()
+        reviews_list = list(reviews)
         context = {
-            'reviews': random.sample(reviews, 10) if len(reviews) > 10 else random.sample(reviews, len(reviews))
+            'reviews': random.sample(reviews_list, 10) if len(reviews_list) > 10 else random.sample(reviews_list, len(reviews_list)),
+            'stars_average': reviews.aggregate(Avg('stars')).get('stars__avg'),
+            'total_reviews_count': reviews.count(),
         }
         return render(request, self.template_name, context)
 

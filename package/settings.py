@@ -17,7 +17,11 @@ SECRETS = {
     'FEDEX_SECRET': os.getenv('FMP_FEDEX_SECRET'),
     'USPS_ID': os.getenv('FMP_USPS_ID'),
     'DHL_SECRET': os.getenv('FMP_DHL_SECRET'),
+    'UPS_SECRET': os.getenv('FMP_UPS_SECRET'),
+    'UPS_USERNAME': os.getenv('FMP_UPS_USERNAME'),
+    'UPS_PASSWORD': os.getenv('FMP_UPS_PASSWORD'),
     'FMP_MAPS_KEY': os.getenv('FMP_MAPS_KEY'),
+    'OPENAI_SECRET': os.getenv('FMP_OPENAI_SECRET'),
 }
 
 ALLOWED_HOSTS = ['*']
