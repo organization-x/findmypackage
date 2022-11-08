@@ -110,11 +110,29 @@
             </div>
 
             <div class="info-container">
-                <span><u><i>Delay:</i></u></span>
+                <span><u><i>Possible Delay:</i></u></span>
+                {% if calculated_delay.days or calculated_delay.hours %}
+                +
+                {% if calculated_delay.days %}
+                    {{ calculated_delay.days }} days,
+                {% endif %}
+                {{ calculated_delay.hours|floatformat:2 }} hours
+            {% else %}
+                none
+            {% endif %}
             </div>
 
             <div class="info-container">
                 <span><i>Events Causing Delay:</i></span>
+                {% if calculated_delay.headlines %}
+            <ul>
+                {% for headline in calculated_delay.headlines %}
+                    <li>{{ headline }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            none
+            {% endif %}
             </div>
 
             <div class="info-container">
