@@ -74,6 +74,8 @@ h1 {
   /* Sets the width for the accordion. Sets the margin to 90px on the top and bottom and auto to the left and right */
   
   .accordion {
+    box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
+    border-radius: 25px;
     width: 50%;
     margin: 20px auto;
     color: black;
@@ -201,6 +203,12 @@ button[name="toggle-dark-mode"]:hover {
   color: white;
 }
 
+
+.dark-mode .accordion {
+  box-shadow: 0 2px 10px 2px #717496;
+  border-radius: 25px;
+}
+
 .dark-mode svg {
   color: rgba(204,205,206,255);
 }
@@ -259,10 +267,6 @@ button[name="toggle-dark-mode"]:hover {
   margin: 70px auto;
 }
 
-.dark-mode .accordion {
-  box-shadow: 0 2px 10px 2px #717496;
-  border-radius: 25px;
-}
 
     button[name="toggle-dark-mode"] svg {
       float:left;
