@@ -59,18 +59,9 @@ def generate_fields_for_headlines(news_headlines):
             'countries': next(countries, ['Nowhere'])
         })
         news_headline.save()
-        print('saved ', news_headline.headline) # for testing/verification
 
 def start_job():
     scheduler = BackgroundScheduler()
     scheduler.add_job(update_database_headlines, 'interval', minutes=30)
     scheduler.start()
-
-
-# to reset all news_headlines impact score to -1 (for testing)
-# for news_headline in NewsHeadline.objects.all():
-#     news_headline.impact_score = -1
-#     news_headline.save()
-
-# for testing, uncomment this and runserver to update your database immediately
-# update_database_headlines()
+    

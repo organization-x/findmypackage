@@ -130,33 +130,4 @@ def united_states_relevance_function(distance):
 
 def all_other_relevance_function(distance):
     return 2 ** (6.644 - (0.007 * distance))
-
-
-# ---------------------------------------------------------------------------- #
-#                                    Testing                                   #
-# ---------------------------------------------------------------------------- #
-
-news_headlines = ['Iran also barred from Nobel ceremony, after Russia, Belaru', 'Ship ports closed everywhere',
-                  'Celebrity wins an oscar award', 'Famous person has died', 'Minor pandemic spreads to America']
-real_events = ["Tropical Depression Lisa crosses into southern Mexico", "Russia is suspending a Ukraine grain export deal that has helped keep food prices down", "World Series rainout, Astros-Phils to play Game 3 Tuesday", 'The Coronavirus Impact on Personal Finances']
-
-other = ["Tanzania: Plane crashes into Lake Victoria; 19 dead", "Amnesty: Egypt has days to save jailed activist’s life", "	Nuclear bomb goes off in Cerritos California killing 10000 people", "Ship refuses to leave Italy port until all migrants are off", "	EXPLAINER: Qatar’s vast wealth helps it host FIFA World Cup"]
-
-# print(rate_news_headlines(real_events))
-# print(retrieve_countries_from_headlines(other))
-
-# for adjusted eta testing, uncomment and runserver to test
-# print('Start time:', datetime.now().strftime("%H:%M:%S"))
-# print('End time:  ', calculate_delivery_delay(
-#     datetime.now(), 
-#     {
-#         'streetLines': [
-#             'Not available'
-#         ],
-#         'city': 'Los Angeles',
-#         'state': 'California',
-#         'postalCode': '90001',
-#         'country': 'United States'
-#     }
-# ))
-# print(calculate_distance_relevance('California', 'United States'))
+    
