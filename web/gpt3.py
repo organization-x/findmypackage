@@ -1,12 +1,9 @@
 import json
 from datetime import timedelta
-
 import openai
 from dateutil import parser
 import requests
-
 from package.settings import SECRETS
-
 from .models import NewsHeadline
 
 openai.api_key = SECRETS['OPENAI_SECRET']
@@ -36,7 +33,7 @@ def rate_news_headlines(news_headlines):
     )
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
-    response = GPT_Completion(prompt).get_response()
+    response = Gpt_Completion(prompt).get_response()
 
     current_number = 1
     headline_ratings = []
@@ -52,7 +49,7 @@ def retrieve_countries_from_headlines(news_headlines):
     prompt = 'Retrieve the country name, with the state or city name if possible, affected for each event from each news headline, numbered below:\n\nNEWS HEADLINES:\n'
     for i, event in enumerate(news_headlines):
         prompt += f'\n{i+1}. {event}'
-    response = GPT_Completion(prompt).get_response()
+    response = Gpt_Completion(prompt).get_response()
 
     current_number = 1
     total_countries = []
