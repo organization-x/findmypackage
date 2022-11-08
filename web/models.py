@@ -6,7 +6,6 @@ class Review(models.Model):
     stars = models.SmallIntegerField()
     content = models.TextField(max_length=300)
 
-
 class NewsHeadline(models.Model):
     headline = models.TextField()
     date = models.DateTimeField()
