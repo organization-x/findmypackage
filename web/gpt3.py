@@ -12,7 +12,7 @@ from .models import NewsHeadline
 openai.api_key = SECRETS['OPENAI_SECRET']
 
 
-class GPT_Completion():
+class Gpt_Completion():
     def __init__(self, prompt):
         self.prompt = prompt
 
