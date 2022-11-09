@@ -24,8 +24,18 @@ SECRETS = {
     'OPENAI_SECRET': os.getenv('FMP_OPENAI_SECRET'),
 }
 
-ALLOWED_HOSTS = ['findmypackage.live', 'https://findmypackage.live', 'findmypackage-production.up.railway.app', 'https://findmypackage-production.up.railway.app', 'localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://findmypackage.live', 'https://findmypackage-production.up.railway.app']
+ALLOWED_HOSTS = [
+    'findmypackage.live',
+    'https://findmypackage.live',
+    'findmypackage-production.up.railway.app',
+    'https://findmypackage-production.up.railway.app',
+    'localhost',
+    '127.0.0.1',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://findmypackage.live',
+    'https://findmypackage-production.up.railway.app',
+]
 
 # Application definition
 
