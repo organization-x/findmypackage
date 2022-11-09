@@ -404,7 +404,7 @@ class UPSApi():
             return response.json()
         except requests.exceptions.RequestException as e:
             logger.warning(e)
-            return e
+            print(e)
             return ERROR_MESSAGE
 
 
