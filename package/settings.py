@@ -1,26 +1,31 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('FMP_DJANGO_KEY')
+SECRET_KEY = os.getenv('FMP_DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('FMP_DJANGO_DEBUG') == 'true'
+DEBUG = os.getenv('FMP_DJANGO_DEBUG') == 'true'
 
 SECRETS = {
-    'FEDEX_ID': os.environ.get('FMP_FEDEX_ID'),
-    'FEDEX_SECRET': os.environ.get('FMP_FEDEX_SECRET'),
-    'USPS_ID': os.environ.get('FMP_USPS_ID'),
-    'DHL_SECRET': os.environ.get('FMP_DHL_SECRET'),
-    'UPS_SECRET': os.environ.get('FMP_UPS_SECRET'),
-    'UPS_USERNAME': os.environ.get('FMP_UPS_USERNAME'),
-    'UPS_PASSWORD': os.environ.get('FMP_UPS_PASSWORD'),
-    'FMP_MAPS_KEY': os.environ.get('FMP_MAPS_KEY'),
+    'FEDEX_ID': os.getenv('FMP_FEDEX_ID'),
+    'FEDEX_SECRET': os.getenv('FMP_FEDEX_SECRET'),
+    'USPS_ID': os.getenv('FMP_USPS_ID'),
+    'DHL_SECRET': os.getenv('FMP_DHL_SECRET'),
+    'UPS_SECRET': os.getenv('FMP_UPS_SECRET'),
+    'UPS_USERNAME': os.getenv('FMP_UPS_USERNAME'),
+    'UPS_PASSWORD': os.getenv('FMP_UPS_PASSWORD'),
+    'FMP_MAPS_KEY': os.getenv('FMP_MAPS_KEY'),
+    'OPENAI_SECRET': os.getenv('FMP_OPENAI_SECRET'),
 }
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['findmypackage.live', 'https://findmypackage.live', 'findmypackage-production.up.railway.app', 'https://findmypackage-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://findmypackage.live']
 
 # Application definition
 
@@ -83,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'package.urls'
@@ -106,22 +112,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'package.wsgi.application'
 ASGI_APPLICATION = 'package.asgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'data' / 'db.sqlite3',
-    }
-}
-
 if not DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'TBD',
-            'USER': 'TBD',
-            'PASSWORD': 'TBD',
-            'HOST': 'TBD',
-            'PORT': 'TBD',
+            'NAME': os.getenv('PGDATABASE'),
+            'USER': os.getenv('PGUSER'),
+            'PASSWORD': os.getenv('PGPASSWORD'),
+            'HOST': os.getenv('PGHOST'),
+            'PORT': os.getenv('PGPORT'),
         }
     }
 else:
@@ -153,9 +152,13 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+else:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
