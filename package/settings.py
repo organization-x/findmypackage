@@ -112,13 +112,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'package.wsgi.application'
 ASGI_APPLICATION = 'package.asgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'data' / 'db.sqlite3',
-    }
-}
-
 if not DEBUG:
     DATABASES = {
         'default': {
