@@ -13,9 +13,6 @@ body {
     color: white;
 }
 
-
-
-
 .sidebar {
     max-height: 400px;
     padding: 1rem 0.5rem;
@@ -74,10 +71,8 @@ h1 {
   /* Sets the width for the accordion. Sets the margin to 90px on the top and bottom and auto to the left and right */
   
   .accordion {
-    box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
-    border-radius: 25px;
-    width: 50%;
-    margin: 20px auto;
+    width: auto;
+    margin: 20px 0;
     color: black;
     background-color: white;
     padding: 45px 45px;       
@@ -118,7 +113,7 @@ h1 {
     height: 0;
     font-size: 18px;
     text-align: justify;
-    width: 400px;
+    width: 80%;
     overflow: hidden;
     transition: 0.5s;
     margin: 10px;
@@ -204,11 +199,6 @@ button[name="toggle-dark-mode"]:hover {
 }
 
 
-.dark-mode .accordion {
-  box-shadow: 0 2px 10px 2px #717496;
-  border-radius: 25px;
-}
-
 .dark-mode svg {
   color: rgba(204,205,206,255);
 }
@@ -263,10 +253,13 @@ button[name="toggle-dark-mode"]:hover {
 .accordion {
   box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
   border-radius: 25px;
-  width: 50%;
-  margin: 70px auto;
+  width: 70%;
+  margin: 20px auto;
 }
-
+.dark-mode .accordion {
+  box-shadow: 0 2px 10px 2px #717496;
+  border-radius: 25px;
+}
 
     button[name="toggle-dark-mode"] svg {
       float:left;
@@ -319,7 +312,7 @@ color: #717496;
     }
 
     .accordion {
-      width: 900px;
+      width: 70%;
   }
   
   .accordion .content {

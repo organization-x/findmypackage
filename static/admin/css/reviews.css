@@ -20,25 +20,25 @@
 
 body {
   font-family: 'Montserrat', sans-serif;
-  margin: -17px 0 0 0;
+  margin: 0 0 0 0;
   display: grid;
 }
 
 
 .sidebar {
   max-height: 400px;
-  padding: 1rem 1rem;
+  padding: 1rem 0.5rem;
   background-color: #4A7FCB;
   text-align: center;
 }
 
 .sidebar .menu {
-  margin: 0 -1em -0.4em -1em;
-  font-size: 0.7em;
+margin: 0 -1em -0.4em -1em;
+font-size: 0.7em;
 }
 
 .sidebar .menu .menu-item {
-  display: inline;
+  display:inline;
   padding: 1em;
   color: whitesmoke;
   text-decoration: none;
@@ -47,6 +47,7 @@ body {
 
 .sidebar .menu .menu-item:hover,
 .sidebar .menu .menu-item.is-active {
+  margin-top: 1em;
   color: #ADAEF1;
   border-bottom: 7px solid #ADAEF1;
 }
@@ -73,7 +74,7 @@ header a {
   margin-top: 0.4em;
   color: white;
   text-align: center;
-  padding-bottom: 4em;
+  padding-bottom: 0;
 }
 
 
@@ -118,7 +119,7 @@ header a {
 }
 
 #arrow--right {
-  right: 4%;
+  right: 0%;
 }
 
 #arrow--right:is(:hover, :focus) {
@@ -184,7 +185,7 @@ header a {
 .review {
   flex: 1 auto;
   display: grid;
-  max-width: 100%;
+  width: 100%;
   height: auto;
   place-items: center;
   text-align: center;
@@ -316,12 +317,12 @@ input[type=submit]:hover {
   padding-right: 5%;
   padding-bottom: 10px;
   background-color: #fff;
-}
+    margin: 0 0%;
+    border-radius: 0;
+    box-shadow: 0;
+  }
 
 
-.prev {
-  left: 0;
-}
 
 .stars {
   --s: 50px;
@@ -460,7 +461,7 @@ input:nth-of-type(10):hover~i {
 
 /* Slideshow container */
 .slideshow-container {
-  max-width: 1000px;
+  max-width: 100%;
   height: auto;
   position: relative;
   margin: auto;
@@ -487,6 +488,10 @@ input:nth-of-type(10):hover~i {
   transition: 0.6s ease;
   border-radius: 0 3px 3px 0;
   user-select: none;
+}
+
+.prev {
+  left:0;
 }
 
 /* Position the "next button" to the right */
@@ -723,8 +728,7 @@ button[name="toggle-dark-mode"]:hover {
   }
 
   .container {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin: 0 10%;
     border-radius: 25px;
     background-color: white;
     box-shadow: 0 2px 10px 2px rgb(167, 210, 236);
@@ -733,8 +737,7 @@ button[name="toggle-dark-mode"]:hover {
   .review-container {
     background-color: white;
     box-shadow: 0 2px 10px 2px rgb(176, 218, 244);
-    margin-left: 20%;
-    margin-right: 20%;
+    margin: 0 10%;
     border-radius: 25px;
   }
 
