@@ -95,7 +95,7 @@ header a {
     background-position: 0% 75%;
     color: white;
     text-align: center;
-    padding-bottom: 0;
+    padding-bottom: 4em;
 }
 
 
@@ -186,12 +186,11 @@ input[type=button]:hover {
 
 .About {
     margin: 0;
-    padding: 0;
 }
 
 .right-col {
     text-align: left;
-    margin: 0 1em;
+    margin: 3em 1em;
 }
 
 h2 {
@@ -201,16 +200,12 @@ h2 {
 }
 
 img {
-    margin: 0;
-    padding: 0;
     width: 100%;
 }
 
 #dark-img {
-    position: absolute;
     visibility: hidden;
 }
-
 
 
 p {
@@ -316,8 +311,11 @@ button[name="toggle-dark-mode"]:hover {
     color: #717496;
 }
 
+.dark-mode #light-img {
+    visibility: hidden;
+}
+
 .dark-mode #dark-img {
-    position: absolute;
     visibility: visible;
 }
 
@@ -422,8 +420,11 @@ button[name="toggle-dark-mode"]:hover {
 }
 
 .dark-mode #light-img {
-    position: absolute;
-visibility: hidden;
+    visibility: hidden;
+}
+
+.dark-mode #dark-img {
+    visibility: visible;
 }
 
 .dark-mode .right-col {
@@ -506,8 +507,8 @@ visibility: hidden;
 
     section.About {
         display: grid;
-        margin: 0;
-        padding: 0;
+        margin: 0 0 0 0;
+        padding: 0 0;
         grid-template-columns: repeat(2, 50%);
         grid-template-areas:
             "pic text"
