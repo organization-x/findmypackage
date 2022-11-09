@@ -10,7 +10,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('FMP_DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.getenv('FMP_DJANGO_DEBUG') else False
+DEBUG = os.getenv('FMP_DJANGO_DEBUG') == 'true'
 
 SECRETS = {
     'FEDEX_ID': os.getenv('FMP_FEDEX_ID'),
