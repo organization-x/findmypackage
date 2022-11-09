@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn package.wsgi
+web: python manage.py migrate && python manage.py runserver --noreload && gunicorn package.wsgi
