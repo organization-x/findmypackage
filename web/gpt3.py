@@ -1,7 +1,6 @@
 import json
-from datetime import timedelta
+from datetime import timedelta, datetime
 import openai
-from dateutil import parser
 import requests
 from package.settings import SECRETS
 from .models import NewsHeadline
@@ -61,14 +60,14 @@ def retrieve_countries_from_headlines(news_headlines):
     return total_countries
 
 
-def calculate_delivery_delay(eta: str, package_location):
+def calculate_delivery_delay(status: str, package_location):
     response = {'days': '', 'hours': '', 'headlines': []}
-    if not eta or eta.lower() == 'n/a':
+    if 'delivered' in status.lower() or status.lower() == 'n/a' or not status:
         return response
 
     # convert string to datetime
-    eta = parser.parse(eta)
-    adjusted_eta = eta
+    start_time = datetime.now()
+    adjusted_eta = datetime.now()
     affected_headlines = []
 
     package_address = f"{package_location.get('city')} {package_location.get('state')}, {package_location.get('country')}"
@@ -86,7 +85,7 @@ def calculate_delivery_delay(eta: str, package_location):
                 adjusted_eta += timedelta(hours=total_impact_score / 3)
                 break
 
-    delay = adjusted_eta - eta
+    delay = adjusted_eta - start_time
     response['days'] = delay.days
     response['hours'] = delay.seconds / 3600
     response['headlines'] = affected_headlines[:3] # cap off displaying affected headlines to 3
