@@ -22,7 +22,7 @@ body {
 .sidebar .menu {
     margin: 0 -1em -0.45em -1em;
     font-size: 0.7em;
-  }
+}
 
 .sidebar .menu .menu-item {
     display: inline;
@@ -144,7 +144,7 @@ header a {
 
 button[name="toggle-dark-mode"] {
     font-family: 'Montserrat';
-    float:right;
+    float: right;
     margin: -20px 10px 0 90%;
     height: 30px;
     width: auto;
@@ -153,17 +153,17 @@ button[name="toggle-dark-mode"] {
     background-color: transparent;
     border: none;
     color: white;
-  }
+}
 
 button[name="toggle-dark-mode"] svg {
-    float:left;
+    float: left;
     padding: 0;
     height: 27px;
     width: 27px;
 }
 
 button[name="toggle-dark-mode"] p {
-    float:left;
+    float: left;
     text-align: right;
     padding: 0;
     margin: 0 -75px 0 0;
@@ -173,12 +173,12 @@ button[name="toggle-dark-mode"] p {
 button[name="toggle-dark-mode"]:hover {
     cursor: pointer;
     color: #ADAEF1;
-  }
+}
 
 .dark-mode {
     background-color: #36393f;
     color: white;
-  }
+}
 
 .dark-mode .hero-bg {
     background: linear-gradient(#333858, #36393f);
@@ -190,53 +190,54 @@ button[name="toggle-dark-mode"]:hover {
 
 .dark-mode .sidebar {
     background-color: #3f4575;
-  }
-  
-  
-  .dark-mode  .sidebar .menu .menu-item {
-    color: rgba(204,205,206,255);
-  }
-  
-  .dark-mode .sidebar .menu .menu-item:hover,
-  .dark-mode .sidebar .menu .menu-item.is-active {
+}
+
+
+.dark-mode .sidebar .menu .menu-item {
+    color: rgba(204, 205, 206, 255);
+}
+
+.dark-mode .sidebar .menu .menu-item:hover,
+.dark-mode .sidebar .menu .menu-item.is-active {
     color: #717496;
     border-bottom: 7px solid #717496;
-  }
+}
 
-  
+
 .dark-mode button[name="toggle-dark-mode"] {
     background-color: transparent;
     border: none;
-    color:lightgray;
+    color: lightgray;
 }
 
 .dark-mode button[name="toggle-dark-mode"]:hover {
-  cursor: pointer;
-  color: #717496;
+    cursor: pointer;
+    color: #717496;
 }
 
-.dark-mode .name, .dark-mode .about {
-    color: rgba(204,205,206,255);
+.dark-mode .name,
+.dark-mode .about {
+    color: rgba(204, 205, 206, 255);
 }
 
-.dark-mode .socials a i{
+.dark-mode .socials a i {
     color: gray;
 }
 
 .dark-mode #header {
-    color:gray;
-} 
+    color: rgba(204, 205, 206, 255);
+}
 
 .dark-mode .header {
-    color:lightgray;
+    color: rgba(204, 205, 206, 255)
 }
 
 .dark-mode .team:hover {
     background: #717496;
-  }
+}
 
 @media screen and (max-width: 500px) {
-  
+
     .team {
         max-width: 100%;
     }
@@ -245,14 +246,14 @@ button[name="toggle-dark-mode"]:hover {
 @media (min-width: 730px) {
 
     button[name="toggle-dark-mode"] svg {
-        float:left;
+        float: left;
         padding: 0;
         height: 27px;
         width: 27px;
     }
 
     button[name="toggle-dark-mode"] p {
-        float:left;
+        float: left;
         text-align: right;
         padding: 0;
         margin: 3px 1px 0 0;
@@ -260,7 +261,7 @@ button[name="toggle-dark-mode"]:hover {
     }
 
     button[name="toggle-dark-mode"] {
-        float:left;
+        float: left;
         margin: -20px 13px 0 80%;
         height: 30px;
         width: auto;
@@ -268,7 +269,7 @@ button[name="toggle-dark-mode"]:hover {
     }
 
     .sidebar .menu {
-      margin: 0 -1em 0 -1em;
-      font-size: 1em;
+        margin: 0 -1em 0 -1em;
+        font-size: 1em;
     }
 }
