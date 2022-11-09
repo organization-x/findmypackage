@@ -62,7 +62,7 @@ def retrieve_countries_from_headlines(news_headlines):
 
 def calculate_delivery_delay(status: str, package_location):
     response = {'days': '', 'hours': '', 'headlines': []}
-    if 'delivered' in status.lower() or status.lower() == 'n/a' or not status:
+    if 'delivered' in status.lower() or status.lower() == 'n/a' or not status or 'transit' in status.lower():
         return response
 
     # convert string to datetime
