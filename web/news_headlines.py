@@ -56,7 +56,7 @@ def generate_fields_for_headlines(news_headlines):
     for news_headline in news_headlines:
         news_headline.impact_score = next(ratings, -1)
         news_headline.countries_affected = json.dumps({
-            'countries': next(countries, ['Nowhere'])
+            "countries": next(countries, ["Nowhere"])
         })
         news_headline.save()
 

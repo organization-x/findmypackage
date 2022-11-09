@@ -35,7 +35,7 @@ class TrackView(TemplateView):
                     ),
                 ).get_mapped_data()
                 if data.get('errorMessage') is None:
-                    data['calculated_delay'] = (calculate_delivery_delay(data.get('currentStatus', {}).get('status'), data.get('currentStatus', {}).get('location')))
+                    data['calculated_delay'] = calculate_delivery_delay(data.get('currentStatus', {}).get('status'), data.get('currentStatus', {}).get('location'))
                     data['FMP_MAPS_KEY'] = SECRETS['FMP_MAPS_KEY']
                     return render(request, self.template_name, data)
         response = redirect('main')
