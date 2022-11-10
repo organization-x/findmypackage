@@ -27,11 +27,12 @@ class TrackView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         if request.POST['tracking_id']:
+            tracking_id = request.POST['tracking_id'].replace(' ', '')
             for carrier in Carrier:
                 data = DataMapper(
                     carrier,
                     carrier.value.get_track_package_data(
-                        request.POST['tracking_id']
+                        tracking_id
                     ),
                 ).get_mapped_data()
                 if data.get('errorMessage') is None:
