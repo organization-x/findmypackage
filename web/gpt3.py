@@ -82,7 +82,7 @@ def calculate_delivery_delay(status: str, package_location):
             if distance_relevance > 0:
                 total_impact_score = news_headline.impact_score * (distance_relevance / 100)
                 affected_headlines.append(news_headline.headline)
-                adjusted_eta += timedelta(hours=total_impact_score / 3)
+                adjusted_eta += timedelta(hours=total_impact_score)
                 break
 
     delay = adjusted_eta - start_time
