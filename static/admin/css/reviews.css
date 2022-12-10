@@ -291,7 +291,7 @@ textarea {
 }
 
 /* Style the submit button with a specific background color etc */
-input[type=submit] {
+#submit {
   background-color: #00C185;
   color: white;
   border-color: #00C185;
@@ -300,10 +300,15 @@ input[type=submit] {
   cursor: pointer;
   width: 25%;
   font-size: 1.1em;
+  user-select: none;
+  text-align: center;
+  border-width: 2px;
+  border-style: outset;
+  border-image: initial;
 }
 
 /* When moving the mouse over the submit button, add a darker green color */
-input[type=submit]:hover {
+#submit:hover {
   background-color: #0b996c;
   border-color: #0b996c;
 }

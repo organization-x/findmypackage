@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html>
 
@@ -193,7 +194,11 @@ average_rating([ 2, 4 ])
 
         <textarea class="user-input" id="subject_input" name="subject" placeholder="Your opinions..."
         maxlength="300" style="font-family: 'Montserrat'"></textarea>
+        {% if user.is_authenticated %}
         <input type="submit" value="submit" id="submit">
+        {% else %}
+        <a href="{% provider_login_url 'google' %}"><input value="login with google" id="submit"></a>
+        {% endif %}
       </form>
       
     </div>

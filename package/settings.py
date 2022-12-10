@@ -46,6 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
     'web.apps.WebConfig',
 ]
 
@@ -155,6 +162,33 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+# Google login configuration
+
+SITE_ID = 1
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+ACCOUNT_UNIQUE_EMAIL = False
+
+LOGIN_URL = 'reviews'
+LOGIN_REDIRECT_URL = 'reviews'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
