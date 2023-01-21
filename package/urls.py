@@ -10,5 +10,4 @@ urlpatterns = [
     path('track/', TrackView.as_view(), name='track'),
     path('about/', AboutUsView.as_view(), name='about'),
     path('faq/', FaqView.as_view(), name='faq'),
-    path('reviews/', ReviewsView.as_view(), name='reviews'),
 ]
